@@ -3,72 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IELTS Writing AI</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        h1 {
-            color: #2c3e50;
-            text-align: center;
-        }
-        .card-container {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 40px;
-        }
-        .card {
-            width: 45%;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
-        }
-        .card:hover {
-            transform: translateY(-5px);
-        }
-        .card h2 {
-            color: #3498db;
-            margin-top: 0;
-        }
-        .card p {
-            color: #7f8c8d;
-            line-height: 1.5;
-        }
-        .btn {
-            display: inline-block;
-            background-color: #3498db;
-            color: white;
-            padding: 10px 20px;
-            text-decoration: none;
-            border-radius: 4px;
-            margin-top: 15px;
-            transition: background-color 0.3s;
-        }
-        .btn:hover {
-            background-color: #2980b9;
-        }
-    </style>
+    <title>Writing AI Hub</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <h1>IELTS Writing AI</h1>
-    
-    <div class="card-container">
-        <div class="card">
-            <h2>Practice Questions</h2>
-            <p>Generate IELTS Writing Task 2 practice questions on any topic, customized to your target band score.</p>
-            <a href="/workflow_1_question" class="btn">Get Questions</a>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <a href="/" class="logo">
+                <i class="fas fa-globe"></i>
+                Writing AI Hub
+            </a>
+            <nav>
+                <div class="nav-links">
+                    <a href="/" class="nav-link">Home</a>
+                    <a href="/workflow_2_grading" class="nav-link">Practice</a>
+                </div>
+            </nav>
+            <a href="#" class="btn">My Account</a>
         </div>
-        
-        <div class="card">
-            <h2>Essay Grading</h2>
-            <p>Submit your IELTS Writing Task 2 essay for instant feedback, scoring, and sentence-by-sentence analysis.</p>
-            <a href="/workflow_2_grading" class="btn">Grade Essay</a>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Improve Your English Writing Skills</h1>
+            <p>Practice writing essays, get instant feedback, and enhance your vocabulary with our comprehensive writing tools.</p>
         </div>
-    </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <div class="features-grid">
+                <!-- Feature 1: Writing Practice -->
+                <div class="feature-card">
+                    <i class="fas fa-pen-fancy feature-icon"></i>
+                    <h3>Writing Practice</h3>
+                    <p>Practice writing for different tests and scenarios</p>
+                    <p>Choose from IELTS, TOEFL, general essays, or business writing. Select your difficulty level and get personalized feedback.</p>
+                    <a href="/workflow_2_grading" class="btn">Start Practice</a>
+                </div>
+
+                <!-- Feature 2: Vocabulary Builder -->
+                <div class="feature-card">
+                    <i class="fas fa-book-open feature-icon"></i>
+                    <h3>Vocabulary Builder</h3>
+                    <p>Expand your vocabulary with targeted word lists</p>
+                    <p>Access curated vocabulary lists for different topics and writing types. Learn words that will improve your writing score.</p>
+                    <div class="coming-soon">Coming Soon</div>
+                </div>
+
+                <!-- Feature 3: Progress Tracking -->
+                <div class="feature-card">
+                    <i class="fas fa-chart-line feature-icon"></i>
+                    <h3>Progress Tracking</h3>
+                    <p>Track your improvement over time</p>
+                    <p>See your writing progress and improvement areas. Get insights on your vocabulary range, grammar accuracy, and more.</p>
+                    <div class="coming-soon">Coming Soon</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Premium Section -->
+    <section class="premium">
+        <div class="container">
+            <div class="premium-icon">
+                <i class="fas fa-crown"></i>
+            </div>
+            <h2>Premium Writing Assistant</h2>
+            <p>Get advanced features with our premium plan: detailed essay analysis, personalized improvement suggestions, and professional evaluation.</p>
+            <a href="#" class="btn">Upgrade to Premium</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-container">
+            <a href="/" class="footer-logo">
+                <i class="fas fa-globe"></i>
+                Writing AI Hub
+            </a>
+            <div class="copyright">
+                © 2025 Writing AI Hub. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="/js/main.js"></script>
 </body>
 </html>

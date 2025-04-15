@@ -41,10 +41,11 @@ a {
 header {
   background-color: var(--white);
   border-bottom: 1px solid #eaeaea;
-  padding: 15px 0;
+  padding: 12px 0;
   position: sticky;
   top: 0;
   z-index: 100;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .header-container {
@@ -59,10 +60,11 @@ header {
   font-weight: 600;
   font-size: 18px;
   color: var(--primary-color);
+  text-decoration: none;
 }
 
 .logo img, .logo svg {
-  margin-right: 10px;
+  margin-right: 12px;
   height: 24px;
   width: 24px;
 }
@@ -80,13 +82,21 @@ header {
 }
 
 .nav-link {
-  font-weight: 500;
+  font-weight: 600;
   transition: var(--transition);
   color: #333;
+  text-decoration: none;
+  padding: 6px 16px;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: var(--border-radius);
+  margin: 0 5px;
 }
 
 .nav-link:hover {
   color: var(--primary-color);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .btn {
@@ -99,6 +109,7 @@ header {
   transition: var(--transition);
   border: none;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .btn:hover {
@@ -120,6 +131,15 @@ header {
   background-color: var(--primary-color);
   color: var(--white);
   font-weight: 500;
+  padding: 6px 16px;
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn-account:hover {
+  background-color: #009b8e;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 /* Hero Section */
@@ -189,6 +209,18 @@ header {
   font-size: 0.95rem;
 }
 
+.feature-card .btn {
+  background-color: var(--primary-color);
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+}
+
+.feature-card .btn i {
+  margin-left: 8px;
+}
+
 .coming-soon {
   display: inline-block;
   padding: 6px 16px;
@@ -198,6 +230,7 @@ header {
   font-size: 0.85rem;
   margin-top: 10px;
   font-weight: 500;
+  text-decoration: none;
 }
 
 /* Premium Section */

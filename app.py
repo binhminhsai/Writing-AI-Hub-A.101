@@ -116,10 +116,22 @@ app.mount("/js", StaticFiles(directory=Path("public/js")), name="js")
 app.mount("/css", StaticFiles(directory=Path("public/css")), name="css")
 app.mount("/static", StaticFiles(directory=Path("public"), html=True), name="static")
 
-# Serve index.html on the root URL
+# Serve HTML pages
 @app.get("/", response_class=HTMLResponse)
 async def read_root(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
+
+@app.get("/vocabulary-coming-soon.html", response_class=HTMLResponse)
+async def vocabulary_coming_soon(request: Request):
+    return templates.TemplateResponse("vocabulary-coming-soon.html", {"request": request})
+
+@app.get("/progress-coming-soon.html", response_class=HTMLResponse)
+async def progress_coming_soon(request: Request):
+    return templates.TemplateResponse("progress-coming-soon.html", {"request": request})
+
+@app.get("/account.html", response_class=HTMLResponse)
+async def my_account(request: Request):
+    return templates.TemplateResponse("account.html", {"request": request})
 
 
 if __name__ == "__main__":

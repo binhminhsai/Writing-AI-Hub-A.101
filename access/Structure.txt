@@ -1,0 +1,47 @@
+project_workflow_ai/
+├── .env                         # API keys, config
+├── .gitignore                  # ignore .env, __pycache__, etc.
+├── README.md
+├── requirements.txt            # Backend dependencies
+├── main.py                     # Server startup (calls uvicorn)
+├── app.py                      # Create and configure FastAPI app
+├── core/
+│   ├── config.py               # Load env vars via Pydantic
+│   └── database.py             # (Optional) DB connection if needed
+├── workflows/                  # Auto-gen or custom workflows
+│   ├── workflow_1_question/ 
+│   │   ├── routes.py           # Endpoint /workflow_1_question/generate
+│   │   ├── logic.py            # Handles GPT logic using templates
+│   │   └── schema.py           # Pydantic models for request/response
+├── features/                   # Manually built product features
+│   ├── users/
+│   │   ├── routes.py
+│   │   ├── service.py
+│   │   └── schema.py
+│   └── frontend_render/
+│       ├── routes.py           # Render HTML for UI
+├── shared/                     # Common logic and templates
+│   ├── services/
+│   │   ├── gpt_prompt.py       # Call to OpenAI/GPT API
+│   │   └── utils.py
+│   └── templates/
+│       ├── prompt_writing/
+│       │   ├── prompt_question.txt     # Jinja2 template for generating question
+│       │   ├── prompt_outline.txt      # Jinja2 template for outline
+│       │   ├── prompt_vocab.txt        # Template for academic vocabulary
+│       │   ├── prompt_sentence.txt     # Template for sentence samples
+│       │   └── samples/
+│       │       └── sample_crime.txt    # Sample essay used in prompts
+│       └── prompt_grading/             # Grading-related prompts (currently empty)
+├── public/                     # Frontend files
+│   ├── index.html              # Home: input topic
+│   ├── grading.html            # Submit writing, get feedback
+│   ├── css/
+│   │   └── style.css           # Basic styling for frontend
+│   └── js/
+│       ├── writing.js          # Handles workflow 1 requests
+│       └── grading.js          # Handles workflow 2 requests
+└── tests/
+    ├── test_workflow_1.py
+    ├── test_workflow_2.py
+    └── conftest.py

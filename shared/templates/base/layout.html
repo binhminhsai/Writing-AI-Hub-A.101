@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}IELTS Writing AI{% endblock %}</title>
+    <link rel="stylesheet" href="/css/style.css">
+    {% block styles %}{% endblock %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        .main-header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        .main-nav {
+            display: flex;
+            justify-content: center;
+            background-color: #34495e;
+            padding: 0.5rem;
+        }
+        .main-nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            margin: 0 0.5rem;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        .main-nav a:hover {
+            background-color: #4a6b8a;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+        .footer {
+            text-align: center;
+            padding: 1rem;
+            margin-top: 2rem;
+            background-color: #f8f9fa;
+            border-top: 1px solid #e9ecef;
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <h1>IELTS Writing AI</h1>
+        <nav class="main-nav">
+            <a href="/">Home</a>
+            <a href="/workflow_1_question">Question Generator</a>
+            <a href="/workflow_2_grading">Essay Grading</a>
+        </nav>
+    </header>
+    
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+    
+    <footer class="footer">
+        <p>&copy; 2025 IELTS Writing AI | AI-powered Practice and Grading</p>
+    </footer>
+    
+    {% block scripts %}{% endblock %}
+</body>
+</html> 

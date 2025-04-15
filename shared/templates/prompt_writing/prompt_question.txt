@@ -1,0 +1,65 @@
+You are an experienced IELTS Writing Task 2 instructor.
+
+Please create a high-quality IELTS Writing Task 2 question package on the topic: {topic}
+The response should be formatted as JSON with the following components:
+
+1. Question (Band {band} level):
+- Clear background statement introducing the topic
+- Well-formulated main question
+- Optional guiding points if needed
+- Must be one of: Opinion, Discussion, Problem-Solution, Advantages-Disadvantages, or Double Question
+- Should be current, academic, and thought-provoking
+
+2. Question Analysis:
+- Question type identification
+- Key aspects to address
+- Common pitfalls to avoid
+- Scoring criteria focus points
+
+3. Detailed Essay Structure:
+- Introduction framework
+  * Background statement approach
+  * Thesis statement guide
+  * Essay scope outline
+- Body paragraphs (2-3) structure
+  * Topic sentence templates
+  * Supporting ideas framework
+  * Example integration guide
+- Conclusion framework
+  * Summary approach
+  * Final thought guidelines
+
+4. Academic Language Resources:
+- Topic-specific vocabulary (10-12 items)
+  * Academic words
+  * Topic collocations
+  * Field-specific terminology
+- Advanced sentence structures (5-6 examples)
+  * Complex grammar patterns
+  * Academic expressions
+  * Transition phrases
+- Suggested collocations and phrases (8-10 items)
+  * Academic word combinations
+  * Formal expressions
+  * Advanced linking devices
+
+Format your response as a valid JSON object with these exact keys:
+{{
+  "question": "The full question text",
+  "question_type": "The specific type",
+  "analysis": {{
+    "key_points": [],
+    "pitfalls": [],
+    "scoring_focus": []
+  }},
+  "suggested_structure": {{
+    "introduction": [],
+    "body_paragraphs": [],
+    "conclusion": []
+  }},
+  "vocabulary_suggestions": {{
+    "topic_vocabulary": [],
+    "sentence_structures": [],
+    "collocations": []
+  }}
+}}

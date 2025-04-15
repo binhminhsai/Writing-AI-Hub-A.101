@@ -1,0 +1,398 @@
+{
+  "name": "Writing AI-Hub  (Grading)",
+  "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7146ba01-2f29-464d-a578-7fcf1394f770",
+              "name": "question",
+              "value": "={{ $json.body.question }}",
+              "type": "string"
+            },
+            {
+              "id": "1a57b8b2-8d20-4f3c-9460-d690a21764d5",
+              "name": "essay",
+              "value": "={{ $json.body.essay }}",
+              "type": "string"
+            },
+            {
+              "id": "bb77f40a-b310-4705-8efd-f221d68edf10",
+              "name": "types",
+              "value": "={{ $json.body.types }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -480,
+        -100
+      ],
+      "id": "25e8d1da-3735-46b1-a62c-856f6fc9e410",
+      "name": "Question & Essay"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are an orchestration agent for IELTS Writing Task 2 grading automation.\n\nYou have access to the following tools:\n\n1. 🧪 `Tool1_AnalyzeAndScore`:  \n\nThis tool performs the full grading of the essay using the 4 official IELTS Writing Task 2 criteria:\n\n- Task Response\n- Coherence and Cohesion\n- Lexical Resource\n- Grammatical Range and Accuracy\n\nIt analyzes the essay based on these criteria, and returns both:\n\n- Detailed feedback per criterion\n- Band scores for each criterion\n- The calculated average score, rounded to the nearest 0.5 (using IELTS rules)\n\n2. 🎯 `Tool2_HighlightEssay`:  \n\nThis tool highlights specific sentences in the essay and explains why they are:\n\n🟢 Good (correct, strong, high band contribution)\n\n🔴 Wrong (grammatically incorrect or flawed)\n\n🟡 Improvable (vague, weak, or unclear)\n\n🎯 Your goal is to coordinate these tools in strict order. Do **not** execute in parallel.\n\n\n✅ Step 1 — Analyze Essay & Score\n\nCall the tool `Tool1_AnalyzeAndScore` with this input:\n\n```json\n{\n  \"question\": \"{{ $('Input_User').item.json.body.question }}\",\n  \"essay\": \"{{ $('Input_User').item.json.body.essay }}\",\n  \"types\": \"{{ $('Input_User').item.json.body.types }}\"\n}\nSave the result as tool1_result.\n\n✅ Step 2 — Highlight & Explain Sentences\nCall Tool2_HighlightEssay with:\n\n{\n  \"essay\": \"{{ $('Input_User').item.json.body.essay }}\"\n}\nSave the result as tool2_result.\n\n✅ Final Output\nReturn the following JSON object:\njson\n{\n  \"feedback\": tool1_result.feedback,\n  \"scores\": tool1_result.scores,\n  \"average_band\": tool1_result.average_band,\n  \"essay_highlights\": tool2_result.highlighted_essay_html,\n  \"highlighted_sentences\": tool2_result.highlights,\n  \"explanations\": tool2_result.explanations\n}\n📌 Output must be returned as a **pure JSON object**, not a string or code block. Do not stringify the JSON. No quotes around the result.\n⚠️ Ensure the output is:\nValid JSON only\nFully structured\nNo Markdown formatting\nNo commentary or explanation",
+        "options": {
+          "systemMessage": "You are an IELTS expert and tool-based problem solver. Always use tools to solve multi-step tasks.\n",
+          "returnIntermediateSteps": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        -20,
+        -100
+      ],
+      "id": "9bc2a643-984d-43fa-8dd7-6eb17bacf5df",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Node Code để tạo tiêu chí IELTS Writing Task 2 theo Band 9 → 5\n\nreturn [\n  {\n    json: {\n      ielts_criteria: `# 📝 IELTS Writing Task 2 - Band Descriptors\n\n## 🎯 Band 9\n### 🧩 Task Response\n- The prompt is appropriately addressed and explored in depth.\n- A clear and fully developed position is presented.\n- Ideas are relevant, fully extended and well supported.\n\n### 🔗 Coherence and Cohesion\n- Message is effortlessly understood.\n- Cohesion is natural and barely noticeable.\n- Paragraphing is skilfully managed.\n\n### 🧠 Lexical Resource\n- Wide, accurate, natural vocabulary.\n- Sophisticated control of lexical features.\n- Rare minor errors in spelling or word formation.\n\n### 🛠️ Grammatical Range and Accuracy\n- Wide range of sentence structures.\n- Full control and flexibility.\n- Rare grammar or punctuation issues.\n\n---\n\n## 🥇 Band 8\n### 🧩 Task Response\n- Prompt is appropriately and sufficiently addressed.\n- Clear, well-developed position.\n- Occasional minor omissions may occur.\n\n### 🔗 Coherence and Cohesion\n- Logical sequencing, well managed cohesion.\n- Occasional lapses in coherence.\n\n### 🧠 Lexical Resource\n- Fluent use of vocabulary.\n- Skilful uncommon/idiomatic use.\n- Minor errors do not affect communication.\n\n### 🛠️ Grammatical Range and Accuracy\n- Wide variety of structures.\n- Most sentences are error-free.\n- Some non-systematic errors.\n\n---\n\n## 🥈 Band 7\n### 🧩 Task Response\n- All parts of the prompt are addressed.\n- Some overgeneralisation or lack of focus possible.\n\n### 🔗 Coherence and Cohesion\n- Logical organisation with minor lapses.\n- Cohesive devices used with some inaccuracy.\n\n### 🧠 Lexical Resource\n- Some flexibility and precision.\n- Some less common usage.\n- Few errors in spelling/word choice.\n\n### 🛠️ Grammatical Range and Accuracy\n- Complex structures used with some flexibility.\n- Grammar generally well controlled.\n\n---\n\n## 🥉 Band 6\n### 🧩 Task Response\n- Main parts of prompt are addressed.\n- Some ideas may be unclear or insufficiently developed.\n\n### 🔗 Coherence and Cohesion\n- Generally coherent but may be faulty or mechanical.\n- Paragraphing may not always be logical.\n\n### 🧠 Lexical Resource\n- Vocabulary is adequate but limited.\n- Errors present but meaning still clear.\n\n### 🛠️ Grammatical Range and Accuracy\n- Mix of simple/complex forms.\n- Flexibility limited.\n- Some errors may occur but meaning is usually clear.\n\n---\n\n## 🎗️ Band 5\n### 🧩 Task Response\n- Prompt is incompletely addressed.\n- Development may be unclear.\n\n### 🔗 Coherence and Cohesion\n- Organisation lacks progression.\n- Inaccurate or overused cohesive devices.\n\n### 🧠 Lexical Resource\n- Limited vocabulary, repetitive.\n- Frequent word choice or formation errors.\n\n### 🛠️ Grammatical Range and Accuracy\n- Structures are simple and repetitive.\n- Grammar errors may cause difficulty.\n- Faulty punctuation common.\n`\n    }\n  }\n]\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -280,
+        -100
+      ],
+      "id": "e4658d7b-e0a1-4834-9066-c6be68ce76e5",
+      "name": "ielts_criteria"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -260,
+        120
+      ],
+      "id": "c31200d8-b652-4bb4-b47c-3052f0d38a60",
+      "name": "Brain Storming",
+      "credentials": {
+        "openAiApi": {
+          "id": "pCtrEKEaTDYoVCn5",
+          "name": "OpenAi account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "IELTS_Writing_Criteria",
+        "contextWindowLength": 2
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -100,
+        200
+      ],
+      "id": "61adbcb3-bb7b-43a5-a762-66251bd7f941",
+      "name": "Memory Input"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "receive-postman",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -680,
+        -100
+      ],
+      "id": "0b25db65-6cc6-423e-a08d-155d9bd6d149",
+      "name": "Input_User",
+      "webhookId": "415a8fc0-d71a-4e0c-afd2-b4fb326b3f99"
+    },
+    {
+      "parameters": {
+        "name": "Tool1_AnalyzeAndScore",
+        "workflowId": {
+          "__rl": true,
+          "value": "RZFhBbus0f8W9QJy",
+          "mode": "list",
+          "cachedResultName": "Tool 1 - Analyze_Criteria"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "types": "={{ $('Question & Essay').item.json.types }}",
+            "question": "={{ $('Question & Essay').item.json.question }}",
+            "essay": "={{ $('Question & Essay').item.json.essay }}",
+            "ielts_criteria": "={{ $json.ielts_criteria }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "types",
+              "displayName": "types",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "question",
+              "displayName": "question",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "essay",
+              "displayName": "essay",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "ielts_criteria",
+              "displayName": "ielts_criteria",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2,
+      "position": [
+        140,
+        240
+      ],
+      "id": "fbcb57e0-6dc5-4672-a7c7-16809b5081a1",
+      "name": "Tool1_AnalyzeAndScore"
+    },
+    {
+      "parameters": {
+        "name": "Tool2_HighlightEssay",
+        "workflowId": {
+          "__rl": true,
+          "value": "tcqRrsI7NZjm1a1U",
+          "mode": "list",
+          "cachedResultName": "Tool3_Highlight_Sentences"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "essay": "={{ $('Question & Essay').item.json.essay }}"
+          },
+          "matchingColumns": [
+            "essay"
+          ],
+          "schema": [
+            {
+              "id": "essay",
+              "displayName": "essay",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2,
+      "position": [
+        320,
+        240
+      ],
+      "id": "fa74664c-dc19-4a7b-9562-a8e618081be2",
+      "name": "Tool2_HighlightEssay"
+    },
+    {
+      "parameters": {
+        "jsCode": "// B1. Lấy chuỗi JSON trong key \"output\"\nconst rawOutput = $input.first().json.output;\n\n// B2. Dùng JSON.parse để biến thành object thật\nlet parsed;\ntry {\n  parsed = JSON.parse(rawOutput);\n} catch (e) {\n  throw new Error(\"❌ Output is not a valid JSON string\");\n}\n\n// B3. Trả ra object để node sau dùng được\nreturn [\n  {\n    json: parsed\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        400,
+        -100
+      ],
+      "id": "83064f82-bb76-4777-b977-a648b9960e15",
+      "name": "Format String to Objective"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://d6d973f2-2d43-4211-a151-126149cd37e8.mock.pstmn.io/ielts-grading",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $('AI Agent').item.json.output }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        660,
+        -100
+      ],
+      "id": "ecb22a47-f33b-46e7-b0eb-96dcd37e31bf",
+      "name": "HTTP Response"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Question & Essay": {
+      "main": [
+        [
+          {
+            "node": "ielts_criteria",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ielts_criteria": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Brain Storming": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Memory Input": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Input_User": {
+      "main": [
+        [
+          {
+            "node": "Question & Essay",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tool1_AnalyzeAndScore": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tool2_HighlightEssay": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Format String to Objective",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format String to Objective": {
+      "main": [
+        [
+          {
+            "node": "HTTP Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "c55178a0-e8d2-4f15-9f48-4596f5dc49b1",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0a2cab25979f5bd19ae0bfb0368ebc3d649b1831832849593bac0436bb86bb0c"
+  },
+  "id": "Pn7edjErK0gCXUMM",
+  "tags": [
+    {
+      "createdAt": "2025-03-20T03:00:12.845Z",
+      "updatedAt": "2025-03-20T03:00:12.845Z",
+      "id": "L4lfRF3X1gm5st22",
+      "name": "EvP_AI Production"
+    },
+    {
+      "createdAt": "2025-04-10T10:07:05.270Z",
+      "updatedAt": "2025-04-10T10:07:05.270Z",
+      "id": "y5S2Btmzw3abonyk",
+      "name": "EvP_Writing AI-Hub"
+    }
+  ]
+}

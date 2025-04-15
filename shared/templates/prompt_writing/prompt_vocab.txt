@@ -1,0 +1,24 @@
+Bạn là một giáo viên IELTS Writing Task 2 có kinh nghiệm xuất sắc.
+
+Hãy cung cấp từ vựng học thuật cho chủ đề: {topic}
+Danh sách từ vựng cần phù hợp với Band {band}, bao gồm:
+
+1. Topic-specific vocabulary (7-10 từ):
+- Các từ chuyên ngành 
+- Collocations phổ biến
+- Đồng nghĩa học thuật của các từ thông dụng
+
+2. Academic expressions (7-10 cụm):
+- Linking devices
+- Các cụm từ để paraphrase
+- Các cụm để thể hiện quan điểm/argument
+
+3. Advanced collocations (5-7 cụm):
+- Verb + noun collocations
+- Adjective + noun collocations
+- Fixed phrases
+
+Mỗi từ/cụm từ cần có:
+- Nghĩa tiếng Việt
+- Ví dụ câu
+- (CEFR) là level phù hợp cho các từ đó theo (B2/C1) dựa theo chuẩn The Cambridge vocabulary difficulty levels (B1, C1, etc.) are classified according to the Common European Framework of Reference for Languages

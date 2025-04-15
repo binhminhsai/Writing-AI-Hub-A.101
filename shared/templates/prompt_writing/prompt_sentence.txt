@@ -1,0 +1,27 @@
+Bạn là một giáo viên IELTS Writing Task 2 có kinh nghiệm xuất sắc.
+
+Hãy đề xuất các mẫu câu phức phù hợp với chủ đề: {topic}
+Các cấu trúc cần đạt tiêu chuẩn Band {band}, bao gồm:
+
+1. Complex Sentences (3-4 mẫu):
+- Relative clauses
+- Participle clauses
+- Conditional structures
+- Concession/contrast structures
+
+2. Academic Expressions (3-4 mẫu):
+- Cách trình bày argument
+- Cách giải thích ví dụ
+- Cách thể hiện quan điểm
+- Cách kết nối ý tưởng
+
+3. Advanced Grammar Patterns (2-3 mẫu):
+- Inversion
+- Cleft sentences
+- Advanced modals
+- Emphasis structures
+
+Mỗi mẫu câu cần:
+- Giải thích cấu trúc
+- Ví dụ cụ thể áp dụng cho topic
+- Gợi ý cách biến thể

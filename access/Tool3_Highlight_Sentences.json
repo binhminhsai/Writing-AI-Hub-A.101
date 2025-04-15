@@ -1,0 +1,114 @@
+{
+  "name": "Tool3_Highlight_Sentences",
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "essay"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -440,
+        -40
+      ],
+      "id": "3f79f3d1-79c9-4ebf-bf4a-b814404c5472",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-3.5-turbo",
+          "mode": "list",
+          "cachedResultName": "GPT-3.5-TURBO"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are an IELTS Writing Task 2 sentence-level evaluator.\n\nYou will be given an essay written by a user.  \nYour job is to:\n\n✅ STEP 1 — Sentence Segmentation  \nSplit the essay into individual **complete sentences**.  \nYou MUST treat each sentence as an individual unit for analysis.\n\nDo not group sentences. Do not ignore short sentences.  \n⚠️ This is mandatory.\n\n✅ STEP 2 — Categorize EACH Sentence  \n\nFor every sentence, assign it into ONE of these 3 categories (no duplicates, no omissions):\n\n- 🟢 Good\n- 🔴 Wrong\n- 🟡 Improvable\n\n✅ STEP 3 — Explain Each One\n\n- For 🟢 Good:\n  - `\"sentence\"`: original text\n  - `\"reason\"`: why it is good, and what IELTS criterion it helps (e.g. Task Response, Coherence...)\n\n- For 🔴 Wrong:\n  - `\"sentence\"`: original\n  - `\"error\"`: grammar/logical issue\n  - `\"correction\"`: fixed version\n  - `\"reason\"`: what was wrong, and why this improves the score\n\n- For 🟡 Improvable:\n  - `\"sentence\"`: original\n  - `\"issue\"`: what's weak or average\n  - `\"improved\"`: stronger rewritten version\n  - `\"reason\"`: why it helps IELTS score\n\n✅ STEP 4 — Highlight Output  \n\nRebuild the original essay text, but wrap each sentence with:\n\n- `<span style='color:green'>...</span>` for 🟢\n- `<span style='color:red'>...</span>` for 🔴\n- `<span style='color:orange'>...</span>` for 🟡\n\n✅ STEP 5 — Return JSON in this EXACT format\n\nReturn ONLY this JSON:\n\n{\n  \"highlighted_essay_html\": \"<span style='...'>...</span>\",\n  \"highlights\": {\n    \"green\": [\"...\"],\n    \"red\": [\"...\"],\n    \"yellow\": [\"...\"]\n  },\n  \"explanations\": {\n    \"green\": [{ \"sentence\": \"...\", \"reason\": \"...\" }],\n    \"red\": [{ \"sentence\": \"...\", \"error\": \"...\", \"correction\": \"...\", \"reason\": \"...\" }],\n    \"yellow\": [{ \"sentence\": \"...\", \"issue\": \"...\", \"improved\": \"...\", \"reason\": \"...\" }]\n  }\n}\n\nHere is the essay:\n\"\"\"\n {{ $json.essay }}\n\"\"\"\n",
+              "role": "system"
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        -220,
+        -40
+      ],
+      "id": "e7090941-3842-4b4c-845a-6e9548090269",
+      "name": "OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "pCtrEKEaTDYoVCn5",
+          "name": "OpenAi account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const essay = $('When Executed by Another Workflow').first().json.essay;\nconst highlights = $input.first().json.message.content;\n\nif (!essay || !highlights) {\n  throw new Error(\"Thiếu 'essay' hoặc 'highlights' trong input.\");\n}\n\nlet highlightedEssay = essay;\n\nconst wrapWithSpan = (sentence, color) => {\n  const style = `background-color: ${color}; padding: 2px; border-radius: 4px;`;\n  const span = `<span style=\"${style}\">${sentence}</span>`;\n  const escaped = sentence.replace(/[-[\\]{}()*+?.,\\\\^$|#\\s]/g, '\\\\$&');\n  const regex = new RegExp(escaped, 'g');\n  highlightedEssay = highlightedEssay.replace(regex, span);\n};\n\n(highlights.green || []).forEach(sentence => wrapWithSpan(sentence, \"#d4edda\"));\n(highlights.red || []).forEach(sentence => wrapWithSpan(sentence, \"#f8d7da\"));\n(highlights.yellow || []).forEach(sentence => wrapWithSpan(sentence, \"#fff3cd\"));\n\nreturn [\n  {\n    json: {\n      highlighted_essay_html: highlightedEssay,\n      highlights: $input.first().json.message.content.highlights,\n      explanations: $input.first().json.message.content.explanations\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        140,
+        -40
+      ],
+      "id": "4e5bb820-32c5-4a35-a1ee-5d12d0f619ba",
+      "name": "Code"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "fb9922ac-a6bb-4cc1-85e5-a0288eceef14",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0a2cab25979f5bd19ae0bfb0368ebc3d649b1831832849593bac0436bb86bb0c"
+  },
+  "id": "tcqRrsI7NZjm1a1U",
+  "tags": [
+    {
+      "createdAt": "2025-04-10T10:07:05.270Z",
+      "updatedAt": "2025-04-10T10:07:05.270Z",
+      "id": "y5S2Btmzw3abonyk",
+      "name": "EvP_Writing AI-Hub"
+    }
+  ]
+}

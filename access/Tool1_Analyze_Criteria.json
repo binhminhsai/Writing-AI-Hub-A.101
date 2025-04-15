@@ -1,0 +1,193 @@
+{
+  "name": "Tool1_Analyze_Criteria",
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "types"
+            },
+            {
+              "name": "question"
+            },
+            {
+              "name": "essay"
+            },
+            {
+              "name": "ielts_criteria"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -20,
+        -60
+      ],
+      "id": "10ccb36b-61b4-4d28-8389-01d96480dd20",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"tool1_result\": {\n    \"feedback\": {{ $('Feedback').item.json.message.content }},\n    \"score\": {{ $json.scores }},\n     \"average_band\": {{ $json.average_band }}\n  }\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1160,
+        -60
+      ],
+      "id": "d0be7cba-429d-4170-b9c4-790a8ded32da",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are an official IELTS Writing Task 2 examiner.\n\nYou are provided with:\n- The task type: {{ $json.types }}\n- The IELTS writing question: {{ $json.question }}\n- An essay written by a user: {{ $json.essay }}\n- The official IELTS band descriptors: {{ $json.ielts_criteria }}\n\n⚠️ Before doing anything:\n\n- If either `question` or `essay` is:\n  - Empty\n  - Only whitespace\n  - Missing\n  - Or the essay is under 50 words\n\n➡️ Then STOP analysis and return:\n\n{\n  \"scores\": {\n    \"Task Response\": 0,\n    \"Coherence and Cohesion\": 0,\n    \"Lexical Resource\": 0,\n    \"Grammatical Range and Accuracy\": 0\n  }\n\n✅ If the input is valid, essay is > 50 words, perform full grading based on IELTS standards:\n\nEvaluate the essay based on these 4 criteria:\n\n1. 📌 Task Response\n- Does the essay answer all parts of the question clearly?\n- Are ideas relevant, sufficiently developed, and supported?\n- Check for:\n  - Minimum word count\n  - Irrelevant or underdeveloped points\n  - Overuse of templates/formulaic structures\n\n2. 🔗 Coherence and Cohesion\n- Logical organization, paragraph unity\n- Smooth transitions and referencing\n- Penalize abrupt flow or unclear connections\n\n3. 🧠 Lexical Resource\n- Vocabulary range and precision\n- Collocations, register, repetition\n- Penalize if same words/phrases repeat 3+ times\n\n4. ⚙️ Grammatical Range and Accuracy\n- Sentence variety, grammar control\n- Identify error patterns (SVA, tense, punctuation, etc.)\n- Highlight if grammar limits clarity\n\nFor each criterion, do the following in detail:\n\n✅ Strengths:\n- List specific strengths of the essay related to the criterion.\n- Quote sentences or parts of the essay to support your observations.\n\n❌ Weaknesses:\n- Clearly point out weaknesses, with quotes or paraphrases of problem areas.\n- Be explicit about what aspect of the criterion is not fulfilled.\n\nBand Score Justification: 📈 Band X\n- Justify the chosen band score for this criterion based on IELTS descriptors.\n\n🔼 Why not: Band X + 0.5?\n- Explain what is missing to achieve a higher band.\n- Quote an example from the essay that prevents a higher score.\n- Provide a rewritten version of that sentence to demonstrate improvement.\n\n🔽 Why not: Band X – 0.5?\n- Explain why the essay deserves the current band, not a lower one.\n- Support with examples that show minimum criteria are met.\n\n🧾 Final Output Format:\n{\n    \"Task Response\": {\n      \"Strengths\": [ \"...\" ],\n      \"Weaknesses\": [ \"...\" ],\n      \"Band Score Justification\": \"📈 Band X ...\",\n      \"Why not Band X + 0.5?\": \"🔼 ...\",\n      \"Why not Band X – 0.5?\": \"🔽 ...\"\n    },\n    \"Coherence and Cohesion\": {\n      \"Strengths\": [ \"...\" ],\n      \"Weaknesses\": [ \"...\" ],\n      \"Band Score Justification\": \"📈 Band X ...\",\n      \"Why not Band X + 0.5?\": \"🔼 ...\",\n      \"Why not Band X – 0.5?\": \"🔽 ...\"\n    },\n    \"Lexical Resource\": {\n      \"Strengths\": [ \"...\" ],\n      \"Weaknesses\": [ \"...\" ],\n      \"Band Score Justification\": \"📈 Band X ...\",\n      \"Why not Band X + 0.5?\": \"🔼 ...\",\n      \"Why not Band X – 0.5?\": \"🔽 ...\"\n    },\n    \"Grammatical Range and Accuracy\": {\n      \"Strengths\": [ \"...\" ],\n      \"Weaknesses\": [ \"...\" ],\n      \"Band Score Justification\": \"📈 Band X ...\",\n      \"Why not Band X + 0.5?\": \"🔼 ...\",\n      \"Why not Band X – 0.5?\": \"🔽 ...\"\n}\nUse Markdown formatting with:\n- Headings for each criterion\n- Bullet points for Strengths/Weaknesses\n- Subheadings for Band X, +0.5, –0.5\n- Emojis (✅, ❌, 🔼, 🔽) where appropriate\n\n🗣 Response must be in clear academic English.\n\n",
+              "role": "system"
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        220,
+        -60
+      ],
+      "id": "534314ad-3b8d-429b-8684-ba3dab2e8489",
+      "name": "Feedback",
+      "credentials": {
+        "openAiApi": {
+          "id": "pCtrEKEaTDYoVCn5",
+          "name": "OpenAi account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-3.5-turbo",
+          "mode": "list",
+          "cachedResultName": "GPT-3.5-TURBO"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are an IELTS Writing Task 2 scoring assistant.\n\nYou are given 4 Band Score Justification strings — one for each IELTS scoring criterion.\n\n🎯 Your job is:\n\n1. For each justification:\n   - If the input is null, undefined, missing, or an empty string → assign **score: 0**\n   - Else → extract the number from the sentence that contains: **\"Band X\"** (e.g. \"📈 Band 7\")\n\n2. You MUST NOT guess the band score under any condition.\n\n3. Do NOT use logic, context, or general language of the justification — only extract the number if it exists.\n\n📌 Use the following Band Score Justification inputs:\n- Task Response: {{ $json.message.content['Task Response']['Band Score Justification'] }}\n- Coherence and Cohesion: {{ $json.message.content['Coherence and Cohesion']['Band Score Justification'] }}\n- Lexical Resource: {{ $json.message.content['Lexical Resource']['Band Score Justification'] }}\n- Grammatical Range and Accuracy: {{ $json.message.content['Grammatical Range and Accuracy']['Band Score Justification'] }}\n\n⚠️ Rules (Do not break):\n\n- DO NOT interpret or explain the meaning of band justifications.\n- DO NOT recalculate scores.\n- DO NOT use markdown, no ```json, no code formatting.\n- DO NOT add text before or after the JSON block.\n\n✅ Final output format (pure JSON):\n\n{\n  \"scores\": {\n    \"Task Response\": X,\n    \"Coherence and Cohesion\": Y,\n    \"Lexical Resource\": Z,\n    \"Grammatical Range and Accuracy\": W\n  }\n}\n\n- X/Y/Z/W: number from the justification (e.g. 6.5), or 0 if input is null/missing/invalid\n- NO markdown, no explanations, no formatting, just plain JSON\n\n🚫 ABSOLUTE RULES:\n\n- ❌ DO NOT assume or hallucinate scores.\n- ❌ DO NOT invent data.\n- ❌ DO NOT give feedback or wrap JSON in ```json.\n- ✅ Return only the JSON object above.",
+              "role": "system"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        560,
+        -60
+      ],
+      "id": "7d0994fe-997a-48e1-b79c-fd5faad72531",
+      "name": "Chấm điểm",
+      "credentials": {
+        "openAiApi": {
+          "id": "pCtrEKEaTDYoVCn5",
+          "name": "OpenAi account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Bước 1: Lấy raw content từ message\nconst raw = $input.first().json.message.content;\n\n// Bước 2: Loại bỏ nếu bị bọc bởi ```json markdown\nconst clean = raw.replace(/```json|```/g, '').trim();\n\n// Bước 3: Parse JSON\nlet parsed;\ntry {\n  parsed = JSON.parse(clean);\n} catch (e) {\n  throw new Error(\"❌ Không thể parse JSON từ OpenAI. Nội dung:\\n\" + raw);\n}\n\n// Bước 4: Lấy scores ra và tính điểm trung bình\nconst scores = parsed.scores;\nconst values = Object.values(scores);\n\nconst avg = values.reduce((a, b) => a + b, 0) / values.length;\n\n// Làm tròn đúng chuẩn IELTS: chỉ .0 hoặc .5\nlet rounded;\nconst decimal = avg - Math.floor(avg);\n\nif (decimal < 0.25) {\n  rounded = Math.floor(avg);\n} else if (decimal < 0.75) {\n  rounded = Math.floor(avg) + 0.5;\n} else {\n  rounded = Math.ceil(avg);\n}\n\n// Trả kết quả\nreturn [\n  {\n    json: {\n      scores,\n      average_band: rounded\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        920,
+        -60
+      ],
+      "id": "bec5c13f-9331-4ff1-941d-cc1d2094ebbb",
+      "name": "Code"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Feedback",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Feedback": {
+      "main": [
+        [
+          {
+            "node": "Chấm điểm",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Chấm điểm": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "f9e7a1e6-1a2e-4692-b8cd-0cd22e2227e1",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0a2cab25979f5bd19ae0bfb0368ebc3d649b1831832849593bac0436bb86bb0c"
+  },
+  "id": "RZFhBbus0f8W9QJy",
+  "tags": [
+    {
+      "createdAt": "2025-04-10T10:07:05.270Z",
+      "updatedAt": "2025-04-10T10:07:05.270Z",
+      "id": "y5S2Btmzw3abonyk",
+      "name": "EvP_Writing AI-Hub"
+    }
+  ]
+}

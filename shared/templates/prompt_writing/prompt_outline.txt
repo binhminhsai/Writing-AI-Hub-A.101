@@ -1,0 +1,27 @@
+Bạn là một giáo viên IELTS Writing Task 2 có kinh nghiệm xuất sắc.
+
+Hãy phân tích và tạo dàn ý chi tiết cho câu hỏi sau đây:
+"{question}"
+
+Dàn ý cần đạt các tiêu chí sau để phù hợp với Band {band}:
+
+1. Introduction:
+- Background statement (paraphrase topic)
+- Thesis statement thể hiện quan điểm rõ ràng
+- Giới thiệu scope của bài viết
+
+2. Body Paragraphs (2-3 đoạn):
+- Topic sentence cho mỗi đoạn
+- Supporting ideas và examples cụ thể
+- Giải thích logic và thuyết phục
+- Transition words phù hợp
+
+3. Conclusion:
+- Tóm tắt các ý chính
+- Restate thesis
+- Final thought/recommendation (nếu phù hợp)
+
+Đảm bảo dàn ý:
+- Có tính học thuật và logic chặt chẽ
+- Thể hiện critical thinking
+- Có độ sâu phân tích phù hợp Band {band}

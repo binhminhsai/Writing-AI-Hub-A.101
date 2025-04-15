@@ -1,0 +1,28 @@
+
+Based on the source code and the output you've shared, the project is a FastAPI application that already includes both the backend and frontend in a single codebase. There's no separate frontend build step required.
+
+To run the entire project with all features:
+
+```bash
+python run_dev.py
+```
+
+This command starts both the backend API and serves the frontend static files from the public directory. As shown in your output, the server runs at http://0.0.0.0:8000.
+
+For production with real OpenAI API calls (instead of mock responses):
+
+```bash
+python -m uvicorn app:app --host 0.0.0.0 --port 8000
+```
+
+Your current setup is already running properly with:
+- OpenAI API key detected and loaded
+- Server running at http://0.0.0.0:8000
+- Frontend access available at the same URL
+
+You should be able to access the two main features at:
+- http://localhost:8000/workflow_1_question (Question Generator)
+- http://localhost:8000/workflow_2_grading (Essay Grading)
+
+Or view the main menu at:
+- http://localhost:8000/

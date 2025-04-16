@@ -56,3 +56,7 @@ openai
 pydantic
 python-multipart
 uvicorn
+openai
+fastapi
+jinja2
+uvicorn

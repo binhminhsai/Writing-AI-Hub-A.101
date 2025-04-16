@@ -4,10 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>English Writing Practice | Writing AI Hub</title>
-    <link rel="stylesheet" href="/css/variables.css">
     <link rel="stylesheet" href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css">
+    <link rel="stylesheet" href="/css/variables.css">
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <style>
+        /* Inline override styles to ensure text visibility */
+        body, p, h1, h2, h3, h4, h5, h6, .nav-link, .logo, .footer-logo, .btn, label {
+            color: var(--app-text-color, #374151) !important;
+        }
+        body {
+            background-color: var(--app-background, #f0fdfc) !important;
+        }
+        [data-bs-theme="dark"] .app-header, [data-bs-theme="dark"] .setting-card,
+        [data-bs-theme="dark"] .app-footer {
+            background-color: white !important;
+        }
+        .setting-card {
+            background-color: white !important;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        .form-label {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        select.form-select, input.form-control {
+            display: block;
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            background-color: white;
+            color: #374151;
+        }
+    </style>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -18,205 +53,218 @@
         .main {
             flex-grow: 1;
             padding: 2rem 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 140px); /* Trừ đi chiều cao header và footer */
         }
 
         .container {
-            max-width: 720px; /* Thu hẹp container để giống với mẫu */
+            max-width: 800px;
             margin: 0 auto;
             padding: 0 1rem;
         }
 
         .card {
-            background: #fff;
-            border: 1px solid #e5e7eb; /* Viền xám nhạt */
-            border-radius: 12px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-            overflow: hidden;
-        }
-
-        .card-body {
-            padding: 2rem; /* Padding rộng rãi hơn */
+            background-color: white;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            padding: 32px 24px;
+            margin-bottom: 1.5rem;
+            max-width: 720px;
+            margin: 0 auto;
         }
 
         .back-button {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #6b7280;
+            text-decoration: none;
+            font-size: 0.85rem;
             margin-bottom: 1rem;
         }
 
-        .back-button a {
-            text-decoration: none;
+        .back-button:hover {
+            color: #374151;
         }
 
-        .back-button button {
-            display: flex;
-            align-items: center;
-            color: #6b7280; /* Màu xám nhạt */
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 0;
-            font-size: 0.9rem;
-        }
-
-        .back-button .icon-arrow-left {
-            width: 16px;
-            height: 16px;
-            margin-right: 8px;
-            stroke: currentColor;
-            stroke-width: 2px;
-            fill: none;
-        }
-
-        .title {
+        .page-title {
             font-size: 1.5rem;
-            font-weight: bold;
-            margin: 1rem 0 1.5rem;
-            color: #111827; /* Màu đen đậm hơn */
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
+            font-weight: 700;
             margin-bottom: 1.5rem;
-        }
-
-        @media(min-width: 640px) {
-            .grid {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-size: 0.95rem;
-            font-weight: 500;
-            color: #374151; /* Màu tối hơn một chút */
-        }
-
-        .select-btn, select {
-            width: 100%;
-            padding: 0.625rem 0.75rem;
-            font-size: 0.95rem;
-            border: 1px solid #d1d5db; /* Màu viền xám nhạt */
-            border-radius: 6px;
-            background: #ffffff;
-            cursor: pointer;
-        }
-
-        .select-btn {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        textarea, input[type="text"] {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid #bae6fd; /* Viền xanh mint nhạt */
-            border-radius: 6px;
-            resize: none;
-            font-size: 0.95rem;
-            box-sizing: border-box;
-            background-color: #ffffff;
-        }
-
-        .btn {
-            padding: 0.7rem 1.25rem;
-            border: none;
-            border-radius: 8px;
-            font-size: 0.95rem;
-            font-weight: 500;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .btn-indigo {
-            background-color: #8b5cf6; /* Màu tím nhạt theo yêu cầu */
-            color: #fff;
-        }
-
-        .btn-indigo:hover {
-            background-color: #7c3aed; /* Màu tím đậm hơn khi hover */
-        }
-
-        .btn-teal {
-            background-color: #14b8a6; /* Màu xanh ngọc */
-            color: #fff;
-        }
-
-        .btn-teal:hover {
-            background-color: #0d9488; /* Màu xanh ngọc đậm hơn khi hover */
-        }
-
-        .icon-sparkles {
-            width: 16px;
-            height: 16px;
-            fill: #ffffff;
+            color: #333;
         }
 
         .form-group {
             margin-bottom: 1.5rem;
         }
 
-        .row {
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: #374151;
+            font-size: 0.875rem;
+        }
+
+        .select-btn {
+            width: 100%;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #d1d5db;
+            background-color: white;
+            font-size: 0.875rem;
+            color: #333;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236B7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 16px;
+            padding-right: 40px;
+        }
+
+        .text-input {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 6px;
+            border: 1px solid #d1d5db;
+            font-size: 0.95rem;
+            color: #333;
+            box-sizing: border-box;
+            position: relative;
+        }
+        
+        .text-input-container {
+            position: relative;
+        }
+        
+        .input-dot {
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #a78bfa;
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 0.4; }
+            50% { opacity: 1; }
+            100% { opacity: 0.4; }
+        }
+
+        .form-row {
             display: flex;
-            justify-content: space-between;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-col {
+            flex: 1;
+        }
+
+        .btn {
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+            display: inline-flex;
             align-items: center;
-            margin-top: 1.5rem;
+            justify-content: center;
+        }
+
+        .btn-indigo {
+            background-color: #a78bfa;
+            color: white !important;
+        }
+
+        .btn-indigo:hover {
+            background-color: #9061f9;
+        }
+
+        .btn-teal {
+            background-color: #14b8a6;
+            color: white !important;
+            padding: 10px 20px;
+        }
+
+        .btn-teal:hover {
+            background-color: #0d9488;
+        }
+
+        .btn-disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
 
         .error {
+            color: #ef4444;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
             display: none;
-            color: white;
-            background-color: #e74c3c;
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            font-weight: bold;
-        }
-
-        .writing-prompt {
-            background-color: #fafafa; /* Màu nền trắng kem nhạt */
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-            border: 1px solid #f0f0f0;
-        }
-
-        .writing-prompt h3 {
-            margin-top: 0;
-            font-size: 1.1rem;
-            color: #374151;
-            font-weight: 600;
         }
 
         .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 1rem 0;
             display: none;
-            text-align: center;
-            margin: 1.5rem 0;
         }
 
+        .question-section {
+            margin-top: 1.5rem;
+        }
+
+        .writing-prompt {
+            background-color: #f8f9fa;
+            border-left: 4px solid #14b8a6;
+            padding: 1rem;
+            border-radius: 0 6px 6px 0;
+            margin-bottom: 1.5rem;
+        }
+
+        .time-limit-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+        }
+
+        .time-limit-row > div {
+            flex: 1;
+        }
+
+        /* Biểu tượng */
+        .icon-sparkles {
+            width: 16px;
+            height: 16px;
+            margin-right: 6px;
+            fill: currentColor;
+        }
+
+        /* Spinner animation */
         .spinner {
-            border: 4px solid rgba(0, 0, 0, 0.1);
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            border-top-color: #14b8a6;
             border-radius: 50%;
-            border-top: 4px solid #14b8a6; /* Màu xanh ngọc */
-            width: 30px;
-            height: 30px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 0.5rem;
+            animation: spin 0.8s linear infinite;
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .chevron {
-            font-size: 12px;
-            margin-left: 5px;
+            to {
+                transform: rotate(360deg);
+            }
         }
     </style>
 </head>
@@ -230,10 +278,10 @@
             </a>
             <div class="nav-menu">
                 <div class="nav-links">
-                    <a href="/" class="nav-link btn-nav">Home</a>
-                    <a href="#" class="nav-link btn-nav active">Practice</a>
+                    <a href="/" class="nav-link">Home</a>
+                    <a href="/setting.html" class="nav-link active">Practice</a>
                 </div>
-                <a href="#" class="btn-account">My Account</a>
+                <a href="/my_account" class="btn-account">My Account</a>
             </div>
         </div>
     </header>
@@ -242,89 +290,110 @@
     <main class="main">
         <div class="container">
             <div class="card">
-                <div class="card-body">
-                    <div class="back-button">
-                        <a href="/">
-                            <button>
-                                <svg class="icon-arrow-left" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                    <path d="m12 19-7-7 7-7"></path>
-                                    <path d="M19 12H5"></path>
-                                </svg>
-                                Back to Home
-                            </button>
-                        </a>
-                    </div>
-                    
-                    <h1 class="title">English Writing Practice</h1>
-                    
-                    <div id="error" class="error"></div>
-                    
-                    <form id="questionForm">
-                        <div class="grid">
-                            <div>
+                <a href="/" class="back-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m12 19-7-7 7-7"></path>
+                        <path d="M19 12H5"></path>
+                    </svg>
+                    Back to Home
+                </a>
+                
+                <h1 class="page-title">English Writing Practice</h1>
+                
+                <form id="questionForm">
+                    <div class="form-row">
+                        <div class="form-col">
+                            <div class="form-group">
                                 <label for="task-type">Select Writing Test Type</label>
                                 <select id="task-type" name="task-type" class="select-btn">
-                                    <option value="TASK2">IELTS Writing Task 2</option>
+                                    <option value="TASK2" selected>IELTS Writing Task 2</option>
                                     <option value="TASK1">IELTS Writing Task 1</option>
                                 </select>
                             </div>
-                            <div>
-                                <label for="band">Target Band Score</label>
+                        </div>
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="band">Difficulty Level</label>
                                 <select id="band" name="band" class="select-btn">
-                                    <option value="4.0">Band Score 4.0</option>
-                                    <option value="4.5">Band Score 4.5</option>
-                                    <option value="5.0">Band Score 5.0</option>
-                                    <option value="5.5">Band Score 5.5</option>
-                                    <option value="6.0">Band Score 6.0</option>
-                                    <option value="6.5">Band Score 6.5</option>
-                                    <option value="7.0" selected>Band Score 7.0</option>
-                                    <option value="7.5">Band Score 7.5</option>
-                                    <option value="8.0">Band Score 8.0</option>
-                                    <option value="8.5">Band Score 8.5</option>
-                                    <option value="9.0">Band Score 9.0</option>
+                                    <option value="4.0">Band 4.0</option>
+                                    <option value="4.5">Band 4.5</option>
+                                    <option value="5.0">Band 5.0</option>
+                                    <option value="5.5">Band 5.5</option>
+                                    <option value="6.0" selected>Band 6.0</option>
+                                    <option value="6.5">Band 6.5</option>
+                                    <option value="7.0">Band 7.0</option>
+                                    <option value="7.5">Band 7.5</option>
+                                    <option value="8.0">Band 8.0</option>
+                                    <option value="8.5">Band 8.5</option>
+                                    <option value="9.0">Band 9.0</option>
                                 </select>
                             </div>
                         </div>
-                        
-                        <div class="form-group">
-                            <label for="topic">Topic</label>
-                            <input type="text" id="topic" name="topic" placeholder="Enter a topic (e.g., Economy, Environment, Technology)" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="topic">Topic</label>
+                        <div class="text-input-container">
+                            <input 
+                                type="text" 
+                                id="topic" 
+                                name="topic" 
+                                class="text-input" 
+                                placeholder="Enter a topic (e.g., Economy, Environment, Technology)"
+                                required
+                            >
+                            <span class="input-dot"></span>
                         </div>
-                        
-                        <div class="form-group">
-                            <button type="submit" id="generate-btn" class="btn btn-indigo">
-                                <svg class="icon-sparkles" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                    <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z" />
-                                </svg>
-                                Generate Question
-                            </button>
-                        </div>
-                    </form>
+                        <div id="error" class="error"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <button type="submit" id="generate-btn" class="btn btn-indigo">
+                            <svg class="icon-sparkles" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z" />
+                            </svg>
+                            Generate Question
+                        </button>
+                    </div>
                     
                     <div id="loading" class="loading">
                         <div class="spinner"></div>
-                        <p>Generating question...</p>
+                        <span>Generating question...</span>
                     </div>
                     
-                    <div id="question-section" style="display: none;">
+                    <div id="question-section" class="question-section">
                         <div class="writing-prompt">
                             <h3>Writing Prompt:</h3>
                             <p id="question-text"></p>
                         </div>
-                        
-                        <div class="form-group row">
-                            <div>
-                                <label for="time-limit">Time Limit (optional)</label>
-                                <select id="time-limit" name="time-limit" class="select-btn">
-                                    <option value="30" selected>30 minutes</option>
-                                    <option value="40">40 minutes</option>
-                                    <option value="60">60 minutes</option>
-                                </select>
-                            </div>
-                            <button id="start-writing-btn" class="btn btn-teal">Start Writing</button>
-                        </div>
                     </div>
-                </div>
+                    
+                    <!-- Time limit and Start Writing button (always visible) -->
+                    <div class="time-limit-row">
+                        <div>
+                            <label for="time-limit">Time Limit (optional)</label>
+                            <select id="time-limit" name="time-limit" class="select-btn">
+                                <option value="15">15 minutes</option>
+                                <option value="20">20 minutes</option>
+                                <option value="25">25 minutes</option>
+                                <option value="30" selected>30 minutes</option>
+                                <option value="35">35 minutes</option>
+                                <option value="40">40 minutes</option>
+                                <option value="45">45 minutes</option>
+                                <option value="50">50 minutes</option>
+                                <option value="55">55 minutes</option>
+                                <option value="60">60 minutes</option>
+                            </select>
+                        </div>
+                        <button id="start-writing-btn" class="btn btn-teal">Start Writing</button>
+                    </div>
+                    
+                    <!-- Preparing materials loading indicator (initially hidden) -->
+                    <div id="preparing-materials" class="loading">
+                        <div class="spinner"></div>
+                        <span>Preparing writing materials...</span>
+                    </div>
+                </form>
             </div>
         </div>
     </main>
@@ -353,23 +422,73 @@
             const startWritingBtn = document.getElementById('start-writing-btn');
             const generateBtn = document.getElementById('generate-btn');
             const topicInput = document.getElementById('topic');
+            const inputDot = document.querySelector('.input-dot');
             
             // Store question data
             let generatedData = {};
             
-            // Disable generate button if topic is empty
-            topicInput.addEventListener('input', function() {
-                generateBtn.disabled = !this.value.trim();
+            // Show error section
+            function showError(message) {
+                errorDiv.textContent = message;
+                errorDiv.style.display = 'block';
+            }
+            
+            // Hide error section
+            function hideError() {
+                errorDiv.style.display = 'none';
+            }
+            
+            // Disable buttons initially
+            function updateButtonStates() {
+                // Generate button should be disabled if topic is empty
+                const topicValue = topicInput.value.trim();
+                generateBtn.disabled = !topicValue;
+                
+                // Style for disabled button (visible but disabled)
+                if (generateBtn.disabled) {
+                    generateBtn.classList.add('btn-disabled');
+                } else {
+                    generateBtn.classList.remove('btn-disabled');
+                }
+                
+                // Start Writing button should be disabled if no question is generated
+                startWritingBtn.disabled = !generatedData.question;
+                if (startWritingBtn.disabled) {
+                    startWritingBtn.classList.add('btn-disabled');
+                } else {
+                    startWritingBtn.classList.remove('btn-disabled');
+                }
+                
+                // Show dot indicator only when input has focus
+                if (document.activeElement === topicInput) {
+                    inputDot.style.display = 'block';
+                } else {
+                    inputDot.style.display = topicValue ? 'block' : 'none';
+                }
+            }
+            
+            // Listen for input changes and focus events
+            topicInput.addEventListener('input', updateButtonStates);
+            topicInput.addEventListener('focus', function() {
+                inputDot.style.display = 'block';
+            });
+            topicInput.addEventListener('blur', function() {
+                inputDot.style.display = topicInput.value.trim() ? 'block' : 'none';
             });
             
-            // Initially disable generate button
-            generateBtn.disabled = !topicInput.value.trim();
+            // Set initial states
+            updateButtonStates();
+            
+            // Initially hide question section until a question is generated
+            questionSection.style.display = 'none';
             
             // Form submission
             questionForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
                 
                 try {
+                    hideError();
+                    
                     // Get form data
                     const taskType = document.getElementById('task-type').value;
                     const topic = document.getElementById('topic').value;
@@ -379,10 +498,13 @@
                         throw new Error('Please enter a topic');
                     }
                     
-                    // Reset displays
-                    loading.style.display = 'block';
+                    // Show loading, hide question
+                    loading.style.display = 'flex';
                     questionSection.style.display = 'none';
-                    errorDiv.style.display = 'none';
+                    
+                    // Disable generate button during API call
+                    generateBtn.disabled = true;
+                    generateBtn.classList.add('btn-disabled');
                     
                     // Send request to API
                     const response = await fetch('/workflow_1_question/generate', {
@@ -410,40 +532,87 @@
                     questionText.textContent = data.question;
                     questionSection.style.display = 'block';
                     
+                    // Update button states now that we have a question
+                    updateButtonStates();
+                    
                 } catch (error) {
                     console.error('Error:', error);
-                    errorDiv.textContent = error.message || 'An unexpected error occurred';
-                    errorDiv.style.display = 'block';
+                    showError(error.message || 'An unexpected error occurred');
                 } finally {
                     loading.style.display = 'none';
+                    generateBtn.disabled = false;
+                    generateBtn.classList.remove('btn-disabled');
                 }
             });
             
-            // Start writing button
-            startWritingBtn.addEventListener('click', function() {
+            // Start writing button - now calls the prepare_materials API endpoint
+            startWritingBtn.addEventListener('click', async function() {
                 if (!generatedData.question) {
-                    errorDiv.textContent = 'Please generate a question first';
-                    errorDiv.style.display = 'block';
+                    showError('Please generate a question first');
                     return;
                 }
                 
-                // Get time limit
-                const timeLimit = document.getElementById('time-limit').value;
-                
-                // Store data in localStorage
-                localStorage.setItem('essayData', JSON.stringify({
-                    question: generatedData.question,
-                    outline: generatedData.outline,
-                    vocabulary_suggestions: generatedData.vocabulary_suggestions,
-                    sentence_suggestions: generatedData.sentence_suggestions,
-                    timeLimit: timeLimit,
-                    task_type: generatedData.task_type,
-                    topic: generatedData.topic,
-                    band: generatedData.band
-                }));
-                
-                // Redirect to practice page
-                window.location.href = '/practice.html';
+                try {
+                    hideError();
+                    
+                    // Get time limit
+                    const timeLimit = parseInt(document.getElementById('time-limit').value);
+                    const taskType = document.getElementById('task-type').value;
+                    
+                    // Show loading indicator for preparing materials
+                    document.getElementById('preparing-materials').style.display = 'flex';
+                    startWritingBtn.disabled = true;
+                    startWritingBtn.classList.add('btn-disabled');
+                    
+                    // Call the prepare_materials endpoint to generate the rest of the materials
+                    const response = await fetch('/workflow_1_question/prepare_materials', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            question: generatedData.question,
+                            topic: generatedData.topic,
+                            band: generatedData.band,
+                            task_type: taskType,
+                            time_limit: timeLimit
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (!response.ok || data.status === 'error') {
+                        throw new Error(data.error || 'Failed to prepare materials');
+                    }
+                    
+                    // Complete generatedData with all the prepared materials
+                    generatedData = {
+                        ...generatedData,
+                        outline: data.outline || "",
+                        vocabulary_suggestions: data.vocabulary_suggestions || "",
+                        sentence_suggestions: data.sentence_suggestions || "",
+                        timeLimit: timeLimit,
+                        task_type: taskType // Make sure we explicitly pass task_type
+                    };
+                    
+                    // Store complete data in localStorage
+                    localStorage.setItem('essayData', JSON.stringify(generatedData));
+                    
+                    // Redirect to practice page
+                    window.location.href = '/practice.html';
+                    
+                } catch (error) {
+                    console.error('Error:', error);
+                    showError(error.message || 'An error occurred while preparing materials');
+                    
+                    // Enable start writing button
+                    startWritingBtn.disabled = false;
+                    startWritingBtn.classList.remove('btn-disabled');
+                    
+                } finally {
+                    // Hide loading indicator
+                    document.getElementById('preparing-materials').style.display = 'none';
+                }
             });
         });
     </script>

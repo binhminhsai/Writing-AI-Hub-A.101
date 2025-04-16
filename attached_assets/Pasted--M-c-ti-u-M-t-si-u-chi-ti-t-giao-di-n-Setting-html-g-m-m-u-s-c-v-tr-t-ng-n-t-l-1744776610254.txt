@@ -1,0 +1,97 @@
+
+
+### 🎯 Mục tiêu: **Mô tả siêu chi tiết** giao diện Setting.html (gồm màu sắc, vị trí từng nút, layout)
+
+## 🧾 Mô tả giao diện chính xác theo layout:
+
+### 🟩 **Màu nền tổng thể**
+
+- Toàn bộ background: `#f0fdfc` – màu xanh pastel nhạt dễ chịu
+- Khung giữa (form): màu **trắng** `#ffffff`, bo tròn, **viền xám nhạt**, có padding đều, chiếm khoảng 70% Website
+- Phần header và Footer bằng nhau về kích thước chiều cao đặt đầu trang và cuối trang, nội dung thì đặt rộng hơn khung Form để nhìn cân xứng. 
+
+## 🗂️ **Nội dung chính (form luyện viết)**
+
+### ✅ Block chính giữa:
+
+- Đặt trong container bo tròn, max-width, centered toàn trang
+
+#### 1. 🔙 Dòng đầu:
+
+- Icon mũi tên trái `←`
+- Text: “Back to Home” – cỡ chữ nhỏ, màu xám nhạt `#6b7280`
+- Căn trái, nằm riêng một hàng
+
+#### 2. 📝 Tiêu đề chính:
+
+- “**English Writing Practice**” – font-size lớn, **in đậm**, màu đen
+
+#### 3. 🔽 Hàng chọn loại test:
+
+- Grid 2 cột:
+  - **Select Writing Test Type** (dropdown trái): mặc định là "IELTS Writing Task 2"
+  - **Target Band Score** (dropdown phải): mặc định là "Band Score 6.0"
+- Style dropdown:
+  - Border: `1px solid #d1d5db` (xám nhạt)
+  - Border-radius: `6px`
+  - Padding: `10px`
+  - Font: `0.9rem`, chữ đen
+
+#### 4. ✍️ Textarea nhập topic:
+
+- Placeholder: `Enter a topic (e.g., Economy, Environment, Technology)`
+- Nội dung ví dụ: `Football`
+- Border-radius: `6px`, border xanh mint nhạt `#bae6fd`
+- Padding đều, chiều cao khoảng `60px`
+
+#### 5. ✨ Nút "Generate Question":
+
+- Màu nền: **tím nhạt** `#8b5cf6` hover chuyển nhẹ
+- Chữ trắng, có icon sparkles bên trái (⚡)
+- Padding dày, border-radius lớn
+- Đặt **ngay dưới textarea**, căn trái
+- **Cách hoạt động và chức năng:** 
+
+  Khi user chưa nhập Topic thì họ sẽ không nhấn được nút này. (Mục đích là để ngăn user spam Workflow 1)
+
+  Sau khi Workflow 1 trả về terminal: "question", Ví dụ: "In recent years, the global economy has faced numerous challenges, including inflation, unemployment, and trade disputes. To what extent do you think government intervention is necess...thì hệ thống stop workflow 1 lại, và trả về giao diện setting.html phần nội dung cho Writing Question.
+
+6\. 📋 Hộp “Writing Question” (sau khi nhấn Generate):
+
+- Nền: màu **tím siêu nhạt** (almost white)
+
+- Viền rất mờ, bo góc, có padding
+
+- Nội dung:
+
+  - Tiêu đề bold: `Writing Question:`
+  - Đoạn mô tả bên dưới (Là đề bài do terminal trả về từ việc call API), ví dụ:
+
+    **"In recent years, the global economy has faced numerous challenges, including inflation, unemployment, and trade disputes. To what extent do you think government intervention is necess.."**
+
+7\. ⏱️ Hàng cuối
+
+- **Dropdown Time Limit (optional)**:
+
+  - Giao diện giống 2 dropdown trên
+  - Nằm bên trái, góc dưới cùng của khung Form
+  - Có sẵn khi vào trang setting.html 
+  - Các option từ 15 minutes đến 60 minutes (step 5 minutes)
+
+- **Nút Start Writing**:
+
+  - Màu nền: **xanh ngọc** `#14b8a6`
+  - Chữ trắng, border-radius cao, padding đều
+  - Căn phải hàng, nằm cùng hàng với dropdown thời gian
+  - Cách hoạt động: Khi user chưa nhập Topic, Question chưa được trả về thì họ sẽ không nhấn được nút này. (Mục đích là để ngăn user spam Workflow 1)
+  - **Sau khi người dùng ưng ý với đề bài thì họ bấm Nút Start Writing khi này hệ thống sẽ bắt đầu thực hiện các bước còn lại của workflow 1.**
+
+✅ Tổng kết:
+
+- Giao diện tinh gọn, padding rộng rãi
+
+- Sử dụng màu **teal** + **tím nhạt** làm accent
+
+- Bo góc đều, thiết kế hiện đại và dễ nhìn
+
+- Cấu trúc rõ ràng theo hàng: tiêu đề → input → output → control

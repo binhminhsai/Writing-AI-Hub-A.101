@@ -113,11 +113,14 @@ app.include_router(grading_router)
 
 # Mount static files - CSS, JS, and other resources first
 app.mount("/js", StaticFiles(directory=Path("public/js")), name="js")
-app.mount("/css", StaticFiles(directory=Path("public/css")), name="css") 
+app.mount("/css", StaticFiles(directory=Path("public/css")), name="css")
+app.mount("/img", StaticFiles(directory=Path("public/img")), name="img")
 
 # Add specific routes for HTML files
 @app.get("/setting.html", response_class=HTMLResponse)
 async def get_setting_page(request: Request):
+    # Serve the setting page directly, no longer using workflow router for this
+    print("Serving setting.html page directly")
     return templates.TemplateResponse("setting.html", {"request": request})
 
 @app.get("/practice.html", response_class=HTMLResponse)

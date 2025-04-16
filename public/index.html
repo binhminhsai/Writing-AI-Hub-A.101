@@ -4,14 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Writing AI Hub</title>
-    <link rel="stylesheet" href="/css/variables.css">
     <link rel="stylesheet" href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css">
+    <link rel="stylesheet" href="/css/variables.css">
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <style>
+        /* Inline override styles to ensure text visibility */
+        body, p, h1, h2, h3, h4, h5, h6, .nav-link, .logo, .footer-logo, .btn {
+            color: var(--app-text-color, #374151) !important;
+        }
+        body {
+            background-color: var(--app-background, #f0fdfc) !important;
+        }
+        [data-bs-theme="dark"] .app-header, [data-bs-theme="dark"] .hero, 
+        [data-bs-theme="dark"] .feature-card, [data-bs-theme="dark"] .app-footer {
+            background-color: white !important;
+        }
+    </style>
 </head>
 <body>
     <!-- Header -->
-    <header>
+    <header class="app-header">
         <div class="container header-container">
             <a href="/" class="logo">
                 <i class="fas fa-globe"></i>
@@ -19,14 +33,13 @@
             </a>
             <div class="nav-menu">
                 <div class="nav-links">
-                    <a href="/" class="nav-link">Home</a>
+                    <a href="/" class="nav-link active">Home</a>
                     <a href="/setting.html" class="nav-link">Practice</a>
                 </div>
-                <a href="/account.html" class="btn btn-account">My Account</a>
+                <a href="/my_account" class="btn-account">My Account</a>
             </div>
         </div>
     </header>
-
     <!-- Hero Section -->
     <section class="hero">
         <div class="container">
@@ -34,7 +47,6 @@
             <p>Practice writing essays, get instant feedback, and enhance your vocabulary with our comprehensive writing tools.</p>
         </div>
     </section>
-
     <!-- Features Section -->
     <section class="features">
         <div class="container">
@@ -47,7 +59,6 @@
                     <p>Choose from IELTS, TOEFL, general essays, or business writing. Select your difficulty level and get personalized feedback.</p>
                     <a href="/setting.html" class="btn">Start Practice <i class="fas fa-arrow-right"></i></a>
                 </div>
-
                 <!-- Feature 2: Vocabulary Builder -->
                 <div class="feature-card">
                     <i class="fas fa-book-open feature-icon"></i>
@@ -56,7 +67,6 @@
                     <p>Access curated vocabulary lists for different topics and writing types. Learn words that will improve your writing score.</p>
                     <a href="/vocabulary-coming-soon.html" class="coming-soon">Coming Soon</a>
                 </div>
-
                 <!-- Feature 3: Progress Tracking -->
                 <div class="feature-card">
                     <i class="fas fa-chart-line feature-icon"></i>
@@ -68,7 +78,6 @@
             </div>
         </div>
     </section>
-
     <!-- Premium Section -->
     <section class="premium">
         <div class="container">
@@ -80,9 +89,8 @@
             <a href="#" class="btn">Upgrade to Premium</a>
         </div>
     </section>
-
     <!-- Footer -->
-    <footer>
+    <footer class="app-footer">
         <div class="container footer-container">
             <a href="/" class="footer-logo">
                 <i class="fas fa-globe"></i>
@@ -93,7 +101,6 @@
             </div>
         </div>
     </footer>
-
     <script src="/js/main.js"></script>
 </body>
 </html>

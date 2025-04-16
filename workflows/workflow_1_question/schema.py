@@ -11,6 +11,15 @@ class TopicRequest(BaseModel):
     band: str
     task_type: str = "TASK2"  # Default to Task 2
 
+# Request model for preparing materials
+# Used when the user clicks "Start Writing"
+class PrepareMaterialsRequest(BaseModel):
+    question: str = Field(..., description="The generated IELTS Writing question")
+    topic: str = Field(..., description="The topic for the question")
+    band: str = Field(..., description="The target band score")
+    task_type: str = Field("TASK2", description="The task type (TASK1 or TASK2)")
+    time_limit: int = Field(30, description="Time limit in minutes")
+
 class QuestionResponse(BaseModel):
     status: str
     question: str

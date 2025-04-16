@@ -6,6 +6,7 @@
       "restartOn": ["app.py", "workflows", "public", "main.py", "run_dev.py"],
       "runOnStart": true,
       "wait_for_port": 8080,
+      "port": 8080,
       "serve": true,
       "startOnFirstRun": true,
       "previewOnFirstRun": true

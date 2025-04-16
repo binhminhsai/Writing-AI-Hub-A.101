@@ -59,10 +59,19 @@ if SERVER_TYPE == "flask":
         logger.error(f"Error importing FastAPI app or routers: {e}")
     
     # Tạo middleware cho các workflow endpoints trong Flask
-    @app.route('/workflow_1_question/generate', methods=['POST'])
+    @app.route('/workflow_1_question/generate', methods=['GET', 'POST'])
     def workflow_1_generate():
-        # Nhận dữ liệu JSON từ request
+        # Kiểm tra nếu là phương thức GET, trả về một phản hồi đơn giản
+        if request.method == 'GET':
+            return jsonify({"message": "This endpoint accepts POST requests for question generation"}), 200
+            
+        # Nhận dữ liệu JSON từ request POST
         data = request.get_json()
+        if not data:
+            return jsonify({"status": "error", "error": "No JSON data provided"}), 400
+        
+        # Log dữ liệu nhận được
+        logger.debug(f"Received data: {data}")
         
         # Tạo đối tượng TopicRequest từ dữ liệu JSON
         try:
@@ -83,10 +92,19 @@ if SERVER_TYPE == "flask":
             logger.error(f"Error in workflow_1_generate: {e}")
             return jsonify({"status": "error", "error": str(e)}), 500
     
-    @app.route('/workflow_1_question/prepare_materials', methods=['POST'])
+    @app.route('/workflow_1_question/prepare_materials', methods=['GET', 'POST'])
     def workflow_1_prepare_materials():
-        # Nhận dữ liệu JSON từ request
+        # Kiểm tra nếu là phương thức GET, trả về một phản hồi đơn giản
+        if request.method == 'GET':
+            return jsonify({"message": "This endpoint accepts POST requests for materials preparation"}), 200
+            
+        # Nhận dữ liệu JSON từ request POST
         data = request.get_json()
+        if not data:
+            return jsonify({"status": "error", "error": "No JSON data provided"}), 400
+        
+        # Log dữ liệu nhận được
+        logger.debug(f"Received data for prepare_materials: {data}")
         
         # Tạo đối tượng PrepareMaterialsRequest từ dữ liệu JSON
         try:

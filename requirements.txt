@@ -118,3 +118,8 @@ openai
 python-dotenv
 starlette
 uvicorn
+fastapi
+flask
+openai
+python-dotenv
+uvicorn

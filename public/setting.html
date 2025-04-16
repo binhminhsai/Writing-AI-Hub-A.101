@@ -525,42 +525,51 @@
                     // Thêm class btn-disabled cho generate button trong khi API đang gọi
                     generateBtn.classList.add('btn-disabled');
                     
-                    // Thực hiện gọi API thực tế từ workflow 1
+                    // Log thông tin request để debug
                     console.log('Sending request with data:', {
                         topic, band, taskType
                     });
                     
-                    // Gửi yêu cầu đến API endpoint
-                    const response = await fetch('/workflow_1_question/generate', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ 
-                            topic, 
-                            band,
-                            task_type: taskType
-                        })
-                    });
-                    
-                    const data = await response.json();
-                    
-                    if (!response.ok || data.status === 'error') {
-                        throw new Error(data.error || 'Failed to generate question');
-                    }
-                    
-                    console.log('API response:', data);
-                    
-                    
-                    // Store the generated data
-                    generatedData = data;
-                    
-                    // Show the question
-                    questionText.textContent = data.question;
-                    questionSection.style.display = 'block';
-                    
-                    // Update button states now that we have a question
-                    updateButtonStates();
+                    try {
+                        // Gửi yêu cầu đến API endpoint 
+                        // Sử dụng đường dẫn tương đối để tránh vấn đề kết nối
+                        const response = await fetch('/workflow_1_question/generate', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ 
+                                topic, 
+                                band,
+                                task_type: taskType
+                            })
+                        });
+                        
+                        // Kiểm tra trạng thái phản hồi
+                        if (!response.ok) {
+                            const errorText = await response.text();
+                            console.error('API Error:', response.status, errorText);
+                            throw new Error(`API Error (${response.status}): ${errorText || 'Failed to generate question'}`);
+                        }
+                        
+                        // Parse JSON response
+                        const data = await response.json();
+                        console.log('API response:', data);
+                        
+                        // Kiểm tra trạng thái trong dữ liệu phản hồi
+                        if (data.status === 'error') {
+                            throw new Error(data.error || 'Failed to generate question');
+                        }
+                        
+                        // Store the generated data
+                        generatedData = data;
+                        
+                        // Show the question
+                        questionText.textContent = data.question;
+                        questionSection.style.display = 'block';
+                        
+                        // Update button states now that we have a question
+                        updateButtonStates();
                     
                 } catch (error) {
                     console.error('Error:', error);
@@ -607,13 +616,21 @@
                         })
                     });
                     
-                    const data = await response.json();
-                    
-                    if (!response.ok || data.status === 'error') {
-                        throw new Error(data.error || 'Failed to prepare materials');
+                    // Kiểm tra trạng thái phản hồi
+                    if (!response.ok) {
+                        const errorText = await response.text();
+                        console.error('API Error:', response.status, errorText);
+                        throw new Error(`API Error (${response.status}): ${errorText || 'Failed to prepare materials'}`);
                     }
                     
+                    // Parse JSON response
+                    const data = await response.json();
                     console.log('API prepare_materials response:', data);
+                    
+                    // Kiểm tra trạng thái trong dữ liệu phản hồi
+                    if (data.status === 'error') {
+                        throw new Error(data.error || 'Failed to prepare materials');
+                    }
                     
                     // Complete generatedData with all the prepared materials
                     generatedData = {

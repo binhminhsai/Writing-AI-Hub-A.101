@@ -4,27 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IELTS Question Generator | Writing AI Hub</title>
-    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* Any page-specific styles can go here */
-    </style>
-</head>
-<body>
-    <!-- Header -->
-    <header class="site-header">
-        <div class="logo">
-            <a href="/">Writing AI Hub</a>
-        </div>
-        <nav class="nav-menu">
-            <a href="/" class="nav-link">Home</a>
-            <a href="/workflow_1_question" class="nav-link">Practice</a>
-            <a href="/my_account" class="account-button">My Account</a>
-        </nav>
-    </header>
-    
-    <div class="content-container">
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            background-color: var(--light-background);
+        }
+        
+        .content-container {
+            max-width: 1000px;
+            margin: 40px auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
         
         h1 {
             text-align: center;
@@ -160,15 +158,20 @@
 </head>
 <body>
     <!-- Header -->
-    <header class="site-header">
-        <div class="logo">
-            <a href="/"><i class="fas fa-globe"></i> Writing AI Hub</a>
+    <header>
+        <div class="container header-container">
+            <a href="/" class="logo">
+                <i class="fas fa-globe"></i>
+                Writing AI Hub
+            </a>
+            <div class="nav-menu">
+                <div class="nav-links">
+                    <a href="/" class="nav-link">Home</a>
+                    <a href="/workflow_1_question" class="nav-link">Practice</a>
+                </div>
+                <a href="/account.html" class="btn btn-account">My Account</a>
+            </div>
         </div>
-        <nav class="nav-menu">
-            <a href="/" class="nav-link">Home</a>
-            <a href="/workflow_1_question" class="nav-link">Practice</a>
-            <a href="/my_account" class="account-button">My Account</a>
-        </nav>
     </header>
 
     <!-- Main Content -->
@@ -238,9 +241,15 @@
     </div>
 
     <!-- Footer -->
-    <footer class="site-footer">
-        <div class="footer-text">
-            © 2025 Writing AI Hub | AI-powered Practice and Grading
+    <footer>
+        <div class="container footer-container">
+            <a href="/" class="footer-logo">
+                <i class="fas fa-globe"></i>
+                Writing AI Hub
+            </a>
+            <div class="copyright">
+                © 2025 Writing AI Hub. All rights reserved.
+            </div>
         </div>
     </footer>
 

@@ -1,8 +1,9 @@
 {
   "workflows": [
     {
-      "name": "app",
-      "command": "python main.py"
+      "name": "server",
+      "command": "python run_dev.py",
+      "restartOn": ["replit.nix", ".replit"]
     }
   ]
 }

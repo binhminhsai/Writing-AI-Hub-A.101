@@ -111,3 +111,10 @@ openai
 pydantic
 python-dotenv
 uvicorn
+fastapi
+flask
+flask-cors
+openai
+python-dotenv
+starlette
+uvicorn

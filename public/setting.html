@@ -525,7 +525,12 @@
                     // Thêm class btn-disabled cho generate button trong khi API đang gọi
                     generateBtn.classList.add('btn-disabled');
                     
-                    // Send request to API
+                    // Thực hiện gọi API thực tế từ workflow 1
+                    console.log('Sending request with data:', {
+                        topic, band, taskType
+                    });
+                    
+                    // Gửi yêu cầu đến API endpoint
                     const response = await fetch('/workflow_1_question/generate', {
                         method: 'POST',
                         headers: {
@@ -543,6 +548,9 @@
                     if (!response.ok || data.status === 'error') {
                         throw new Error(data.error || 'Failed to generate question');
                     }
+                    
+                    console.log('API response:', data);
+                    
                     
                     // Store the generated data
                     generatedData = data;
@@ -581,7 +589,10 @@
                     document.getElementById('preparing-materials').style.display = 'flex';
                     startWritingBtn.classList.add('btn-disabled');
                     
-                    // Call the prepare_materials endpoint to generate the rest of the materials
+                    // Gửi yêu cầu thực tế đến API endpoint prepare_materials
+                    console.log('Preparing materials for:', generatedData.question);
+                    
+                    // Gọi API để tạo các tài liệu phụ trợ
                     const response = await fetch('/workflow_1_question/prepare_materials', {
                         method: 'POST',
                         headers: {
@@ -601,6 +612,8 @@
                     if (!response.ok || data.status === 'error') {
                         throw new Error(data.error || 'Failed to prepare materials');
                     }
+                    
+                    console.log('API prepare_materials response:', data);
                     
                     // Complete generatedData with all the prepared materials
                     generatedData = {

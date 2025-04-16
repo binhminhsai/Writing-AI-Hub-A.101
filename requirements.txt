@@ -104,3 +104,4 @@ pydantic
 python-dotenv
 python-multipart
 uvicorn
+python-dotenv

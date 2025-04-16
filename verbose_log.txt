@@ -1,0 +1,9 @@
+INFO:     Started server process [1291]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+DEBUG: API key present: True, length: 164
+DEBUG: API key starts with: sk-proj-8QJ81NU...
+DEBUG: Initializing OpenAI client...
+DEBUG: Client initialization successful
+INFO:     127.0.0.1:51680 - "GET / HTTP/1.1" 200 OK

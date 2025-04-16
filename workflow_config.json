@@ -2,9 +2,10 @@
   "workflows": [
     {
       "name": "web",
-      "command": "python run_dev.py",
+      "command": "python -m uvicorn app:app --host 0.0.0.0 --port 8080",
       "restartOn": ["replit.nix", ".replit", "app.py", "workflows", "public"],
-      "runOnStart": true
+      "runOnStart": true,
+      "wait_for_port": 8080
     }
   ]
 }

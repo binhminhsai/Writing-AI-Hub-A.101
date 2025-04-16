@@ -2,7 +2,7 @@
   "workflows": [
     {
       "name": "web",
-      "command": "python run_dev.py",
+      "command": "python main.py",
       "restartOn": ["app.py", "workflows", "public", "main.py", "run_dev.py"],
       "runOnStart": true,
       "wait_for_port": 8080,

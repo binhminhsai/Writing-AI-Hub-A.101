@@ -1,35 +1,23 @@
-modules = ["python-3.11"]
+modules = ["python-3.11", "nodejs-20"]
 
 [nix]
 channel = "stable-24_05"
 
 [[ports]]
-localPort = 8000
-
-[[ports]]
 localPort = 8080
+externalPort = 80
 
 [workflows]
-runButton = "Project"
+runButton = "run_dev.py"
 
 [[workflows.workflow]]
-name = "Project"
+name = "run_dev.py"
 mode = "parallel"
 author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "workflow.run"
 args = "web"
-
-[[workflows.workflow]]
-name = "web"
-author = "agent"
-
-[workflows.workflow.metadata]
-agentRequireRestartOnSave = false
-
-[[workflows.workflow.tasks]]
-task = "packager.installForAll"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"

@@ -193,6 +193,11 @@
             background-color: #14b8a6;
             color: white !important;
             padding: 10px 20px;
+            border-radius: 8px;
+            min-width: 140px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            height: 42px;
         }
 
         .btn-teal:hover {
@@ -200,7 +205,7 @@
         }
 
         .btn-disabled {
-            opacity: 0.5;
+            opacity: 0.7; /* Tăng opacity để nút vẫn hiển thị rõ hơn khi bị disabled */
             cursor: not-allowed;
         }
 
@@ -240,7 +245,23 @@
         }
 
         .time-limit-row > div {
-            flex: 1;
+            flex: 0 0 auto; /* Không flex grow để giữ đúng kích thước */
+        }
+        
+        .time-limit-select {
+            width: 160px;
+            padding: 10px 12px;
+            font-size: 0.875rem;
+            border-radius: 6px;
+            border: 1px solid #d1d5db;
+            background-color: white;
+            color: #333;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236B7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 16px;
+            padding-right: 40px;
         }
 
         /* Biểu tượng */
@@ -372,7 +393,7 @@
                     <div class="time-limit-row">
                         <div>
                             <label for="time-limit">Time Limit (optional)</label>
-                            <select id="time-limit" name="time-limit" class="select-btn">
+                            <select id="time-limit" name="time-limit" class="time-limit-select">
                                 <option value="15">15 minutes</option>
                                 <option value="20">20 minutes</option>
                                 <option value="25">25 minutes</option>

@@ -101,7 +101,7 @@ header {
 .btn {
   display: inline-block;
   background-color: var(--app-primary-color);
-  color: var(--app-white);
+  color: var(--app-white) !important;
   padding: 8px 20px;
   border-radius: var(--app-border-radius);
   font-weight: 500;

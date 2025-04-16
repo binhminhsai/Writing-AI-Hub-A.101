@@ -3,7 +3,8 @@
     {
       "name": "server",
       "command": "python run_dev.py",
-      "restartOn": ["replit.nix", ".replit"]
+      "restartOn": ["replit.nix", ".replit"],
+      "runOnStart": true
     }
   ]
 }

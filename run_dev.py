@@ -32,7 +32,7 @@ if __name__ == "__main__":
     
     # Set default host and port
     host = "0.0.0.0"
-    port = 8000
+    port = 8080
     
     # Run the server
     print(f"\n🚀 Starting server at http://{host}:{port}")

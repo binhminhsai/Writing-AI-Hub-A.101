@@ -123,3 +123,9 @@ flask
 openai
 python-dotenv
 uvicorn
+fastapi
+flask
+openai
+pydantic
+python-dotenv
+uvicorn

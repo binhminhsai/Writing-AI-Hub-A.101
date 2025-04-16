@@ -105,3 +105,9 @@ python-dotenv
 python-multipart
 uvicorn
 python-dotenv
+fastapi
+flask
+openai
+pydantic
+python-dotenv
+uvicorn

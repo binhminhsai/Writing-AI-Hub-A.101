@@ -1,17 +1,11 @@
+/* Main.css now inherits from variables.css */
 :root {
-  --app-primary-color: #14b8a6;
-  --app-secondary-color: #f8f9fa;
-  --app-text-color: #374151;
   --app-light-text-color: #636e72;
   --app-accent-color: #ffd166;
-  --app-error-color: #ff7675;
-  --app-success-color: #55efc4;
-  --app-white: #ffffff;
-  --app-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   --app-border-radius: 0.375rem;
   --app-transition: all 0.2s ease;
   --app-light-background: #f8fafc;
-  --bs-primary: #14b8a6 !important; /* Override Bootstrap primary */
+  --bs-primary: var(--app-primary-color) !important; /* Override Bootstrap primary */
 }
 
 /* Re-style app with proper light theme */
@@ -58,12 +52,12 @@ header {
 
 .logo i {
   margin-right: 0.5rem;
-  color: #14b8a6;
+  color: var(--app-primary-color);
   font-size: 1.25rem;
 }
 
 .logo {
-  color: #14b8a6;
+  color: var(--app-primary-color);
   font-weight: 600;
   font-size: 1.25rem;
 }
@@ -136,16 +130,16 @@ header {
   border: none;
   border-radius: 0.375rem;
   color: white;
-  background-color: #14b8a6;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: var(--app-primary-color);
+  box-shadow: var(--app-shadow);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: var(--app-transition);
   text-decoration: none;
 }
 
 .btn-account:hover {
-  background-color: #0d9488;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+  background-color: var(--app-btn-primary-hover);
+  box-shadow: var(--app-shadow-md);
 }
 
 /* Hero Section */

@@ -1,9 +1,9 @@
 {
   "workflows": [
     {
-      "name": "server",
+      "name": "web",
       "command": "python run_dev.py",
-      "restartOn": ["replit.nix", ".replit"],
+      "restartOn": ["replit.nix", ".replit", "app.py", "workflows", "public"],
       "runOnStart": true
     }
   ]

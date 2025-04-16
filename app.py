@@ -133,6 +133,10 @@ async def progress_coming_soon(request: Request):
 async def my_account(request: Request):
     return templates.TemplateResponse("account.html", {"request": request})
 
+@app.get("/practice.html", response_class=HTMLResponse)
+async def practice_page(request: Request):
+    return templates.TemplateResponse("practice.html", {"request": request})
+
 
 if __name__ == "__main__":
     import uvicorn

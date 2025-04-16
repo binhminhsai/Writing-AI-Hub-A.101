@@ -74,6 +74,14 @@ if SERVER_TYPE == "flask":
     @app.route('/account.html')
     def account():
         return send_from_directory('public', 'account.html')
+        
+    @app.route('/progress-coming-soon.html')
+    def progress_coming_soon():
+        return send_from_directory('public', 'progress-coming-soon.html')
+        
+    @app.route('/vocabulary-coming-soon.html')
+    def vocabulary_coming_soon():
+        return send_from_directory('public', 'vocabulary-coming-soon.html')
     
     @app.route('/favicon.ico')
     def favicon():
@@ -142,6 +150,14 @@ else:
     @app.get("/account.html")
     async def get_account():
         return FileResponse('public/account.html')
+        
+    @app.get("/progress-coming-soon.html")
+    async def get_progress_coming_soon():
+        return FileResponse('public/progress-coming-soon.html')
+        
+    @app.get("/vocabulary-coming-soon.html")
+    async def get_vocabulary_coming_soon():
+        return FileResponse('public/vocabulary-coming-soon.html')
     
     # Favicon route
     @app.get("/favicon.ico")

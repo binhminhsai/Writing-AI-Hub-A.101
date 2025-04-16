@@ -48,11 +48,64 @@ if SERVER_TYPE == "flask":
     # Import routes from API app for Flask compatibility
     try:
         from app import app as fastapi_app
-        logger.debug("Successfully imported FastAPI app")
+        # Import các module Workflow
+        from workflows.workflow_1_question.routes import router as question_router
+        from workflows.workflow_1_question.schema import TopicRequest, PrepareMaterialsRequest
+        from workflows.workflow_2_grading.routes import router as grading_router
+        logger.debug("Successfully imported FastAPI app and workflow routers")
     except ImportError as e:
-        logger.warning(f"Could not import FastAPI app: {e}")
+        logger.warning(f"Could not import FastAPI app or routers: {e}")
     except Exception as e:
-        logger.error(f"Error importing FastAPI app: {e}")
+        logger.error(f"Error importing FastAPI app or routers: {e}")
+    
+    # Tạo middleware cho các workflow endpoints trong Flask
+    @app.route('/workflow_1_question/generate', methods=['POST'])
+    def workflow_1_generate():
+        # Nhận dữ liệu JSON từ request
+        data = request.get_json()
+        
+        # Tạo đối tượng TopicRequest từ dữ liệu JSON
+        try:
+            topic_request = TopicRequest(**data)
+            
+            # Gọi hàm async bằng cách sử dụng asyncio
+            import asyncio
+            from workflows.workflow_1_question.routes import generate_question
+            
+            # Tạo event loop và chạy hàm async
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+            result = loop.run_until_complete(generate_question(topic_request))
+            
+            # Trả về kết quả dưới dạng JSON
+            return jsonify(result)
+        except Exception as e:
+            logger.error(f"Error in workflow_1_generate: {e}")
+            return jsonify({"status": "error", "error": str(e)}), 500
+    
+    @app.route('/workflow_1_question/prepare_materials', methods=['POST'])
+    def workflow_1_prepare_materials():
+        # Nhận dữ liệu JSON từ request
+        data = request.get_json()
+        
+        # Tạo đối tượng PrepareMaterialsRequest từ dữ liệu JSON
+        try:
+            materials_request = PrepareMaterialsRequest(**data)
+            
+            # Gọi hàm async bằng cách sử dụng asyncio
+            import asyncio
+            from workflows.workflow_1_question.routes import prepare_materials
+            
+            # Tạo event loop và chạy hàm async
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+            result = loop.run_until_complete(prepare_materials(materials_request))
+            
+            # Trả về kết quả dưới dạng JSON
+            return jsonify(result)
+        except Exception as e:
+            logger.error(f"Error in workflow_1_prepare_materials: {e}")
+            return jsonify({"status": "error", "error": str(e)}), 500
     
     # Serve static files
     @app.route('/')

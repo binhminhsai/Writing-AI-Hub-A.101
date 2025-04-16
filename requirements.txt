@@ -43,3 +43,16 @@ pydantic
 python-dotenv
 python-multipart
 uvicorn
+fastapi
+jinja2
+openai
+python-dotenv
+starlette
+uvicorn
+requests
+fastapi
+jinja2
+openai
+pydantic
+python-multipart
+uvicorn

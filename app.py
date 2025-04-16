@@ -111,12 +111,26 @@ templates = Jinja2Templates(directory="public")
 app.include_router(question_router)
 app.include_router(grading_router)
 
-# Mount static files AFTER including routers
+# Mount static files - CSS, JS, and other resources first
 app.mount("/js", StaticFiles(directory=Path("public/js")), name="js")
-app.mount("/css", StaticFiles(directory=Path("public/css")), name="css")
-app.mount("/static", StaticFiles(directory=Path("public"), html=True), name="static")
+app.mount("/css", StaticFiles(directory=Path("public/css")), name="css") 
 
-# Mount HTML files directly
+# Add specific routes for HTML files
+@app.get("/setting.html", response_class=HTMLResponse)
+async def get_setting_page(request: Request):
+    return templates.TemplateResponse("setting.html", {"request": request})
+
+@app.get("/practice.html", response_class=HTMLResponse)
+async def get_practice_page(request: Request):
+    return templates.TemplateResponse("practice.html", {"request": request})
+
+# Route đã được thay thế bằng setting.html và practice.html
+
+@app.get("/grading.html", response_class=HTMLResponse)
+async def get_grading_page(request: Request):
+    return templates.TemplateResponse("grading.html", {"request": request})
+
+# Mount static files for root and all remaining files
 app.mount("/", StaticFiles(directory=Path("public"), html=True), name="html_files")
 
 
@@ -127,6 +141,6 @@ if __name__ == "__main__":
     uvicorn.run(
         "app:app",
         host="0.0.0.0",
-        port=8000,
+        port=8080,
         reload=True
     )

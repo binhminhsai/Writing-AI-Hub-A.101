@@ -1,0 +1,168 @@
+🧠 Mô tả chi tiết UI – Trang writing-practice.html
+
+🧾 Tổng quan bố cục:
+
+Trang luyện tập viết tiếng Anh với giao diện centered, hiện đại, chia layout 1 cột chính giữa, dùng tone màu xanh mint dịu nhẹ và tím pastel để thu hút sự tập trung của người dùng.
+
+🎨 Nền và khối chính
+
+Nền tổng thể: #f0fdfc – xanh mint siêu nhạt
+
+Container chính:
+
+Width: ~720px (chiếm ~60% chiều ngang)
+
+Căn giữa cả chiều ngang lẫn chiều dọc tương đối
+
+Border: 1px solid #e5e7eb, bo tròn 8px
+
+Background: #ffffff
+
+Padding: 32px 24px
+
+🧾 Header trên cùng
+
+Logo bên trái:
+
+Icon hình quả địa cầu 🌐
+
+Text: “Writing AI-Hub” – màu #14b8a6, font-size 20px, font-weight 600
+
+Menu bên phải:
+
+Nút Home và Practice:
+
+Nền trắng, border nhẹ 1px solid #e5e7eb
+
+Font-size: 14px, padding 8px 16px, border-radius 8px
+
+Nút My Account:
+
+Nền #14b8a6 (teal), chữ trắng
+
+Border-radius 8px, font-weight 500
+
+🧠 Khối nội dung chính: Form luyện viết
+
+🔙 "← Back to Home"
+
+Font-size: 0.85rem, màu #6b7280
+
+Icon mũi tên trái và chữ cách nhau 6px
+
+Margin-bottom: 1rem
+
+📝 Tiêu đề chính
+
+Text: “English Writing Practice”
+
+Font-size: 1.5rem (~24px), font-weight: 700
+
+Căn trái, margin-bottom: 1.5rem
+
+🔽 Input dòng đôi – dropdown
+
+Grid chia 2 cột, mỗi ô chiếm 50%
+
+Spacing giữa 2 ô: 1.5rem
+
+Trái: “Select Writing Test Type”
+
+Default: IELTS Writing Task 2
+
+Font: 0.875rem, padding: 12px, border-radius: 6px
+
+Border: 1px solid #d1d5db
+
+Phải: “Target Band Score”
+
+Default: Band Score 6.5
+
+Giống style với dropdown trái
+
+✍️ Textarea nhập topic
+
+Placeholder: Enter a topic (e.g., Economy, Environment, Technology)
+
+Height: ~70px, width: 100%
+
+Border-radius: 6px, padding 12px 16px
+
+Border: 1px solid #d1d5db, font-size 0.95rem
+
+Góc dưới phải có dot loader animation màu tím
+
+⚡ Nút “Generate Question”
+
+Nằm dưới textarea, căn trái
+
+Nút có icon sparkles bên trái (lucide-sparkles)
+
+Màu nền: #a78bfa (tím nhạt)
+
+Màu chữ trắng, font-weight 500
+
+Padding: 10px 16px, border-radius 8px
+
+Disabled khi chưa nhập topic (opacity thấp)
+
+⏱️ Hàng cuối: Time & Action
+
+Gồm 2 phần được căn theo hàng ngang (dùng flex, justify-between):
+
+Bên trái:
+
+Label: Time Limit (optional)
+
+Dropdown: 30 minutes
+
+Width: 160px, padding 10px 12px
+
+Font-size: 0.875rem, border-radius 6px
+
+Bên phải:
+
+Nút “Start Writing”:
+
+Màu nền: #14b8a6, chữ trắng
+
+Border-radius: 8px
+
+Padding: 10px 20px
+
+Font-size: 0.9rem, min-width: 140px
+
+Disabled khi chưa có prompt (opacity 0.5)
+
+Font-weight: 500, height: 42px
+
+📎 Footer
+
+Padding top: 1rem, bottom: 2rem
+
+Trái: 🌐 icon + “Writing AI-Hub”
+
+Phải: text nhỏ © 2025 Writing AI-Hub. All rights reserved.
+
+Font-size: 0.75rem, màu #9ca3af
+
+📱 Responsive
+
+Trên mobile:
+
+Grid 2 cột → 1 cột (stacked dropdowns)
+
+Các nút Start Writing và Generate Question co chiều ngang hoặc full width
+
+Icon + button đều scale tốt
+
+💡 UX tổng hợp:
+
+Giao diện clear, sáng, dễ dùng
+
+Điều kiện bật/tắt nút theo input (form validation đơn giản)
+
+Animation loader dot tím ở textarea giúp nhận biết “đang xử lý”
+
+Tối ưu cho cả desktop & mobile
+

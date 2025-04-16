@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vocabulary Tabs</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0fdfc;
+      padding: 2rem;
+    }
+    .tab-container {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      max-width: 800px;
+      margin: auto;
+    }
+    .tab-buttons {
+      display: flex;
+      border-bottom: 1px solid #ccc;
+    }
+    .tab-buttons button {
+      flex: 1;
+      padding: 0.75rem;
+      font-weight: bold;
+      background: none;
+      border: none;
+      border-bottom: 3px solid transparent;
+      color: #555;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .tab-buttons button.active {
+      color: #0d9488;
+      border-bottom-color: #0d9488;
+    }
+    .tab-content {
+      padding: 1rem;
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+    }
+    .section {
+      margin-bottom: 1.5rem;
+    }
+    .section h4 {
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: #111827;
+    }
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .tag {
+      font-size: 0.75rem;
+      padding: 0.3rem 0.6rem;
+      border-radius: 5px;
+    }
+    .green {
+      background: #d1fae5;
+      color: #065f46;
+    }
+    .purple {
+      background: #ede9fe;
+      color: #6b21a8;
+    }
+  </style>
+</head>
+<body>
+  <div class="tab-container">
+    <div class="tab-buttons">
+      <button class="tab-button active" data-tab="vocab">Vocabulary</button>
+      <button class="tab-button" data-tab="phrases">Useful Phrases</button>
+    </div>
+
+    <div id="vocab" class="tab-content active">
+      <div class="section vocab-positive">
+        <h4></h4>
+        <div class="tags">
+          <!-- populated by backend -->
+        </div>
+      </div>
+      <div class="section vocab-academic">
+        <h4></h4>
+        <div class="tags">
+          <!-- populated by backend -->
+        </div>
+      </div>
+    </div>
+
+    <div id="phrases" class="tab-content">
+      <div class="section phrases-starters">
+        <h4></h4>
+        <div class="tags">
+          <!-- populated by backend -->
+        </div>
+      </div>
+      <div class="section phrases-connectors">
+        <h4></h4>
+        <div class="tags">
+          <!-- populated by backend -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const buttons = document.querySelectorAll(".tab-button");
+    const contents = document.querySelectorAll(".tab-content");
+
+    buttons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        buttons.forEach(b => b.classList.remove("active"));
+        contents.forEach(c => c.classList.remove("active"));
+        btn.classList.add("active");
+        document.getElementById(btn.dataset.tab).classList.add("active");
+      });
+    });
+  </script>
+</body>
+</html>

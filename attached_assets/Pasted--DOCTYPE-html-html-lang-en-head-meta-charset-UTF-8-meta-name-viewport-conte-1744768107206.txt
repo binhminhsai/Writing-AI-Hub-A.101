@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>English Writing Practice</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="main">
+    <div class="container">
+      <div class="card">
+        <div class="card-body">
+          <div class="back-button">
+            <a href="/">
+              <button>
+                <svg class="icon-arrow-left" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                  <path d="m12 19-7-7 7-7"></path>
+                  <path d="M19 12H5"></path>
+                </svg>
+                Back to Home
+              </button>
+            </a>
+          </div>
+          <h1 class="title">English Writing Practice</h1>
+
+          <div class="grid">
+            <div>
+              <label>Select Writing Test Type</label>
+              <button class="select-btn">IELTS Writing Task 2 <span class="chevron">&#9662;</span></button>
+            </div>
+            <div>
+              <label>Difficulty Level</label>
+              <button class="select-btn">Band Score 6.0 <span class="chevron">&#9662;</span></button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Topic</label>
+            <textarea placeholder="Enter a topic (e.g., Economy, Environment, Technology)"></textarea>
+          </div>
+
+          <div class="form-group">
+            <button class="btn btn-indigo" disabled>
+              <svg class="icon-sparkles" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z" />
+              </svg>
+              Generate Question
+            </button>
+          </div>
+
+          <div class="form-group row">
+            <div>
+              <label>Time Limit (optional)</label>
+              <button class="select-btn">30 minutes <span class="chevron">&#9662;</span></button>
+            </div>
+            <button class="btn btn-teal" disabled>Start Writing</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

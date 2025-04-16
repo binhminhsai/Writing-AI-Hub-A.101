@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Writing Practice | Writing AI Hub</title>
+    <link rel="stylesheet" href="/css/variables.css">
+    <link rel="stylesheet" href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: var(--app-white) !important;
+        }
+
+        .main {
+            flex-grow: 1;
+            padding: 2rem 0;
+        }
+
+        .container {
+            max-width: 1024px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .card {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        .back-button button {
+            display: flex;
+            align-items: center;
+            color: #6b7280;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .back-button .icon-arrow-left {
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+            stroke: currentColor;
+            stroke-width: 2px;
+            fill: none;
+        }
+
+        .title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 1rem 0;
+            color: #2c3e50;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        @media(min-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #2c3e50;
+        }
+
+        .select-btn, select {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.9rem;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background: #f9f9f9;
+            cursor: pointer;
+        }
+
+        .select-btn {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        textarea, input[type="text"] {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            resize: none;
+            font-size: 0.9rem;
+            box-sizing: border-box;
+        }
+
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-indigo {
+            background-color: #4f46e5;
+            color: #fff;
+        }
+
+        .btn-indigo:hover {
+            background-color: #4338ca;
+        }
+
+        .btn-teal {
+            background-color: var(--app-primary-color);
+            color: #fff;
+        }
+
+        .btn-teal:hover {
+            background-color: #0d9488;
+        }
+
+        .icon-sparkles {
+            width: 16px;
+            height: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .error {
+            display: none;
+            color: white;
+            background-color: #e74c3c;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .writing-prompt {
+            background-color: #f5f7fa;
+            border-left: 4px solid var(--app-primary-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top: 4px solid var(--app-primary-color);
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .chevron {
+            font-size: 12px;
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="app-header">
+        <div class="container header-container">
+            <a href="/" class="logo">
+                <i class="fas fa-globe"></i>
+                Writing AI Hub
+            </a>
+            <div class="nav-menu">
+                <div class="nav-links">
+                    <a href="/" class="nav-link btn-nav">Home</a>
+                    <a href="/workflow_1_question" class="nav-link btn-nav active">Practice</a>
+                </div>
+                <a href="/my_account" class="btn-account">My Account</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="container">
+            <div class="card">
+                <div class="card-body">
+                    <div class="back-button">
+                        <a href="/">
+                            <button>
+                                <svg class="icon-arrow-left" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <path d="m12 19-7-7 7-7"></path>
+                                    <path d="M19 12H5"></path>
+                                </svg>
+                                Back to Home
+                            </button>
+                        </a>
+                    </div>
+                    
+                    <h1 class="title">English Writing Practice</h1>
+                    
+                    <div id="error" class="error"></div>
+                    
+                    <form id="questionForm">
+                        <div class="grid">
+                            <div>
+                                <label for="task-type">Select Writing Test Type</label>
+                                <select id="task-type" name="task-type" class="select-btn">
+                                    <option value="TASK2">IELTS Writing Task 2</option>
+                                    <option value="TASK1">IELTS Writing Task 1</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="band">Target Band Score</label>
+                                <select id="band" name="band" class="select-btn">
+                                    <option value="6.0">Band Score 6.0</option>
+                                    <option value="6.5">Band Score 6.5</option>
+                                    <option value="7.0" selected>Band Score 7.0</option>
+                                    <option value="7.5">Band Score 7.5</option>
+                                    <option value="8.0">Band Score 8.0</option>
+                                    <option value="8.5">Band Score 8.5</option>
+                                    <option value="9.0">Band Score 9.0</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="topic">Topic</label>
+                            <input type="text" id="topic" name="topic" placeholder="Enter a topic (e.g., Economy, Environment, Technology)" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <button type="submit" id="generate-btn" class="btn btn-indigo">
+                                <svg class="icon-sparkles" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z" />
+                                </svg>
+                                Generate Question
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <div id="loading" class="loading">
+                        <div class="spinner"></div>
+                        <p>Generating question...</p>
+                    </div>
+                    
+                    <div id="question-section" style="display: none;">
+                        <div class="writing-prompt">
+                            <h3>Writing Question:</h3>
+                            <p id="question-text"></p>
+                        </div>
+                        
+                        <div class="form-group row">
+                            <div>
+                                <label for="time-limit">Time Limit (optional)</label>
+                                <select id="time-limit" name="time-limit" class="select-btn">
+                                    <option value="30">30 minutes</option>
+                                    <option value="40">40 minutes</option>
+                                    <option value="60">60 minutes</option>
+                                </select>
+                            </div>
+                            <button id="start-writing-btn" class="btn btn-teal">Start Writing</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+        <div class="container footer-container">
+            <a href="/" class="footer-logo">
+                <i class="fas fa-globe"></i>
+                Writing AI Hub
+            </a>
+            <div class="copyright">
+                © 2025 Writing AI Hub. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get form and display elements
+            const questionForm = document.getElementById('questionForm');
+            const loading = document.getElementById('loading');
+            const errorDiv = document.getElementById('error');
+            const questionSection = document.getElementById('question-section');
+            const questionText = document.getElementById('question-text');
+            const startWritingBtn = document.getElementById('start-writing-btn');
+            
+            // Store question data
+            let generatedData = {};
+            
+            // Form submission
+            questionForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                try {
+                    // Get form data
+                    const taskType = document.getElementById('task-type').value;
+                    const topic = document.getElementById('topic').value;
+                    const band = document.getElementById('band').value;
+                    
+                    if (!topic.trim()) {
+                        throw new Error('Please enter a topic');
+                    }
+                    
+                    // Reset displays
+                    loading.style.display = 'block';
+                    questionSection.style.display = 'none';
+                    errorDiv.style.display = 'none';
+                    
+                    // Send request to API
+                    const response = await fetch('/workflow_1_question/generate', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ 
+                            topic, 
+                            band,
+                            task_type: taskType
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (!response.ok || data.status === 'error') {
+                        throw new Error(data.error || 'Failed to generate question');
+                    }
+                    
+                    // Store the generated data
+                    generatedData = data;
+                    
+                    // Show the question
+                    questionText.textContent = data.question;
+                    questionSection.style.display = 'block';
+                    
+                } catch (error) {
+                    console.error('Error:', error);
+                    errorDiv.textContent = error.message || 'An unexpected error occurred';
+                    errorDiv.style.display = 'block';
+                } finally {
+                    loading.style.display = 'none';
+                }
+            });
+            
+            // Start writing button
+            startWritingBtn.addEventListener('click', function() {
+                if (!generatedData.question) {
+                    errorDiv.textContent = 'Please generate a question first';
+                    errorDiv.style.display = 'block';
+                    return;
+                }
+                
+                // Get time limit
+                const timeLimit = document.getElementById('time-limit').value;
+                
+                // Store data in localStorage
+                localStorage.setItem('essayData', JSON.stringify({
+                    question: generatedData.question,
+                    outline: generatedData.outline,
+                    vocabulary_suggestions: generatedData.vocabulary_suggestions,
+                    sentence_suggestions: generatedData.sentence_suggestions,
+                    timeLimit: timeLimit,
+                    task_type: generatedData.task_type,
+                    topic: generatedData.topic,
+                    band: generatedData.band
+                }));
+                
+                // Redirect to practice page
+                window.location.href = '/practice.html';
+            });
+        });
+    </script>
+</body>
+</html>

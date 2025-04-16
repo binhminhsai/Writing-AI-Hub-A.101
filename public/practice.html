@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Writing Practice | Writing AI Hub</title>
+    <link rel="stylesheet" href="/css/variables.css">
+    <link rel="stylesheet" href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --app-background: 167 52% 97%;
+            --app-foreground: 167 100% 1%;
+            --app-muted: 168 52% 82%;
+            --app-muted-foreground: 167 100% 1%;
+            --app-card: 167 52% 97%;
+            --app-card-foreground: 167 100% 1%;
+            --app-border: 168 52% 82%;
+            --app-input: 168 52% 82%;
+            --app-primary: 174 100% 21%;
+            --app-primary-foreground: 167 29% 98%;
+            --app-secondary: 168 74% 88%;
+            --app-secondary-foreground: 167 100% 1%;
+            --app-accent: 168 74% 88%;
+            --app-accent-foreground: 167 100% 1%;
+        }
+
+        body {
+            font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", Segoe UI Symbol, "Noto Color Emoji";
+            line-height: 1.6;
+            color: hsl(var(--app-foreground));
+            background-color: var(--app-white);
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 72rem;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0 1rem;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+
+        .back-button {
+            display: flex;
+            margin-bottom: 1rem;
+        }
+
+        .back-button button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            border: none;
+            background: transparent;
+            color: #6b7280;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            padding: 0.5rem 0;
+        }
+
+        .practice-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .practice-container {
+                grid-template-columns: 3fr 2fr;
+            }
+        }
+
+        .essay-section {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .topic-box {
+            background-color: #f1f5f9;
+            border-radius: 0.375rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--app-primary-color);
+        }
+
+        .timer-word-count {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+
+        .timer-display, .word-count {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .essay-textarea {
+            flex-grow: 1;
+            width: 100%;
+            min-height: 300px;
+            padding: 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.375rem;
+            font-size: 1rem;
+            resize: vertical;
+        }
+
+        .resource-tabs {
+            display: flex;
+            border-bottom: 1px solid #e2e8f0;
+            margin-bottom: 1rem;
+        }
+
+        .resource-tab {
+            padding: 0.75rem 1rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #64748b;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+        }
+
+        .resource-tab.active {
+            color: var(--app-primary-color);
+            border-bottom-color: var(--app-primary-color);
+        }
+
+        .resource-content {
+            padding: 1rem;
+        }
+
+        .outline-content h4 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            color: #334155;
+        }
+
+        .outline-content ul {
+            list-style-type: disc;
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+            color: #64748b;
+        }
+
+        .vocabulary-box {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .vocabulary-item {
+            display: inline-block;
+            padding: 0.375rem 0.75rem;
+            background-color: #f1f5f9;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            color: #334155;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-weight: 500;
+            font-size: 0.875rem;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid #e2e8f0;
+            color: #64748b;
+        }
+
+        .btn-outline:hover {
+            background-color: #f8fafc;
+        }
+
+        .btn-primary {
+            background-color: var(--app-primary-color);
+            color: white;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #0d9488;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="app-header">
+        <div class="container header-container">
+            <a href="/" class="logo">
+                <i class="fas fa-globe"></i>
+                Writing AI Hub
+            </a>
+            <div class="nav-menu">
+                <div class="nav-links">
+                    <a href="/" class="nav-link btn-nav">Home</a>
+                    <a href="/workflow_1_question" class="nav-link btn-nav active">Practice</a>
+                </div>
+                <a href="/my_account" class="btn-account">My Account</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container" style="padding-top: 2rem; padding-bottom: 2rem;">
+        <div class="back-button">
+            <button onclick="history.back()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m12 19-7-7 7-7"></path>
+                    <path d="M19 12H5"></path>
+                </svg>
+                Back
+            </button>
+        </div>
+
+        <div class="practice-container">
+            <!-- Essay Writing Section -->
+            <div class="essay-section">
+                <div class="topic-box">
+                    <p id="writing-question"></p>
+                </div>
+                
+                <div class="timer-word-count">
+                    <div class="timer-display">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                        <span id="timer">00:00:00</span>
+                    </div>
+                    <div class="word-count">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 7V4h16v3"></path>
+                            <path d="M9 20h6"></path>
+                            <path d="M12 4v16"></path>
+                        </svg>
+                        <span id="word-count">0/250</span>
+                    </div>
+                </div>
+                
+                <textarea id="essay-textarea" class="essay-textarea" placeholder="Start writing your essay here..."></textarea>
+                
+                <div class="action-buttons">
+                    <button id="save-draft-btn" class="btn btn-outline">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                            <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                            <polyline points="7 3 7 8 15 8"></polyline>
+                        </svg>
+                        Save Draft
+                    </button>
+                    <button id="submit-essay-btn" class="btn btn-primary">
+                        Submit Essay
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Resources Section -->
+            <div class="resources-section">
+                <div class="card">
+                    <div class="resource-tabs">
+                        <div class="resource-tab active" data-tab="outline">Suggested Outline</div>
+                        <div class="resource-tab" data-tab="vocabulary">Vocabulary</div>
+                        <div class="resource-tab" data-tab="phrases">Useful Phrases</div>
+                    </div>
+                    
+                    <div class="resource-content">
+                        <!-- Outline Tab -->
+                        <div id="outline-content" class="outline-content tab-content active">
+                            <!-- Will be populated by JavaScript -->
+                        </div>
+                        
+                        <!-- Vocabulary Tab -->
+                        <div id="vocabulary-content" class="vocabulary-content tab-content" style="display: none;">
+                            <!-- Will be populated by JavaScript -->
+                        </div>
+                        
+                        <!-- Phrases Tab -->
+                        <div id="phrases-content" class="phrases-content tab-content" style="display: none;">
+                            <!-- Will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+        <div class="container footer-container">
+            <a href="/" class="footer-logo">
+                <i class="fas fa-globe"></i>
+                Writing AI Hub
+            </a>
+            <div class="copyright">
+                © 2025 Writing AI Hub. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load essay data from localStorage
+            const essayData = JSON.parse(localStorage.getItem('essayData') || '{}');
+            if (!essayData.question) {
+                window.location.href = '/setting.html';
+                return;
+            }
+            
+            // Set writing question
+            document.getElementById('writing-question').textContent = essayData.question;
+            
+            // Format outline content
+            const outlineContent = document.getElementById('outline-content');
+            const outlineText = essayData.outline || '';
+            
+            // Process the outline text to convert markdown-like syntax to HTML
+            const processedOutline = formatOutline(outlineText);
+            outlineContent.innerHTML = processedOutline;
+            
+            // Format vocabulary content
+            const vocabularyContent = document.getElementById('vocabulary-content');
+            const vocabText = essayData.vocabulary_suggestions || '';
+            
+            // Process vocabulary suggestions
+            const processedVocab = formatVocabulary(vocabText);
+            vocabularyContent.innerHTML = processedVocab;
+            
+            // Format phrases content
+            const phrasesContent = document.getElementById('phrases-content');
+            const phrasesText = essayData.sentence_suggestions || '';
+            
+            // Process sentence suggestions
+            const processedPhrases = formatSentences(phrasesText);
+            phrasesContent.innerHTML = processedPhrases;
+            
+            // Setup tab switching
+            setupTabs();
+            
+            // Set up word counter
+            const essayTextarea = document.getElementById('essay-textarea');
+            const wordCountElement = document.getElementById('word-count');
+            
+            essayTextarea.addEventListener('input', function() {
+                const wordCount = countWords(this.value);
+                wordCountElement.textContent = `${wordCount}/250`;
+            });
+            
+            // Setup timer
+            const timerElement = document.getElementById('timer');
+            let timeLimit = parseInt(essayData.timeLimit || '30', 10); // Default to 30 minutes
+            let timerSeconds = timeLimit * 60; // Convert to seconds
+            let timerInterval;
+            
+            startTimer();
+            
+            function startTimer() {
+                updateTimerDisplay();
+                timerInterval = setInterval(function() {
+                    timerSeconds--;
+                    updateTimerDisplay();
+                    
+                    if (timerSeconds <= 0) {
+                        clearInterval(timerInterval);
+                        alert('Time is up! Please submit your essay.');
+                    }
+                }, 1000);
+            }
+            
+            function updateTimerDisplay() {
+                const hours = Math.floor(timerSeconds / 3600);
+                const minutes = Math.floor((timerSeconds % 3600) / 60);
+                const seconds = timerSeconds % 60;
+                
+                timerElement.textContent = 
+                    `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }
+            
+            // Save draft button
+            const saveDraftBtn = document.getElementById('save-draft-btn');
+            saveDraftBtn.addEventListener('click', function() {
+                const essayText = essayTextarea.value;
+                localStorage.setItem('essayDraft', essayText);
+                alert('Draft saved successfully!');
+            });
+            
+            // Submit essay button
+            const submitEssayBtn = document.getElementById('submit-essay-btn');
+            submitEssayBtn.addEventListener('click', function() {
+                const essayText = essayTextarea.value;
+                if (countWords(essayText) < 50) {
+                    alert('Please write at least 50 words before submitting.');
+                    return;
+                }
+                
+                // Here we would typically send the essay to a backend API for grading
+                // For now, we'll just save it and show a confirmation
+                localStorage.setItem('submittedEssay', essayText);
+                alert('Your essay has been submitted successfully!');
+                // Redirect to results or grading page
+                // window.location.href = '/grading.html';
+            });
+            
+            // Load draft if exists
+            const savedDraft = localStorage.getItem('essayDraft');
+            if (savedDraft) {
+                essayTextarea.value = savedDraft;
+                // Update word count
+                const wordCount = countWords(savedDraft);
+                wordCountElement.textContent = `${wordCount}/250`;
+            }
+            
+            // Helper functions
+            function countWords(text) {
+                return text.trim().split(/\s+/).filter(Boolean).length;
+            }
+            
+            function formatOutline(text) {
+                // Remove markdown symbols and format the outline
+                let html = '<div class="outline-formatted">';
+                
+                // Split by lines
+                const lines = text.split('\n');
+                
+                // Process introduction
+                const introIndex = lines.findIndex(line => line.toLowerCase().includes('introduction'));
+                if (introIndex >= 0) {
+                    html += `<h4>Introduction:</h4><ul>`;
+                    let i = introIndex + 1;
+                    while (i < lines.length && !lines[i].toLowerCase().includes('body paragraph')) {
+                        if (lines[i].trim() && lines[i].trim().charAt(0) === '-') {
+                            html += `<li>${lines[i].replace(/^-\s*/, '')}</li>`;
+                        }
+                        i++;
+                    }
+                    html += `</ul>`;
+                }
+                
+                // Process body paragraphs
+                for (let i = 0; i < lines.length; i++) {
+                    if (lines[i].toLowerCase().includes('body paragraph')) {
+                        const paragraphNum = lines[i].match(/\d+/) || [''];
+                        html += `<h4>Body Paragraph ${paragraphNum[0]}:</h4><ul>`;
+                        i++;
+                        while (i < lines.length && !lines[i].toLowerCase().includes('body paragraph') && !lines[i].toLowerCase().includes('conclusion')) {
+                            if (lines[i].trim() && lines[i].trim().charAt(0) === '-') {
+                                html += `<li>${lines[i].replace(/^-\s*/, '')}</li>`;
+                            }
+                            i++;
+                        }
+                        html += `</ul>`;
+                        i--; // Adjust for the next loop iteration
+                    }
+                }
+                
+                // Process conclusion
+                const conclusionIndex = lines.findIndex(line => line.toLowerCase().includes('conclusion'));
+                if (conclusionIndex >= 0) {
+                    html += `<h4>Conclusion:</h4><ul>`;
+                    let i = conclusionIndex + 1;
+                    while (i < lines.length && lines[i].trim()) {
+                        if (lines[i].trim() && lines[i].trim().charAt(0) === '-') {
+                            html += `<li>${lines[i].replace(/^-\s*/, '')}</li>`;
+                        }
+                        i++;
+                    }
+                    html += `</ul>`;
+                }
+                
+                html += '</div>';
+                return html;
+            }
+            
+            function formatVocabulary(text) {
+                // Format vocabulary into tag-like elements
+                let html = '';
+                
+                // Split by lines
+                const lines = text.split('\n');
+                
+                // Look for categories and items
+                let currentCategory = '';
+                
+                for (let i = 0; i < lines.length; i++) {
+                    const line = lines[i].trim();
+                    
+                    if (line && !line.startsWith('-') && !line.startsWith('*')) {
+                        // This is likely a category heading
+                        if (currentCategory) {
+                            html += '</div>';
+                        }
+                        currentCategory = line;
+                        html += `<h4>${currentCategory}</h4><div class="vocabulary-box">`;
+                    } else if (line.startsWith('-') || line.startsWith('*')) {
+                        // This is a vocabulary item
+                        const term = line.replace(/^[*-]\s*/, '').trim();
+                        if (term) {
+                            html += `<span class="vocabulary-item">${term}</span>`;
+                        }
+                    }
+                }
+                
+                if (currentCategory) {
+                    html += '</div>';
+                }
+                
+                return html || '<p>No vocabulary suggestions available.</p>';
+            }
+            
+            function formatSentences(text) {
+                // Format sentence structures
+                let html = '<div class="phrases-formatted">';
+                
+                // Split by lines
+                const lines = text.split('\n');
+                
+                let inList = false;
+                
+                for (let i = 0; i < lines.length; i++) {
+                    const line = lines[i].trim();
+                    
+                    if (!line) continue;
+                    
+                    if (!line.startsWith('-') && !line.startsWith('*')) {
+                        // This is a heading or regular text
+                        if (inList) {
+                            html += '</ul>';
+                            inList = false;
+                        }
+                        
+                        if (line.endsWith(':')) {
+                            html += `<h4>${line}</h4>`;
+                            if (!inList) {
+                                html += '<ul>';
+                                inList = true;
+                            }
+                        } else {
+                            html += `<p>${line}</p>`;
+                        }
+                    } else {
+                        // This is a list item
+                        if (!inList) {
+                            html += '<ul>';
+                            inList = true;
+                        }
+                        
+                        const content = line.replace(/^[*-]\s*/, '').trim();
+                        html += `<li>${content}</li>`;
+                    }
+                }
+                
+                if (inList) {
+                    html += '</ul>';
+                }
+                
+                html += '</div>';
+                return html;
+            }
+            
+            function setupTabs() {
+                const tabs = document.querySelectorAll('.resource-tab');
+                const tabContents = document.querySelectorAll('.tab-content');
+                
+                tabs.forEach(tab => {
+                    tab.addEventListener('click', function() {
+                        // Remove active class from all tabs
+                        tabs.forEach(t => t.classList.remove('active'));
+                        // Add active class to clicked tab
+                        this.classList.add('active');
+                        
+                        // Hide all tab contents
+                        tabContents.forEach(content => {
+                            content.style.display = 'none';
+                        });
+                        
+                        // Show selected tab content
+                        const tabName = this.getAttribute('data-tab');
+                        document.getElementById(`${tabName}-content`).style.display = 'block';
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -19,7 +19,7 @@ async def get_question_generator_page(request: Request):
     """Render the question generator UI page"""
     print("Serving question generator page")
     return templates.TemplateResponse(
-        "question.html",  # This should be in public folder
+        "setting.html",  # Updated to use setting.html instead of question.html
         {"request": request}
     )
 

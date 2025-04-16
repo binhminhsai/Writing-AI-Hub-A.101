@@ -205,8 +205,9 @@
         }
 
         .btn-disabled {
-            opacity: 0.7; /* Tăng opacity để nút vẫn hiển thị rõ hơn khi bị disabled */
-            cursor: not-allowed;
+            opacity: 0.8; /* Giảm độ trong suốt để nút hiển thị rõ ràng hơn */
+            pointer-events: none; /* Không cho phép sự kiện chuột nhưng vẫn hiển thị */
+            cursor: not-allowed; /* Con trỏ vẫn hiển thị dạng không được phép nhưng không có hiệu lực */
         }
 
         .error {
@@ -459,22 +460,20 @@
                 errorDiv.style.display = 'none';
             }
             
-            // Disable buttons initially
+            // Cập nhật trạng thái nút - chỉ thêm/xóa lớp CSS mà không disabled thực sự
             function updateButtonStates() {
-                // Generate button should be disabled if topic is empty
+                // Generate button - chỉ mờ khi không có chủ đề
                 const topicValue = topicInput.value.trim();
-                generateBtn.disabled = !topicValue;
                 
-                // Style for disabled button (visible but disabled)
-                if (generateBtn.disabled) {
+                // Style cho nút - luôn hiển thị nhưng thêm class btn-disabled nếu không có topic
+                if (!topicValue) {
                     generateBtn.classList.add('btn-disabled');
                 } else {
                     generateBtn.classList.remove('btn-disabled');
                 }
                 
-                // Start Writing button should be disabled if no question is generated
-                startWritingBtn.disabled = !generatedData.question;
-                if (startWritingBtn.disabled) {
+                // Start Writing button - chỉ mờ khi chưa tạo câu hỏi
+                if (!generatedData.question) {
                     startWritingBtn.classList.add('btn-disabled');
                 } else {
                     startWritingBtn.classList.remove('btn-disabled');
@@ -523,8 +522,7 @@
                     loading.style.display = 'flex';
                     questionSection.style.display = 'none';
                     
-                    // Disable generate button during API call
-                    generateBtn.disabled = true;
+                    // Thêm class btn-disabled cho generate button trong khi API đang gọi
                     generateBtn.classList.add('btn-disabled');
                     
                     // Send request to API
@@ -561,7 +559,6 @@
                     showError(error.message || 'An unexpected error occurred');
                 } finally {
                     loading.style.display = 'none';
-                    generateBtn.disabled = false;
                     generateBtn.classList.remove('btn-disabled');
                 }
             });
@@ -582,7 +579,6 @@
                     
                     // Show loading indicator for preparing materials
                     document.getElementById('preparing-materials').style.display = 'flex';
-                    startWritingBtn.disabled = true;
                     startWritingBtn.classList.add('btn-disabled');
                     
                     // Call the prepare_materials endpoint to generate the rest of the materials
@@ -626,8 +622,7 @@
                     console.error('Error:', error);
                     showError(error.message || 'An error occurred while preparing materials');
                     
-                    // Enable start writing button
-                    startWritingBtn.disabled = false;
+                    // Bỏ class btn-disabled để kích hoạt lại nút Start Writing
                     startWritingBtn.classList.remove('btn-disabled');
                     
                 } finally {

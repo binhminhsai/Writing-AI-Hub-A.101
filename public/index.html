@@ -21,22 +21,119 @@
         [data-bs-theme="dark"] .feature-card, [data-bs-theme="dark"] .app-footer {
             background-color: white !important;
         }
+        
+        .app-header {
+            border-bottom: 1px solid #e5e7eb !important;
+            background-color: white !important;
+            padding: 16px 0 !important;
+        }
+        
+        .btn-purple {
+            background-color: #10B981 !important;
+            color: white !important;
+            border: none !important;
+            padding: 8px 16px !important;
+            font-weight: 500 !important;
+            transition: all 0.2s ease !important;
+        }
+        
+        .btn-purple:hover {
+            background-color: #10B981 !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.12) !important;
+        }
+
+        .shadow-sm {
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24) !important;
+        }
+
+        .btn-light {
+            background-color: white !important;
+            color: #000000 !important;
+            border: 1px solid #e5e7eb !important;
+            padding: 8px 16px !important;
+            font-weight: 500 !important;
+            transition: all 0.2s ease !important;
+        }
+
+        .btn-light:hover {
+            background-color: #f9fafb !important;
+            transform: translateY(-1px) !important;
+        }
+
+        .nav-links {
+            display: flex !important;
+            gap: 12px !important;
+            align-items: center !important;
+        }
+
+        .nav-menu {
+            display: flex !important;
+            gap: 16px !important;
+            align-items: center !important;
+        }
+
+        .btn-primary {
+            background-color: #10B981 !important;
+            color: white !important;
+            border: none !important;
+            padding: 8px 16px !important;
+            font-weight: 500 !important;
+            transition: all 0.2s ease !important;
+        }
+
+        .btn-primary:hover {
+            background-color: #10B981 !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.12) !important;
+        }
+
+        .premium {
+            background-color: #800fea !important;
+            padding: 48px 0 !important;
+            text-align: center !important;
+        }
+
+        .premium h2, .premium p {
+            color: white !important;
+            max-width: 800px !important;
+            margin: 0 auto !important;
+        }
+
+        .premium h2 {
+            margin-bottom: 16px !important;
+        }
+
+        .premium p {
+            margin-bottom: 24px !important;
+            opacity: 0.9 !important;
+        }
+
+        .premium-icon {
+            margin-bottom: 24px !important;
+        }
+
+        .premium-icon i {
+            font-size: 48px !important;
+            color: #FFD700 !important;  /* Gold color for crown */
+        }
     </style>
 </head>
 <body>
+    <div class="body-wrapper"> <!-- Wrapper for sticky footer -->
     <!-- Header -->
     <header class="app-header">
         <div class="container header-container">
             <a href="/" class="logo">
                 <i class="fas fa-globe"></i>
-                Writing AI Hub
+                Writing AI-Hub
             </a>
             <div class="nav-menu">
                 <div class="nav-links">
-                    <a href="/" class="nav-link active">Home</a>
-                    <a href="/setting.html" class="nav-link">Practice</a>
+                    <a href="/" class="btn btn-light shadow-sm active">Home</a>
+                    <a href="/setting.html" class="btn btn-light shadow-sm">Practice</a>
                 </div>
-                <a href="/account.html" class="btn-account">My Account</a>
+                <a href="/account.html" class="btn-account btn btn-purple shadow-sm">My Account</a>
             </div>
         </div>
     </header>
@@ -57,7 +154,7 @@
                     <h3>Writing Practice</h3>
                     <p>Practice writing for different tests and scenarios</p>
                     <p>Choose from IELTS, TOEFL, general essays, or business writing. Select your difficulty level and get personalized feedback.</p>
-                    <a href="/setting.html" class="btn">Start Practice <i class="fas fa-arrow-right"></i></a>
+                    <a href="/setting.html" class="btn btn-primary shadow-sm">Start Practice <i class="fas fa-arrow-right"></i></a>
                 </div>
                 <!-- Feature 2: Vocabulary Builder -->
                 <div class="feature-card">
@@ -86,18 +183,19 @@
             </div>
             <h2>Premium Writing Assistant</h2>
             <p>Get advanced features with our premium plan: detailed essay analysis, personalized improvement suggestions, and professional evaluation.</p>
-            <a href="#" class="btn">Upgrade to Premium</a>
+            <a href="#" class="btn btn-primary shadow-sm">Upgrade to Premium</a>
         </div>
     </section>
+    </div> <!-- End body-wrapper -->
     <!-- Footer -->
     <footer class="app-footer">
         <div class="container footer-container">
             <a href="/" class="footer-logo">
                 <i class="fas fa-globe"></i>
-                Writing AI Hub
+                Writing AI-Hub
             </a>
             <div class="copyright">
-                © 2025 Writing AI Hub. All rights reserved.
+                © 2025 Writing AI-Hub. All rights reserved.
             </div>
         </div>
     </footer>

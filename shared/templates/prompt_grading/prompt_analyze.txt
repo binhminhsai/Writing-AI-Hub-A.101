@@ -24,6 +24,9 @@ You are provided with:
 
 ✅ **Main Grading Analysis (if input is valid):**
 
+The article is automatically rated 4.0 ("📈 Band 4.0 for the 4 official IELTS criteria") if it does not reach 150 words or if the analysis does not ensure the structure of Introduction, Body Paragraphs, Conclusion. 
+Note: The writer does not need to mention that this is a sentence for the Introduction, a sentence for the Body Paragraphs, or a sentence for the Conclusion; they only need to analyze the implications of that sentence.
+
 Evaluate the essay based on the 4 official IELTS criteria. For **EACH** criterion, you **MUST** provide the following structure:
 
 1.  `Strengths`: List specific strengths. **Crucially, EACH strength MUST be supported by direct quotes (sentences or phrases) from the essay.**

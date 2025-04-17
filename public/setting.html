@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>English Writing Practice | Writing AI Hub</title>
     <link rel="stylesheet" href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css">
-    <link rel="stylesheet" href="/css/variables.css">
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
@@ -70,9 +69,10 @@
             border-radius: 8px;
             border: 1px solid #e5e7eb;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            padding: 32px 24px;
+            padding: 40px 32px;
             margin-bottom: 1.5rem;
-            max-width: 720px;
+            max-width: 900px;
+            width: 95%;
             margin: 0 auto;
         }
 
@@ -91,9 +91,9 @@
         }
 
         .page-title {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             font-weight: 700;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.8rem;
             color: #333;
         }
 
@@ -104,18 +104,18 @@
         .form-group label {
             display: block;
             font-weight: 500;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.6rem;
             color: #374151;
-            font-size: 0.875rem;
+            font-size: 1.05rem;
         }
 
         .select-btn {
             width: 100%;
-            padding: 12px;
+            padding: 14px;
             border-radius: 6px;
             border: 1px solid #d1d5db;
             background-color: white;
-            font-size: 0.875rem;
+            font-size: 1.05rem;
             color: #333;
             appearance: none;
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236B7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
@@ -127,10 +127,10 @@
 
         .text-input {
             width: 100%;
-            padding: 12px 16px;
+            padding: 14px 18px;
             border-radius: 6px;
             border: 1px solid #d1d5db;
-            font-size: 0.95rem;
+            font-size: 1.14rem;
             color: #333;
             box-sizing: border-box;
             position: relative;
@@ -168,12 +168,12 @@
         }
 
         .btn {
-            padding: 10px 16px;
+            padding: 12px 20px;
             border-radius: 8px;
             font-weight: 500;
             border: none;
             cursor: pointer;
-            font-size: 0.95rem;
+            font-size: 1.14rem;
             transition: all 0.2s ease;
             display: inline-flex;
             align-items: center;
@@ -192,12 +192,12 @@
         .btn-teal {
             background-color: #14b8a6;
             color: white !important;
-            padding: 10px 20px;
+            padding: 12px 24px;
             border-radius: 8px;
-            min-width: 140px;
-            font-size: 0.9rem;
+            min-width: 168px;
+            font-size: 1.08rem;
             font-weight: 500;
-            height: 42px;
+            height: 50px;
         }
 
         .btn-teal:hover {
@@ -226,16 +226,34 @@
             display: none;
         }
 
+        .preparing-materials {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 1rem 0;
+            color: #14b8a6;
+        }
+
         .question-section {
             margin-top: 1.5rem;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease-out;
+        }
+
+        .question-section.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .writing-prompt {
-            background-color: #f8f9fa;
+            background-color: #f8fafc;
             border-left: 4px solid #14b8a6;
-            padding: 1rem;
-            border-radius: 0 6px 6px 0;
-            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            border-radius: 0 8px 8px 0;
+            margin: 1.8rem 0;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
         }
 
         .time-limit-row {
@@ -250,9 +268,9 @@
         }
         
         .time-limit-select {
-            width: 160px;
-            padding: 10px 12px;
-            font-size: 0.875rem;
+            width: 192px;
+            padding: 12px 14px;
+            font-size: 1.05rem;
             border-radius: 6px;
             border: 1px solid #d1d5db;
             background-color: white;
@@ -288,20 +306,310 @@
                 transform: rotate(360deg);
             }
         }
+
+        /* Enhanced Loading Indicator Styles */
+        .loading-enhanced {
+            display: none; /* Hidden by default */
+            flex-direction: column; /* Stack icon and text vertically */
+            align-items: center;
+            gap: 0.5rem; /* Space between icon and text */
+            margin: 1.5rem 0; /* Spacing above and below */
+            padding: 1rem;
+            /* background-color: #f0f0f8; Slightly different background */
+            /* border-radius: var(--app-radius-md); */
+        }
+
+        .loading-enhanced .spinner {
+            /* Use the existing spinner animation but make it more prominent */
+            width: 28px;
+            height: 28px;
+            border-width: 3px; /* Make border thicker */
+            border-color: rgba(139, 92, 246, 0.2); /* Lighter accent color for track */
+            border-top-color: var(--app-accent-color); /* Accent color for spinner */
+        }
+
+        .loading-enhanced #loading-text {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--app-accent-color); /* Accent color for text */
+            text-align: center;
+        }
+        
+        /* --- End Enhanced Loading Styles --- */
+
+        .writing-prompt h3 i { /* Style for the new icon */
+             margin-right: 0.5rem;
+             color: var(--app-primary-color); /* Match border color */
+        }
+
+        /* --- NEW: Enhanced Loading Indicator Styles (Prepare) --- */
+        .loading-prepare-enhanced {
+            display: none; /* Hidden by default */
+            flex-direction: column; 
+            align-items: center;
+            gap: 0.5rem; 
+            margin: 1.5rem 0; 
+            padding: 1rem;
+        }
+
+        .loading-prepare-enhanced .spinner {
+            width: 28px;
+            height: 28px;
+            border-width: 3px; 
+            /* Use primary color for this spinner */
+            border-color: rgba(20, 184, 166, 0.2); /* Lighter primary color */
+            border-top-color: var(--app-primary-color); 
+        }
+
+        .loading-prepare-enhanced #preparing-loading-text {
+            font-size: 0.95rem;
+            font-weight: 500;
+            /* Use primary color for text */
+            color: var(--app-primary-color); 
+            text-align: center;
+        }
+        /* --- End Prepare Loading Styles --- */
+
+        /* --- NEW: Progress Bar Styles --- */
+        .progress-bar-container {
+            width: 80%; 
+            max-width: 250px;
+            height: 8px;
+            background-color: #e9ecef; /* Light grey track */
+            border-radius: 4px;
+            overflow: hidden; /* Contain the inner bar */
+            margin-top: 0.75rem; /* Space below the text */
+        }
+        .progress-bar-inner {
+            height: 100%;
+            width: 0%; /* Start at 0 */
+            border-radius: 4px;
+            /* Rainbow gradient */
+            background: linear-gradient(to right, red, orange, yellow, lime, cyan, blue, violet);
+            transition: width 0.15s linear; /* Smooth width transition */
+        }
+        /* --- End Progress Bar Styles --- */
+
+        /* Style for the Note button container */
+        .writing-prompt h3 {
+            display: flex; /* Use flexbox for alignment */
+            justify-content: space-between; /* Push title and button apart */
+            align-items: center; /* Align items vertically */
+        }
+
+        /* Style for the Note button itself */
+        #note-button {
+            background: none;
+            border: none;
+            color: var(--app-primary-color);
+            cursor: pointer;
+            font-size: 1rem; /* Adjust size as needed */
+            padding: 0.25rem 0.5rem;
+        }
+        #note-button:hover {
+            color: #0d9488; /* Darker shade on hover */
+        }
+        #note-button i {
+             margin-right: 0.3rem;
+        }
+
+        /* --- Note Modal Styles --- */
+        #note-modal-overlay {
+            display: none; /* Hidden by default */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6); /* Darker overlay */
+            z-index: 1050; /* Ensure it's above other content */
+            justify-content: center;
+            align-items: center; /* Keep vertical centering */
+        }
+
+        #note-modal-box {
+            background-color: white;
+            padding: 1.5rem 2rem;
+            border-radius: var(--app-radius-md);
+            box-shadow: var(--app-shadow-lg);
+            /* Adjust size */
+            width: 50%; 
+            height: 70%; /* Use a percentage height */
+            max-width: 800px; /* Add a max-width for very large screens */
+            max-height: 80vh; /* Prevent it from being too tall on short screens */
+            position: relative; 
+            display: flex;
+            flex-direction: column;
+            overflow-y: hidden; /* Prevent double scrollbars initially */
+        }
+
+        #note-modal-box h4 {
+            margin-top: 0;
+            margin-bottom: 1rem;
+            color: var(--app-text-color);
+        }
+
+        #close-note-modal {
+            position: absolute;
+            top: 0.75rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #9ca3af; /* Grey color */
+            cursor: pointer;
+            line-height: 1;
+        }
+        #close-note-modal:hover {
+            color: var(--app-text-color);
+        }
+
+        #note-textarea {
+            width: 100%;
+            /* Make textarea fill the available space */
+            flex-grow: 1; 
+            border: 1px solid var(--app-input-border);
+            border-radius: var(--app-radius);
+            padding: 0.75rem;
+            font-family: var(--app-font-family);
+            font-size: 0.95rem;
+            resize: vertical;
+            margin-bottom: 0; /* Remove margin if it fills space */
+            /* Ensure scrollbar appears inside textarea if needed */
+            overflow-y: auto; 
+        }
+        /* --- End Note Modal Styles --- */
+
+        /* Header Styles */
+        .app-header {
+            border-bottom: 1px solid #e5e7eb !important;
+            background-color: white !important;
+            padding: 16px 0 !important;
+        }
+
+        .header-container {
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            max-width: 1200px !important;
+            margin: 0 auto !important;
+            padding: 0 1rem !important;
+        }
+
+        .logo {
+            display: flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            font-size: 1.25rem !important;
+            font-weight: 600 !important;
+            color: #374151 !important;
+            text-decoration: none !important;
+        }
+
+        .nav-menu {
+            display: flex !important;
+            gap: 24px !important;
+            align-items: center !important;
+        }
+
+        .nav-links {
+            display: flex !important;
+            gap: 16px !important;
+            align-items: center !important;
+        }
+
+        .nav-link {
+            text-decoration: none !important;
+            color: #374151 !important;
+            font-weight: 500 !important;
+            font-size: 0.95rem !important;
+            padding: 8px 16px !important;
+            border-radius: 6px !important;
+            transition: all 0.2s ease !important;
+        }
+
+        .nav-link.btn-light {
+            background-color: white !important;
+            color: #000000 !important;
+            border: 1px solid #e5e7eb !important;
+        }
+
+        .nav-link.btn-light:hover {
+            background-color: #f9fafb !important;
+            transform: translateY(-1px) !important;
+        }
+
+        .nav-link.btn-account {
+            background-color: #10B981 !important;
+            color: white !important;
+        }
+
+        .nav-link.active {
+            color: white !important;
+            background-color: #10B981 !important;
+        }
+
+        .btn-account {
+            padding: 8px 16px !important;
+            background-color: #10B981 !important;
+            color: white !important;
+            border-radius: 6px !important;
+            text-decoration: none !important;
+            font-weight: 500 !important;
+            font-size: 0.95rem !important;
+            transition: all 0.2s ease !important;
+        }
+
+        .btn-account:hover {
+            background-color: #0d9488 !important;
+            transform: translateY(-1px) !important;
+        }
+
+        /* Footer Styles */
+        .app-footer {
+            background-color: white !important;
+            padding: 24px 0 !important;
+            border-top: 1px solid #e5e7eb !important;
+        }
+
+        .footer-container {
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            max-width: 1200px !important;
+            margin: 0 auto !important;
+            padding: 0 1rem !important;
+        }
+
+        .footer-logo {
+            display: flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            font-size: 1.25rem !important;
+            font-weight: 600 !important;
+            color: #374151 !important;
+            text-decoration: none !important;
+        }
+
+        .copyright {
+            color: #6b7280 !important;
+            font-size: 0.95rem !important;
+        }
     </style>
 </head>
 <body>
+    <div class="body-wrapper"> <!-- Wrapper for sticky footer -->
     <!-- Header -->
     <header class="app-header">
         <div class="container header-container">
             <a href="/" class="logo">
                 <i class="fas fa-globe"></i>
-                Writing AI Hub
+                Writing AI-Hub
             </a>
             <div class="nav-menu">
                 <div class="nav-links">
-                    <a href="/" class="nav-link">Home</a>
-                    <a href="/setting.html" class="nav-link active">Practice</a>
+                    <a href="/" class="nav-link btn btn-light shadow-sm">Home</a>
+                    <a href="/setting.html" class="nav-link btn btn-account active">Practice</a>
                 </div>
                 <a href="/account.html" class="btn-account">My Account</a>
             </div>
@@ -378,22 +686,39 @@
                         </button>
                     </div>
                     
-                    <div id="loading" class="loading">
+                        <div id="loading" class="loading-enhanced">
                         <div class="spinner"></div>
-                        <span>Generating question...</span>
+                            <span id="loading-text">Waking up the AI... 😴</span>
+                            <div class="progress-bar-container">
+                                <div id="generate-progress-bar" class="progress-bar-inner"></div>
+                            </div>
                     </div>
                     
-                    <div id="question-section" class="question-section">
+                        <div id="question-section" class="question-section" style="display: none;">
                         <div class="writing-prompt">
-                            <h3>Writing Prompt:</h3>
-                            <p id="question-text"></p>
+                                <h3 style="font-size: 1.32rem !important; font-weight: 600; margin-bottom: 0.9rem !important; color: #374151;">
+                                    <span>
+                                        <i class="fas fa-lightbulb"></i>Writing Question: 
+                                    </span>
+                                    <button type="button" id="note-button" title="Open Scratchpad">
+                                        <i class="fas fa-sticky-note"></i>Note
+                                    </button>
+                                </h3>
+                                <p id="question-text" style="font-size: 1.2rem !important; line-height: 1.6; color: #4B5563; margin: 0;"></p>
                         </div>
                     </div>
                     
-                    <!-- Time limit and Start Writing button (always visible) -->
-                    <div class="time-limit-row">
+                        <div id="preparing-loading-enhanced" class="loading-prepare-enhanced">
+                            <div class="spinner"></div>
+                            <span id="preparing-loading-text">Analyzing the brilliant question... 🤔</span>
+                            <div class="progress-bar-container">
+                                <div id="prepare-progress-bar" class="progress-bar-inner"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="time-limit-row" style="margin-top: 1rem;">
                         <div>
-                            <label for="time-limit">Time Limit (optional)</label>
+                                <label for="time-limit" style="display: block; font-size: 0.875rem; font-weight: 500; color: #374151; margin-bottom: 0.5rem;">Time Limit (optional)</label>
                             <select id="time-limit" name="time-limit" class="time-limit-select">
                                 <option value="15">15 minutes</option>
                                 <option value="20">20 minutes</option>
@@ -407,32 +732,34 @@
                                 <option value="60">60 minutes</option>
                             </select>
                         </div>
-                        <button id="start-writing-btn" class="btn btn-teal">Start Writing</button>
-                    </div>
-                    
-                    <!-- Preparing materials loading indicator (initially hidden) -->
-                    <div id="preparing-materials" class="loading">
-                        <div class="spinner"></div>
-                        <span>Preparing writing materials...</span>
+                            <button type="button" id="start-writing-btn" class="btn btn-teal btn-disabled">Start Writing</button>
                     </div>
                 </form>
             </div>
         </div>
     </main>
-
+    </div> <!-- End body-wrapper -->
     <!-- Footer -->
     <footer class="app-footer">
         <div class="container footer-container">
             <a href="/" class="footer-logo">
                 <i class="fas fa-globe"></i>
-                Writing AI Hub
+                Writing AI-Hub
             </a>
             <div class="copyright">
-                © 2025 Writing AI Hub. All rights reserved.
+                © 2025 Writing AI-Hub. All rights reserved.
             </div>
         </div>
     </footer>
-
+    <!-- Note Modal HTML -->
+    <div id="note-modal-overlay">
+        <div id="note-modal-box">
+            <button id="close-note-modal" title="Close">&times;</button>
+            <h4>Quick Notes / Scratchpad</h4>
+            <textarea id="note-textarea" placeholder="Jot down your ideas here while waiting..."></textarea>
+            <!-- Optional: Add Save/Clear buttons if needed later -->
+        </div>
+    </div>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Get form and display elements
@@ -445,14 +772,172 @@
             const generateBtn = document.getElementById('generate-btn');
             const topicInput = document.getElementById('topic');
             const inputDot = document.querySelector('.input-dot');
+            const preparingLoadingIndicator = document.getElementById('preparing-loading-enhanced');
+            const preparingLoadingTextElement = document.getElementById('preparing-loading-text');
+            const generateProgressBar = document.getElementById('generate-progress-bar');
+            const prepareProgressBar = document.getElementById('prepare-progress-bar');
+            const noteButton = document.getElementById('note-button');
+            const noteModalOverlay = document.getElementById('note-modal-overlay');
+            const noteModalBox = document.getElementById('note-modal-box');
+            const closeNoteModalButton = document.getElementById('close-note-modal');
+            const noteTextarea = document.getElementById('note-textarea');
+            
+            let generateController = null; // AbortController for generate
+            let prepareController = null; // AbortController for prepare
             
             // Store question data
             let generatedData = {};
             
-            // Show error section
+            let loadingInterval = null; // Interval ID for text animation
+            let preparingInterval = null; // Interval ID for preparing animation
+            let generateProgressInterval = null; // Interval for generate progress
+            let prepareProgressInterval = null; // Interval for prepare progress
+            let noteTemplateLoaded = false; // <<< Flag to track if template loaded
+
+            // --- Loading Animation Text ---
+            const loadingMessages = [
+                "Waking up the AI... 😴",
+                "Consulting the digital oracle... 🤔",
+                "Brewing some strong AI coffee... ☕",
+                "Asking the prompt politely... 🙏",
+                "Polishing the question... ✨",
+                "Almost there, promise! 🤞"
+            ];
+            let currentMessageIndex = 0;
+
+            function startLoadingAnimation() {
+                currentMessageIndex = 0;
+                if (loading.querySelector('#loading-text')) { // Ensure element exists
+                    loading.querySelector('#loading-text').textContent = loadingMessages[0];
+                }
+                loading.style.display = 'flex'; 
+
+                // Clear previous interval ONLY if it exists (is not null)
+                if (loadingInterval !== null) {
+                    clearInterval(loadingInterval);
+                    console.log("[DEBUG] Cleared previous loading interval.");
+                }
+
+                // Assign the NEW interval ID
+                loadingInterval = setInterval(() => {
+                    currentMessageIndex = (currentMessageIndex + 1) % loadingMessages.length;
+                    if (loading.querySelector('#loading-text')) { 
+                       loading.querySelector('#loading-text').textContent = loadingMessages[currentMessageIndex];
+                    } else {
+                        // Stop if element is somehow gone
+                        stopLoadingAnimation(); 
+                    }
+                }, 2000); 
+                console.log("[DEBUG] Started new loading interval with ID:", loadingInterval);
+
+                // Start progress bar animation interval
+                let currentProgress = 0;
+                const totalDuration = 15000; // Simulate 15 seconds for progress
+                const updateInterval = 100;
+                const steps = totalDuration / updateInterval;
+                const increment = 100 / steps;
+                generateProgressInterval = setInterval(() => {
+                    currentProgress += increment;
+                    currentProgress = Math.min(currentProgress, 100); // Cap at 100
+                    if (generateProgressBar) generateProgressBar.style.width = currentProgress + '%';
+                    if (currentProgress >= 100) {
+                        clearInterval(generateProgressInterval);
+                        generateProgressInterval = null;
+                    }
+                }, updateInterval);
+                
+                console.log("[DEBUG] Started generate loading animation & progress.");
+            }
+
+            function stopLoadingAnimation() {
+                console.log("[DEBUG] Attempting to stop generate loading animation & progress.");
+                loading.style.display = 'none'; 
+                // Clear interval ONLY if it exists
+                if (loadingInterval !== null) {
+                    clearInterval(loadingInterval);
+                    console.log("[DEBUG] Cleared loading interval on stop:", loadingInterval);
+                    loadingInterval = null; // Reset the variable after clearing
+                }
+                // Optional: Reset text for next time
+                if (loading.querySelector('#loading-text')) {
+                    loading.querySelector('#loading-text').textContent = loadingMessages[0]; 
+                }
+                if (generateProgressBar) generateProgressBar.style.width = '0%'; // Optional: reset bar on stop
+            }
+            // --- End Loading Animation ---
+            
+            // --- NEW: Prepare Loading Animation Text & Functions ---
+            const preparingMessages = [
+                "Initiating AI Brain Link... <span style='color:#7c3aed;'>🧠⚡</span>",
+                "Analyzing the question with quantum focus... <span style='color:#10b981;'>⚛️</span>",
+                "Deploying parallel AI assistants... <span style='color:#3b82f6;'>🤖🤖🤖</span>",
+                "Outline Architect is drafting blueprints... <span style='color:#f59e0b;'>✍️</span>",
+                "Vocab Alchemist is brewing potent words... <span style='color:#ef4444;'>🧪</span>",
+                "Sentence Synthesizer is tuning frequencies... <span style='color:#14b8a6;'>🎶</span>",
+                "Checking inter-bot communication protocols... <span style='color:#6b7280;'>📡</span>",
+                "AI Council is reviewing the master plan... <span style='color:#a78bfa;'>🧐</span>",
+                "Performing final quality assurance checks... <span style='color:#10b981;'>✅</span>",
+                "Polishing the results until they sparkle... <span style='color:#fbbf24;'>✨</span>",
+                "Engaging hyperloop to Practice Pad! <span style='color:#ef4444;'>🚀</span>"
+            ];
+            let currentPreparingMessageIndex = 0;
+
+            // This function is now only called by the progress bar interval
+            function triggerAutoNoteModal() {
+                 // Only trigger if modal isn't already open and template not loaded in this cycle
+                 if (!noteTemplateLoaded && noteModalOverlay && noteModalOverlay.style.display !== 'flex') {
+                    console.log("[DEBUG] Auto-triggering note modal open.");
+                    openNoteModal(); // Let the open function handle loading if needed
+                 }
+            }
+
+            function startPreparingAnimation() {
+                currentPreparingMessageIndex = 0;
+                noteTemplateLoaded = false; // Reset flag
+                if(preparingLoadingTextElement) preparingLoadingTextElement.innerHTML = preparingMessages[0];
+                if(prepareProgressBar) prepareProgressBar.style.width = '0%'; 
+                if(preparingLoadingIndicator) preparingLoadingIndicator.style.display = 'flex';
+
+                // Clear previous intervals
+                if (preparingInterval !== null) clearInterval(preparingInterval);
+                if (prepareProgressInterval !== null) clearInterval(prepareProgressInterval);
+
+                // Start text animation interval 
+                preparingInterval = setInterval(() => {
+                   // ... update text ...
+                }, 4000); 
+
+                // Start progress bar animation interval (120 seconds)
+                let currentProgress = 0;
+                const totalDuration = 120000; 
+                const updateInterval = 150; 
+                const steps = totalDuration / updateInterval;
+                const increment = 100 / steps;
+                prepareProgressInterval = setInterval(() => {
+                    currentProgress += increment;
+                    currentProgress = Math.min(currentProgress, 100);
+                    if (prepareProgressBar) prepareProgressBar.style.width = currentProgress + '%';
+
+                    if (currentProgress >= 100) {
+                        clearInterval(prepareProgressInterval);
+                        prepareProgressInterval = null;
+                    }
+                }, updateInterval);
+                
+                console.log("[DEBUG] Started preparing animation & progress (120s duration).");
+            }
+
+            function stopPreparingAnimation() {
+                 // ... (existing stop logic, ensure noteTemplateLoaded = false is here or called by start) ...
+                  noteTemplateLoaded = false; 
+            }
+            // --- End Prepare Loading Animation ---
+            
+            // Show error section with animation
             function showError(message) {
                 errorDiv.textContent = message;
                 errorDiv.style.display = 'block';
+                errorDiv.style.animation = 'fadeIn 0.3s ease-out';
             }
             
             // Hide error section
@@ -460,26 +945,26 @@
                 errorDiv.style.display = 'none';
             }
             
-            // Cập nhật trạng thái nút - chỉ thêm/xóa lớp CSS mà không disabled thực sự
+            // Update button states and UI elements
             function updateButtonStates() {
-                // Generate button - chỉ mờ khi không có chủ đề
                 const topicValue = topicInput.value.trim();
+                const isLoading = generateController || prepareController; // Check if any process is running
                 
-                // Style cho nút - luôn hiển thị nhưng thêm class btn-disabled nếu không có topic
-                if (!topicValue) {
+                // Generate button state
+                if (!topicValue || isLoading) {
                     generateBtn.classList.add('btn-disabled');
                 } else {
                     generateBtn.classList.remove('btn-disabled');
                 }
                 
-                // Start Writing button - chỉ mờ khi chưa tạo câu hỏi
-                if (!generatedData.question) {
+                // Start Writing button state
+                if (!generatedData.question || isLoading) {
                     startWritingBtn.classList.add('btn-disabled');
                 } else {
                     startWritingBtn.classList.remove('btn-disabled');
                 }
                 
-                // Show dot indicator only when input has focus
+                // Input dot visibility
                 if (document.activeElement === topicInput) {
                     inputDot.style.display = 'block';
                 } else {
@@ -487,180 +972,286 @@
                 }
             }
             
-            // Listen for input changes and focus events
+            // Show question with animation (optional)
+            function showQuestion(question, animate = true) {
+                questionText.textContent = question;
+
+                if (animate) {
+                    // Ensure transition is enabled for animation
+                    questionSection.style.transition = 'all 0.3s ease-out'; 
+                    questionSection.style.display = 'block'; // Set display before animation starts
+                    // Reset animation state first
+                    questionSection.classList.remove('visible'); 
+                    // Force reflow
+                    void questionSection.offsetWidth; 
+                    // Add class to trigger animation
+                    requestAnimationFrame(() => { // Use rAF for smoother start
+                        questionSection.classList.add('visible');
+                    });
+                } else {
+                    // --- No Animation Path --- 
+                    // 1. Disable transitions
+                    questionSection.style.transition = 'none';
+                    
+                    // 2. In the next frame, apply final styles
+                    requestAnimationFrame(() => {
+                        questionSection.style.display = 'block';
+                        questionSection.classList.add('visible');
+                        
+                        // 3. After styles are applied, re-enable transitions for the future
+                        //    Use another rAF or setTimeout to ensure it happens after rendering
+                        requestAnimationFrame(() => {
+                           questionSection.style.transition = 'all 0.3s ease-out';
+                        });
+                    });
+                }
+            }
+            
+            // Event listeners for input field
             topicInput.addEventListener('input', updateButtonStates);
-            topicInput.addEventListener('focus', function() {
-                inputDot.style.display = 'block';
-            });
-            topicInput.addEventListener('blur', function() {
+            topicInput.addEventListener('focus', () => inputDot.style.display = 'block');
+            topicInput.addEventListener('blur', () => {
                 inputDot.style.display = topicInput.value.trim() ? 'block' : 'none';
             });
             
             // Set initial states
             updateButtonStates();
             
-            // Initially hide question section until a question is generated
-            questionSection.style.display = 'none';
-            
-            // Form submission
+            // Form submission handler (Generate Question)
             questionForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
                 
-                try {
-                    hideError();
+                if (generateBtn.classList.contains('btn-disabled') && generateController) return;
                     
-                    // Get form data
+                if (generateController) generateController.abort();
+                generateController = new AbortController();
+                const signal = generateController.signal;
+
                     const taskType = document.getElementById('task-type').value;
                     const topic = document.getElementById('topic').value;
                     const band = document.getElementById('band').value;
                     
-                    if (!topic.trim()) {
-                        throw new Error('Please enter a topic');
-                    }
+                if (!topic.trim()) { showError('Please enter a topic'); return; }
                     
-                    // Show loading, hide question
-                    loading.style.display = 'flex';
+                // --- Start Processing ---
                     questionSection.style.display = 'none';
-                    
-                    // Thêm class btn-disabled cho generate button trong khi API đang gọi
-                    generateBtn.classList.add('btn-disabled');
-                    
-                    // Log thông tin request để debug
-                    console.log('Sending request with data:', {
-                        topic, band, taskType
+                questionSection.classList.remove('visible');
+                stopPreparingAnimation(); // Ensure prepare animation is stopped
+                hideError();
+                generatedData = {}; 
+                startLoadingAnimation(); // Start the enhanced animation
+                updateButtonStates(); 
+
+                try {
+                        const response = await fetch('/workflow_1_question/generate', {
+                        signal, method: 'POST', headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ topic, band, task_type: taskType })
                     });
                     
-                    try {
-                        // Gửi yêu cầu đến API endpoint 
-                        // Sử dụng đường dẫn tương đối để tránh vấn đề kết nối
-                        const response = await fetch('/workflow_1_question/generate', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({ 
-                                topic, 
-                                band,
-                                task_type: taskType
-                            })
-                        });
-                        
-                        // Kiểm tra trạng thái phản hồi
+                    // Log response status
+                    console.log(`[DEBUG] Generate response status: ${response.status}`);
+
                         if (!response.ok) {
                             const errorText = await response.text();
-                            console.error('API Error:', response.status, errorText);
+                         console.error(`[DEBUG] Generate fetch failed with status ${response.status}:`, errorText);
                             throw new Error(`API Error (${response.status}): ${errorText || 'Failed to generate question'}`);
                         }
                         
-                        // Parse JSON response
-                        const data = await response.json();
-                        console.log('API response:', data);
-                        
-                        // Kiểm tra trạng thái trong dữ liệu phản hồi
-                        if (data.status === 'error') {
-                            throw new Error(data.error || 'Failed to generate question');
-                        }
-                        
-                        // Store the generated data
-                        generatedData = data;
-                        
-                        // Show the question
-                        questionText.textContent = data.question;
-                        questionSection.style.display = 'block';
-                        
-                        // Update button states now that we have a question
-                        updateButtonStates();
+                    let data;
+                    try {
+                        data = await response.json();
+                        console.log("[DEBUG] Parsed generate response data:", data);
+                    } catch (jsonError) {
+                        console.error("[DEBUG] Failed to parse JSON response:", jsonError);
+                        // Attempt to get raw text for more context
+                        const rawText = await response.text().catch(() => "(Could not get raw text)");
+                        console.error("[DEBUG] Raw response text:", rawText);
+                        throw new Error("Failed to parse response from server. Invalid JSON received.");
+                    }
+
+                    if (data && data.status === 'success') {
+                        console.log("[DEBUG] Generate successful, showing question.");
+                        generatedData = { ...data, task_type: taskType };
+                        showQuestion(data.question);
+                    } else {
+                         console.error("[DEBUG] API returned status !== 'success' or data is null:", data ? data.error : "Data is null");
+                         throw new Error(data?.error || 'Failed to generate question (API Status Error or null data)');
+                    }
                     
                 } catch (error) {
-                    console.error('Error:', error);
-                    showError(error.message || 'An unexpected error occurred');
+                     if (error.name === 'AbortError') {
+                        console.log('Generate fetch aborted');
+                    } else {
+                        console.error('Error during question generation process:', error);
+                        showError(error.message || 'An unexpected error occurred during generation');
+                    }
+                     generatedData = {}; // Clear data on error
                 } finally {
-                    loading.style.display = 'none';
-                    generateBtn.classList.remove('btn-disabled');
+                    console.log("[DEBUG] Entering FINALLY block for generate question."); 
+                    stopLoadingAnimation(); // Ensure animation stops
+                    generateController = null; 
+                    updateButtonStates();
                 }
             });
             
-            // Start writing button - now calls the prepare_materials API endpoint
-            startWritingBtn.addEventListener('click', async function() {
-                if (!generatedData.question) {
-                    showError('Please generate a question first');
-                    return;
-                }
-                
-                try {
+            // Start writing button handler
+            startWritingBtn.addEventListener('click', async function(event) {
+                event.stopPropagation(); 
+
+                if (!generatedData.question || startWritingBtn.classList.contains('btn-disabled')) return;
+
+                if (prepareController) prepareController.abort();
+                prepareController = new AbortController();
+                const signal = prepareController.signal;
+
+                // --- Start Processing ---
+                stopLoadingAnimation(); 
                     hideError();
+                startPreparingAnimation(); // Start the preparing animation
+                updateButtonStates(); 
                     
-                    // Get time limit
+                // <<< Immediately open note modal (will load template if needed) >>>
+                openNoteModal(); 
+
+                try {
                     const timeLimit = parseInt(document.getElementById('time-limit').value);
-                    const taskType = document.getElementById('task-type').value;
-                    
-                    // Show loading indicator for preparing materials
-                    document.getElementById('preparing-materials').style.display = 'flex';
-                    startWritingBtn.classList.add('btn-disabled');
-                    
-                    // Gửi yêu cầu thực tế đến API endpoint prepare_materials
-                    console.log('Preparing materials for:', generatedData.question);
-                    
-                    // Gọi API để tạo các tài liệu phụ trợ
-                    const response = await fetch('/workflow_1_question/prepare_materials', {
+                    showQuestion(generatedData.question, false);
+
+                    const targetUrl = '/workflow_1_question/prepare_materials';
+                    const requestBody = { ...generatedData, time_limit: timeLimit };
+                    console.log(`[DEBUG] Preparing to fetch: ${targetUrl}...`); 
+
+                    const response = await fetch(targetUrl, { // <<< The fetch call
+                        signal, 
                         method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            question: generatedData.question,
-                            topic: generatedData.topic,
-                            band: generatedData.band,
-                            task_type: taskType,
-                            time_limit: timeLimit
-                        })
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(requestBody)
                     });
-                    
-                    // Kiểm tra trạng thái phản hồi
-                    if (!response.ok) {
-                        const errorText = await response.text();
-                        console.error('API Error:', response.status, errorText);
-                        throw new Error(`API Error (${response.status}): ${errorText || 'Failed to prepare materials'}`);
+
+                    // <<< LOG IMMEDIATELY AFTER AWAIT FETCH >>>
+                    console.log(`[DEBUG] ** Fetch call completed in JS. Response status: ${response.status} **`); 
+
+                    console.log("[DEBUG] Attempting response.json()...");
+                    let data;
+                    try {
+                        data = await response.json(); // <<< The await json call
+                        console.log("[DEBUG] ** response.json() completed. Parsed data:**", data);
+                    } catch (jsonError) {
+                         console.error("[DEBUG] Failed to parse JSON response from prepare:", jsonError);
+                         const rawText = await response.text().catch(() => "(Could not get raw text)");
+                         console.error("[DEBUG] Raw response text from prepare:", rawText);
+                         throw new Error("Failed to parse prepare response from server.");
                     }
-                    
-                    // Parse JSON response
-                    const data = await response.json();
-                    console.log('API prepare_materials response:', data);
-                    
-                    // Kiểm tra trạng thái trong dữ liệu phản hồi
-                    if (data.status === 'error') {
-                        throw new Error(data.error || 'Failed to prepare materials');
+
+                    if (!response.ok || !data || data.status !== 'success') {
+                         console.error(`[DEBUG] Prepare failed. Response OK: ${response.ok}, Data Status: ${data?.status}`);
+                         const errorText = data?.error || await (response.ok ? Promise.resolve("Unknown error") : response.text());
+                         throw new Error(data?.error || `API Error (${response.status}): ${errorText || 'Failed to prepare materials'}`);
                     }
-                    
-                    // Complete generatedData with all the prepared materials
-                    generatedData = {
+
+                    // Successful preparation
+                    console.log("[DEBUG] Prepare successful. Preparing completeData...");
+                    const completeData = {
                         ...generatedData,
                         outline: data.outline || "",
                         vocabulary_suggestions: data.vocabulary_suggestions || "",
                         sentence_suggestions: data.sentence_suggestions || "",
-                        timeLimit: timeLimit,
-                        task_type: taskType // Make sure we explicitly pass task_type
+                        timeLimit: timeLimit
                     };
                     
-                    // Store complete data in localStorage
-                    localStorage.setItem('essayData', JSON.stringify(generatedData));
+                    console.log("[DEBUG] Saving completeData to localStorage..."); 
+                    localStorage.setItem('essayData', JSON.stringify(completeData));
                     
-                    // Redirect to practice page
+                    console.log("[DEBUG] ** Attempting navigation to practice.html... **"); // <<< LOG BEFORE NAVIGATION
                     window.location.href = '/practice.html';
+                    console.log("[DEBUG] Navigation command issued."); // Might not see this if navigation is immediate
                     
                 } catch (error) {
-                    console.error('Error:', error);
+                     console.log("[DEBUG] Entered CATCH block for prepare materials."); // Log entering catch
+                     if (error.name === 'AbortError') {
+                         console.log('Prepare fetch aborted');
+                     } else {
+                         console.error('Error preparing materials:', error);
                     showError(error.message || 'An error occurred while preparing materials');
-                    
-                    // Bỏ class btn-disabled để kích hoạt lại nút Start Writing
-                    startWritingBtn.classList.remove('btn-disabled');
-                    
+                     }
+                     stopPreparingAnimation(); 
                 } finally {
-                    // Hide loading indicator
-                    document.getElementById('preparing-materials').style.display = 'none';
+                    console.log("[DEBUG] Entered FINALLY block for prepare materials."); // Log entering finally
+                    stopPreparingAnimation(); 
+                    prepareController = null; 
+                    updateButtonStates(); 
                 }
             });
-        });
+
+             // Add listener to abort requests if user navigates away / refreshes
+             window.addEventListener('beforeunload', () => {
+                 if (generateController) {
+                     generateController.abort();
+                     console.log('Aborting generate request due to page unload.');
+                 }
+                 if (prepareController) {
+                     prepareController.abort();
+                     console.log('Aborting prepare request due to page unload.');
+                 }
+             });
+
+            // --- Note Modal Logic ---
+            async function openNoteModal() { // <<< Make async
+                if (!noteModalOverlay) return; // Exit if modal doesn't exist
+                // If already open, do nothing extra
+                if (noteModalOverlay.style.display === 'flex') {
+                     console.log("[DEBUG] Note modal already open.");
+                     return; 
+                }
+
+                console.log("[DEBUG] Opening Note Modal...");
+                noteModalOverlay.style.display = 'flex'; // Show modal first
+
+                // Check if template needs loading (only if textarea exists and is empty, and flag is false)
+                if (!noteTemplateLoaded && noteTextarea && noteTextarea.value.trim() === '') {
+                    console.log("[DEBUG] Loading note template for modal...");
+                    try {
+                        const response = await fetch('/templates/note_template_task2.txt');
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        const templateText = await response.text();
+                        noteTextarea.value = templateText; 
+                        noteTemplateLoaded = true; // Set flag AFTER successful load
+                        console.log("[DEBUG] Note template loaded into textarea.");
+                    } catch (error) {
+                        console.error('Error loading note template:', error);
+                         // Decide if you want to show an error to the user here
+                    }
+                } else if (noteTemplateLoaded) {
+                     console.log("[DEBUG] Note template already loaded in this cycle or textarea not empty.");
+                }
+            }
+
+            function closeNoteModal() {
+                 if(noteModalOverlay) noteModalOverlay.style.display = 'none';
+            }
+
+            if (noteButton) {
+                // Call the async function directly
+                noteButton.addEventListener('click', openNoteModal); 
+            }
+
+            if (closeNoteModalButton) {
+                closeNoteModalButton.addEventListener('click', closeNoteModal);
+            }
+
+            // Close modal if clicking on the overlay (outside the box)
+            if (noteModalOverlay) {
+                noteModalOverlay.addEventListener('click', function(event) {
+                    if (event.target === noteModalOverlay) { // Check if the click is directly on the overlay
+                        closeNoteModal();
+                    }
+                });
+            }
+            // --- End Note Modal Logic ---
+
+        }); // End DOMContentLoaded
     </script>
 </body>
 </html>

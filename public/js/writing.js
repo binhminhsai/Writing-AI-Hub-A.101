@@ -6,7 +6,7 @@ document.getElementById('questionForm').addEventListener('submit', async functio
     resultBox.textContent = 'Generating...';
   
     try {
-        const response = await fetch('/api/workflow_1_question/generate', {
+        const response = await fetch('/workflow_1_question/generate', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ topic, band })

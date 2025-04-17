@@ -26,8 +26,12 @@ def init_client():
         return False
     
     try:
-        print(f"DEBUG: Initializing OpenAI client...")
-        client = AsyncOpenAI(api_key=api_key)
+        print(f"DEBUG: Initializing OpenAI client with 200s timeout...")
+        client = AsyncOpenAI(
+            api_key=api_key,
+            timeout=200.0, # Timeout set to 200 seconds
+            max_retries=1  
+        )
         print("DEBUG: Client initialization successful")
         return True
     except Exception as e:
@@ -72,7 +76,7 @@ async def send_prompt(
         if not client:
             error_msg = "OpenAI client is not initialized. Check your API key."
             print(f"ERROR: {error_msg}")
-            raise Exception("OpenAI client initialization failed. Check your API key.")
+            raise Exception("OpenAI client initialization failed.")
         
         # Prepare messages
         messages = [{"role": "user", "content": prompt}]
@@ -82,14 +86,20 @@ async def send_prompt(
             print("Making API call to OpenAI...")
             start_time = time.time()
             
-            # Make the actual API call
+            # <<< Log right before the await >>>
+            print("[DEBUG] Awaiting client.chat.completions.create...") 
+            
             response = await client.chat.completions.create(
                 model=model,
                 messages=messages,
                 temperature=temperature,
                 max_tokens=max_tokens,
                 response_format=response_format
+                # Timeout is now configured globally in the client
             )
+            
+            # <<< Log right after the await if successful >>>
+            print("[DEBUG] ** Await completed. Processing response... **") 
             
             end_time = time.time()
             
@@ -196,6 +206,9 @@ async def send_prompt(
             return result
             
         except OpenAIError as api_error:
+            # <<< Log specific timeout error >>>
+            if isinstance(api_error, asyncio.TimeoutError) or "timed out" in str(api_error).lower():
+                 print(f"ERROR: OpenAI API call timed out after configured duration.")
             error_msg = f"OpenAI API Error: {str(api_error)}"
             print(f"ERROR: {error_msg}")
             # Provide more detailed error info
@@ -206,6 +219,11 @@ async def send_prompt(
             if hasattr(api_error, 'response'):
                 print(f"Error response: {api_error.response}")
             raise api_error
+            
+        except asyncio.TimeoutError:
+            # Catch asyncio timeout specifically if not caught by OpenAIError
+             print(f"ERROR: OpenAI API call hit asyncio.TimeoutError.")
+             raise Exception("OpenAI API call timed out.")
             
         except Exception as e:
             error_msg = f"Error during API call: {str(e)}"

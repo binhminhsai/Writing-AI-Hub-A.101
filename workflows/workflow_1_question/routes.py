@@ -8,6 +8,8 @@ import json
 from shared.services.gpt_prompt import render_template, send_prompt
 from workflows.workflow_1_question.logic import generate_question_components
 from workflows.workflow_1_question.schema import TopicRequest, PrepareMaterialsRequest
+import asyncio
+import time
 
 router = APIRouter()
 
@@ -28,51 +30,50 @@ async def prepare_materials(request: PrepareMaterialsRequest) -> Dict:
     try:
         print(f"Preparing materials for question: {request.question[:50]}...")
         
-        # Step 2: Generate the outline based on the question
-        print("[Question Generator] Preparing outline prompt...")
+        # --- Prepare all prompts --- 
+        print("[Question Generator] Preparing prompts for Outline, Vocab, Sentences...")
         outline_template = "prompt_writing/prompt_outline.txt"
         outline_prompt = render_template(outline_template,
                                question=request.question,
                                band=request.band)
         
-        outline_response = await send_prompt(
-            prompt=outline_prompt,
-            model="gpt-4o-mini",
-            temperature=0.2,
-            max_tokens=4000
-        )
-        print("[Question Generator] Outline generated")
-        
-        # Step 3: Generate vocabulary suggestions
-        print("[Question Generator] Preparing vocabulary prompt...")
         vocab_template = "prompt_writing/prompt_vocab.txt"
         vocab_prompt = render_template(vocab_template,
                              topic=request.topic,
                              band=request.band)
         
-        vocab_response = await send_prompt(
-            prompt=vocab_prompt,
-            model="gpt-4o-mini",
-            temperature=0.2,
-            max_tokens=4000
-        )
-        print("[Question Generator] Vocabulary generated")
-        
-        # Step 4: Generate sentence suggestions
-        print("[Question Generator] Preparing sentence prompt...")
         sentence_template = "prompt_writing/prompt_sentence.txt"
         sentence_prompt = render_template(sentence_template,
                                 topic=request.topic,
                                 band=request.band)
+
+        # --- Run API calls in parallel --- 
+        print("[Question Generator] Sending prompts to OpenAI concurrently...")
+        start_parallel_time = time.time()
         
-        sentence_response = await send_prompt(
-            prompt=sentence_prompt,
-            model="gpt-4o-mini",
-            temperature=0.2,
-            max_tokens=4000
-        )
-        print("[Question Generator] Sentence structures generated")
+        tasks = [
+            send_prompt(prompt=outline_prompt, model="gpt-4o-mini", temperature=0.2, max_tokens=4000), # Task 0: Outline
+            send_prompt(prompt=vocab_prompt, model="gpt-4o-mini", temperature=0.2, max_tokens=4000),   # Task 1: Vocab
+            send_prompt(prompt=sentence_prompt, model="gpt-4o-mini", temperature=0.2, max_tokens=4000) # Task 2: Sentences
+        ]
         
+        # Use asyncio.gather to run tasks concurrently
+        results = await asyncio.gather(*tasks, return_exceptions=True) # return_exceptions=True to handle potential errors in one task
+        
+        end_parallel_time = time.time()
+        print(f"[Question Generator] Received all concurrent responses in {end_parallel_time - start_parallel_time:.2f} seconds.")
+        
+        # --- Check results and assign --- 
+        outline_response = results[0] if not isinstance(results[0], Exception) else "Error generating outline."
+        vocab_response = results[1] if not isinstance(results[1], Exception) else "Error generating vocabulary."
+        sentence_response = results[2] if not isinstance(results[2], Exception) else "Error generating sentences."
+        
+        # Log any errors that occurred
+        for i, res in enumerate(results):
+             if isinstance(res, Exception):
+                  task_name = ["Outline", "Vocab", "Sentences"][i]
+                  print(f"ERROR during concurrent generation for {task_name}: {res}")
+
         # Compile the final result
         result = {
             "status": "success",

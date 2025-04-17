@@ -5,228 +5,469 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Practice Writing | Writing AI Hub</title>
     <link rel="stylesheet" href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css">
-    <link rel="stylesheet" href="/css/variables.css">
-    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/main.css"> <!-- Contains variables -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    
     <style>
-        /* Inline override styles to ensure text visibility */
-        body, p, h1, h2, h3, h4, h5, h6, .nav-link, .logo, .footer-logo, .btn, label, textarea {
-            color: var(--app-text-color, #374151) !important;
+        /* Theme Overrides & Base Variables */
+        :root {
+            --primary: var(--app-primary-color, #14b8a6);
+            --border: var(--app-border-color, #d1d5db);
+            --muted: #6b7280; 
+            --card-bg: white;
+            --text-color: var(--app-text-color, #374151);
+            --body-bg: var(--app-background, #f0fdfc);
+            --danger-text: #dc2626;
+            --button-secondary-bg: #f3f4f6;
+            --button-secondary-hover-bg: #e5e7eb;
+        }
+        body, p, h1, h2, h3, h4, h5, h6, .nav-link, .logo, .footer-logo, .btn, label, textarea, button {
+            color: var(--text-color) !important;
         }
         body {
-            background-color: var(--app-background, #f0fdfc) !important;
+            background-color: var(--body-bg) !important;
         }
-        [data-bs-theme="dark"] .app-header, [data-bs-theme="dark"] .practice-card,
-        [data-bs-theme="dark"] .app-footer, [data-bs-theme="dark"] .suggestion-card {
-            background-color: white !important;
+        [data-bs-theme="dark"] .app-header, [data-bs-theme="dark"] .card,
+        [data-bs-theme="dark"] .app-footer, [data-bs-theme="dark"] .tab-container,
+        [data-bs-theme="dark"] .writing-area, [data-bs-theme="dark"] .outline-area {
+            background-color: var(--card-bg) !important;
         }
-        .practice-card, .suggestion-card {
-            background-color: white !important;
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            padding: 2rem;
-            margin-bottom: 2rem;
-        }
-        .question-container {
-            background-color: #f8f9fa !important;
-            border-left: 4px solid #14b8a6;
-            padding: 1rem;
-            border-radius: 0 6px 6px 0;
-        }
-        .nav-tab {
-            color: #6b7280 !important;
-        }
-        .nav-tab.active {
-            color: var(--app-primary-color, #14b8a6) !important;
-            border-bottom: 2px solid var(--app-primary-color, #14b8a6);
+        .card, .writing-area, .outline-area, .tab-container { 
+            background-color: var(--card-bg) !important;
         }
         textarea {
-            background-color: white !important;
-            border: 1px solid #d1d5db !important;
+            background-color: var(--card-bg) !important;
+            border: 1px solid var(--border) !important;
         }
-        .suggestion-item {
-            background-color: #f8f9fa !important;
-            border-left: 3px solid #14b8a6;
-            padding: 0.75rem 1rem;
-            margin-bottom: 0.5rem;
-            border-radius: 0 4px 4px 0;
+        .btn-teal { background-color: var(--primary) !important; color: white !important; }
+        .btn-teal:hover { background-color: #0d9488 !important; }
+        .btn-secondary, .btn-outline { background-color: var(--button-secondary-bg) !important; color: var(--text-color) !important; border-color: var(--border) !important; }
+        .btn-secondary:hover, .btn-outline:hover { background-color: var(--button-secondary-hover-bg) !important; }
+
+        /* --- NEW: Scrollbar Styling --- */
+        /* For Webkit browsers (Chrome, Safari, Edge) */
+        .writing-area::-webkit-scrollbar,
+        .outline-area::-webkit-scrollbar,
+        #outlineContentWrapper::-webkit-scrollbar { /* Target wrapper too if needed */
+            width: 6px; /* Thinner scrollbar */
         }
-    </style>
-    <style>
-        /* Styles specific to the practice page */
-        .practice-container {
-            display: flex;
-            gap: 2rem;
+        .writing-area::-webkit-scrollbar-track,
+        .outline-area::-webkit-scrollbar-track,
+        #outlineContentWrapper::-webkit-scrollbar-track {
+            background: #f1f1f1; /* Lighter track */
+            border-radius: 3px;
         }
+        .writing-area::-webkit-scrollbar-thumb,
+        .outline-area::-webkit-scrollbar-thumb,
+        #outlineContentWrapper::-webkit-scrollbar-thumb {
+            background: #ccc; /* Lighter thumb */
+            border-radius: 3px;
+        }
+        .writing-area::-webkit-scrollbar-thumb:hover,
+        .outline-area::-webkit-scrollbar-thumb:hover,
+        #outlineContentWrapper::-webkit-scrollbar-thumb:hover {
+            background: #bbb; /* Slightly darker on hover */
+        }
+        /* For Firefox */
+        .writing-area,
+        .outline-area,
+        #outlineContentWrapper {
+            scrollbar-width: thin; /* "auto" or "thin" */
+            scrollbar-color: #ccc #f1f1f1; /* thumb track */
+        }
+        /* --- End Scrollbar Styling --- */
+
+        /* Page Specific Styles - Inspired by Snippet */
+        .main { padding: 2rem 0; }
+
+        /* Back Button */
+        .back-button { 
+            display: inline-flex; 
+            align-items: center;
+            gap: 6px;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            margin-bottom: 1.5rem; 
+        }
+        .back-button:hover { color: var(--text-color); }
+        .back-button svg { stroke: currentColor; }
+
+        /* Main Layout Grid */
+        .practice-container { 
+            display: grid;
+            grid-template-columns: 3fr 2fr; 
+            gap: 1.5rem;
+            align-items: flex-start; 
+        }
+
+        .writing-area, .outline-area {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 24px;
+            box-shadow: var(--app-shadow-sm);
+            max-height: 80vh; 
+            overflow-y: auto;
+            display: flex; 
+            flex-direction: column;
+        }
+        .writing-area { flex-grow: 1; /* Allow writing area to define initial height */ }
+        .outline-area { margin-bottom: 0; }
         
-        .writing-area {
-            flex: 2;
-        }
-        
-        .support-panel {
-            flex: 1;
-            position: sticky;
-            top: 2rem;
-            align-self: flex-start;
-        }
-        
-        .card {
-            background-color: white;
+        #essay {
+             flex-shrink: 0; 
+             min-height: 300px; 
+             width: 100%;
+             padding: 12px 16px;
+             font-size: 0.95rem;
             border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
+             border: 1px solid var(--border);
+             resize: vertical;
+             box-sizing: border-box; 
         }
-        
-        .prompt-card {
-            border-left: 4px solid var(--app-primary-color);
+
+        .writing-actions { 
+            display: flex;
+            justify-content: flex-end; 
+            gap: 1rem; 
+            margin-top: 1.5rem; 
+            flex-shrink: 0; 
         }
-        
-        .timer-card {
+        .btn-outline { 
+            display: flex;
+            align-items: center;
+            background: none;
+            border: 1px solid var(--border);
+            padding: 0.5rem 1rem; 
+            border-radius: 0.375rem; 
+            cursor: pointer;
+            font-size: 0.875rem; 
+        }
+        .btn-outline svg, .btn-outline i { margin-right: 0.5rem; }
+        .btn-submit { 
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1.5rem; 
+            border-radius: 0.375rem; 
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        /* Outline Area specific adjustments */
+        .outline-header { 
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: #f8f9fa;
+            margin-bottom: 1rem;
+            flex-shrink: 0; /* Prevent header from shrinking */
+        }
+        .outline-header h3 {
+             margin: 0;
+             font-size: 1.1rem;
+             font-weight: 600;
+        }
+        .btn-icon { 
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.25rem;
+            color: var(--primary);
+            line-height: 1;
+        }
+        .btn-icon:hover { color: #0d9488; }
+        .btn-icon svg, .btn-icon i { width: 16px; height: 16px; stroke: currentColor; fill: none; }
+        
+        #outlineContentWrapper {
+             flex-grow: 1; 
+             overflow-y: auto; /* Keep scroll within wrapper if needed */
+             min-height: 100px; 
+        }
+        #outlineContent div { margin-bottom: 1em; } 
+        #outlineContent strong {
+            font-weight: 600;
+            display: block; 
+            margin-bottom: 0.4em; 
+            font-size: 0.95em; 
+        }
+        #outlineContent ul {
+            list-style: disc; 
+            padding-left: 20px; 
+            margin: 0 0 1em 0; 
+        }
+        #outlineContent li {
+            margin-bottom: 0.4em; 
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        #outlineContent p { 
+            margin: 0 0 0.5em 0; 
+            font-size: 0.9rem; 
+            line-height: 1.5;
+        } 
+        #outline-hidden-message {
+            display: none; 
+            text-align: center;
+            padding: 2rem 1rem;
+            color: var(--muted);
+            font-style: italic;
+            border-top: 1px solid var(--border); 
+            margin-top: 1rem;
+        }
+        #outline-hidden-message p { margin-bottom: 0.5rem; }
+
+        /* Tab Container - Below the grid */
+        .tab-container {
+            width: 100%;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            margin-top: 1.5rem; 
+            overflow: hidden;
+        }
+        .tab-buttons {
+            display: flex;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .tab-button {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            font-size: 0.95rem;
+            font-weight: 500;
+            background: none;
+            border: none;
+            color: #6b7280;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: color 0.2s, border-color 0.2s;
+        }
+        .tab-button.active {
+            color: #14b8a6;
+            border-bottom-color: #14b8a6;
+        }
+        .tab-content {
+            display: none;
+            padding: 16px 24px;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .tab-content h4, .tab-content h5 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+            color: #4b5563;
+        }
+        .tab-content h4:first-child, .tab-content h5:first-child {
+            margin-top: 0;
+        }
+
+        /* Suggestion Item Block Styles */
+        .suggestion-item-block {
+            background-color: #fcfcfd;
+            border-left: 4px solid; /* Will be colored by item classes below */
+            border-radius: 4px;
+            padding: 0.65rem 0.85rem;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+            border-left-width: 3px; /* Slightly thinner border */
+        }
+        .suggestion-item-block .term-wrapper { /* Wrapper for term and CEFR */
+             display: flex;
+             align-items: baseline;
+             gap: 0.5em;
+             margin-bottom: 0.25rem;
+        }
+        .suggestion-item-block .cefr-level {
+            font-size: 0.75em;
+            font-weight: 500;
+            color: var(--muted);
+            background-color: #eef2ff; /* Light indigo background */
+            padding: 0.1em 0.4em;
+            border-radius: 3px;
+            border: 1px solid #c7d2fe;
+            white-space: nowrap;
+        }
+
+        /* Update border colors */
+        .item-vocab-topic { border-left-color: #facc15; } 
+        .item-vocab-academic { border-left-color: #818cf8; } 
+        .item-vocab-collocation { border-left-color: #f472b6; } 
+        /* Add phrase-specific border colors */
+        .item-phrase-relative { border-left-color: #a78bfa; } /* Purple */
+        .item-phrase-conditional { border-left-color: #60a5fa; } /* Blue */
+        .item-phrase-concession { border-left-color: #fb923c; } /* Orange */
+        .item-phrase-argument { border-left-color: #34d399; } /* Emerald */
+        .item-phrase-example { border-left-color: #fbbf24; } /* Amber */
+        .item-phrase-opinion { border-left-color: #f87171; } /* Red */
+        .item-phrase-connector { border-left-color: #9ca3af; } /* Gray */
+        .item-phrase-inversion { border-left-color: #c084fc; } /* Fuchsia */
+        .item-phrase-cleft { border-left-color: #a3e635; } /* Lime */
+        .item-phrase-modal { border-left-color: #2dd4bf; } /* Teal */
+        .item-phrase-emphasis { border-left-color: #f97316; } /* Darker Orange */
+        .item-phrase-default { border-left-color: #6b7280; } /* Default Gray */
+
+        /* Academic Expressions Container Style */
+        .academic-expressions-container {
+            background-color: #fcfcfd;
+            border-radius: 4px;
+            border-left: 4px solid #818cf8;
+            padding: 1rem;
+            margin-bottom: 1rem;
         }
         
-        .timer {
-            font-size: 1.5rem;
+        /* Academic Expressions Items Style */
+        .academic-expressions-container .suggestion-item-block {
+            background-color: transparent;
+            border-left: none;
+            border-bottom: 1px solid #e5e7eb;
+            border-radius: 0;
+            padding: 0.75rem 0;
+            margin-bottom: 0.5rem;
+        }
+        
+        .academic-expressions-container .suggestion-item-block:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        
+        /* Academic Expressions Title Style */
+        .academic-expressions-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+            color: #4b5563;
+        }
+
+        /* Structured Phrases Container Style (Complex Sentences, etc.) */
+        .structured-phrases-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            padding: 0.5rem 0;
+        }
+        
+        /* Structured Phrases Items Style */
+        .structured-phrases-container .suggestion-item-block {
+            background-color: #fcfcfd;
+            border-left: 4px solid;
+            border-radius: 6px;
+            padding: 0.85rem;
+            margin-bottom: 0;
+        }
+        
+        /* Style for letter prefixes in structured phrases */
+        .structured-phrases-container .suggestion-item-block strong {
+            font-weight: 600;
+            color: #111827;
+            font-size: 1.05em;
+        }
+
+        /* Style for letter prefixes in list items (a., b., c., d.) */
+        .suggestion-item-block strong {
             font-weight: 600;
             color: #374151;
         }
         
-        .essay-textarea {
-            width: 100%;
-            min-height: 400px;
-            padding: 1rem;
-            border: 1px solid #e5e7eb;
-            border-radius: 6px;
-            font-family: var(--app-font-family);
-            font-size: 1rem;
-            line-height: 1.6;
-            resize: vertical;
-        }
-        
-        .word-count {
-            margin-top: 0.5rem;
-            font-size: 0.875rem;
-            color: #6b7280;
-            text-align: right;
-        }
-        
-        .nav-tabs {
-            display: flex;
-            border-bottom: 1px solid #e5e7eb;
-            margin-bottom: 1rem;
-        }
-        
-        .nav-tab {
-            padding: 0.75rem 1rem;
-            cursor: pointer;
-            border-bottom: 2px solid transparent;
-            color: #6b7280;
-        }
-        
-        .nav-tab.active {
-            border-bottom-color: var(--app-primary-color);
-            color: var(--app-primary-color);
+        /* For detail labels like Example:, Structure:, etc. */
+        .suggestion-item-block .detail-label {
             font-weight: 500;
+            font-size: 0.85em;
+            color: var(--muted);
+            margin-right: 0.5em;
         }
         
-        .tab-content {
-            display: none;
+        /* For paragraphs in suggestion items */
+        .suggestion-item-block p {
+            margin: 0.4em 0;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+
+        /* Writing Area */
+        .writing-area h2, .writing-area h3 { /* Question Title */
+            font-size: 1.1rem; /* Ensure matches outline */
+            font-weight: 600;
+            /* ... rest of styles ... */
+        }
+        /* ... */
+        .writing-stats { /* Timer & Word Count Row */
+            display: flex;
+            justify-content: space-between; /* Ensure space between */
+            align-items: center;
+            /* ... rest of styles ... */
         }
         
-        .tab-content.active {
+        .word-count { /* Word count specific */
+            display: flex; /* Align icon and text */
+            align-items: center;
+            gap: 0.3rem; /* Space between icon and text */
+            font-size: 0.875rem; /* Match timer size */
+            font-weight: 500; 
+            color: var(--muted);
+        }
+        .word-count i {
+             color: var(--primary); /* Match timer icon color */
+             font-size: 0.9em; /* Slightly smaller icon */
+        }
+        .word-count.limit-warning { /* Word count warning */
+             color: var(--danger-text);
+        }
+        /* ... */
+
+        /* --- Sub-Tab Styles --- */
+        .sub-tab-buttons {
+            display: flex;
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+            gap: 8px;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .sub-tab-button {
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border: 1px solid var(--border);
+            border-radius: 15px; /* Pill shape */
+            background-color: var(--card-bg);
+            color: var(--muted);
+            cursor: pointer;
+            transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+        }
+        .sub-tab-button.active {
+            background-color: var(--primary);
+            color: white !important; /* Override general text color */
+            border-color: var(--primary);
+        }
+        .sub-tab-content {
+            display: none; /* Hide inactive sub-tabs */
+        }
+        .sub-tab-content.active {
             display: block;
         }
-        
-        .suggestion-item {
-            margin-bottom: 0.75rem;
-            padding-left: 1.25rem;
-            position: relative;
-        }
-        
-        .suggestion-item:before {
-            content: "•";
-            position: absolute;
-            left: 0;
-            color: var(--app-primary-color);
-        }
-        
-        /* Action buttons */
-        .action-buttons {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-        
-        .btn-secondary {
-            background-color: #f3f4f6;
-            color: #374151;
-        }
-        
-        .btn-secondary:hover {
-            background-color: #e5e7eb;
-        }
-        
-        .btn-lg {
-            padding: 0.875rem 2rem;
-            font-size: 1.125rem;
-        }
-        
-        .tooltip {
-            position: relative;
-            display: inline-block;
-        }
-        
-        .tooltip .tooltiptext {
-            visibility: hidden;
-            width: 200px;
-            background-color: #374151;
-            color: white;
-            text-align: center;
-            border-radius: 6px;
-            padding: 0.5rem;
-            position: absolute;
-            z-index: 1;
-            bottom: 125%;
-            left: 50%;
-            transform: translateX(-50%);
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        
-        .tooltip .tooltiptext::after {
-            content: "";
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            margin-left: -5px;
-            border-width: 5px;
-            border-style: solid;
-            border-color: #374151 transparent transparent transparent;
-        }
-        
-        .tooltip:hover .tooltiptext {
-            visibility: visible;
-            opacity: 1;
-        }
+        /* --- End Sub-Tab Styles --- */
+
     </style>
 </head>
 <body>
+    <div class="body-wrapper"> <!-- Wrapper for sticky footer -->
     <!-- Header -->
     <header class="app-header">
         <div class="container header-container">
             <a href="/" class="logo">
-                <i class="fas fa-globe"></i>
+                    <i class="fas fa-globe"></i> <!-- Add icon -->
                 Writing AI Hub
             </a>
             <div class="nav-menu">
                 <div class="nav-links">
                     <a href="/" class="nav-link">Home</a>
-                    <a href="/setting.html" class="nav-link active">Practice</a>
+                         <a href="/setting.html" class="nav-link active">Practice</a> <!-- Ensure 'Practice' is active -->
                 </div>
                 <a href="/account.html" class="btn-account">My Account</a>
             </div>
@@ -236,111 +477,94 @@
     <!-- Main Content -->
     <main class="main">
         <div class="container">
-            <div class="practice-header">
+                 <!-- Back Button -->
                 <a href="/setting.html" class="back-button">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="m12 19-7-7 7-7"></path>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M19 12H5"></path>
+                        <path d="M12 19l-7-7 7-7"></path>
                     </svg>
-                    Back to Settings
+                    Back
                 </a>
-                
-                <h1 class="page-title">Practice Writing</h1>
-            </div>
             
             <div class="practice-container">
-                <!-- Writing Area -->
+                    <!-- === Writing Area (Left Column) === -->
                 <div class="writing-area">
-                    <!-- Question Card -->
-                    <div class="card prompt-card">
-                        <h3>Writing Prompt:</h3>
-                        <p id="question-display"></p>
+                        <h2>Question:</h2>
+                        <p id="writingQuestion">Loading question...</p> 
+
+                        <div class="writing-stats">
+                            <div class="timer">
+                                 <i class="far fa-clock"></i> <!-- Using FontAwesome Clock -->
+                                <span id="timer">00:00</span> <!-- Initial Timer Display -->
+                            </div>
+                            <div class="word-counter">
+                                <i class="fas fa-file-word"></i> <!-- Added word count icon -->
+                                <span id="wordCount">0</span>/500
                     </div>
-                    
-                    <!-- Timer and Writing Card -->
-                    <div class="card timer-card">
-                        <div>
-                            <span>Time Remaining:</span>
-                            <div id="timer" class="timer">00:00:00</div>
                         </div>
-                        <div class="tooltip">
-                            <button id="toggle-timer" class="btn btn-secondary">
-                                <i class="fas fa-pause" id="timer-icon"></i>
+                        
+                        <textarea id="essay" rows="15" placeholder="Start writing your essay here..."></textarea>
+
+                        <div class="writing-actions">
+                            <button type="button" id="save-draft" class="btn-outline"> 
+                                <i class="fas fa-save"></i>
+                                Save Draft
                             </button>
-                            <span class="tooltiptext">Pause/Resume Timer</span>
+                            <button type="button" id="submitEssay" class="btn-submit">Submit Essay</button>
                         </div>
                     </div>
                     
-                    <!-- Writing Card -->
-                    <div class="card">
-                        <textarea id="essay-input" class="essay-textarea" placeholder="Start writing your essay here..."></textarea>
-                        <div class="word-count"><span id="word-count">0</span> words written</div>
-                    </div>
-                    
-                    <!-- Action Buttons -->
-                    <div class="action-buttons">
-                        <button id="save-draft" class="btn btn-secondary">
-                            <i class="fas fa-save"></i>
-                            Save Draft
-                        </button>
-                        <button id="get-feedback" class="btn btn-teal btn-lg">
-                            Submit for Feedback
+                    <!-- === Outline Area (Right Column) === -->
+                    <div class="outline-area"> 
+                        <div class="outline-header">
+                            <h3>Suggested Outline</h3>
+                            <button type="button" id="toggleOutline" class="btn-icon"> 
+                                <i class="fas fa-eye"></i> <!-- Using FontAwesome Eye -->
                         </button>
                     </div>
-                </div>
-                
-                <!-- Support Panel -->
-                <div class="support-panel">
-                    <!-- Resources Card -->
-                    <div class="card">
-                        <h3>Writing Resources</h3>
-                        
-                        <div class="nav-tabs">
-                            <div class="nav-tab active" data-tab="outline">Outline</div>
-                            <div class="nav-tab" data-tab="vocab">Vocabulary</div>
-                            <div class="nav-tab" data-tab="sentences">Sentences</div>
+                        <div id="outlineContentWrapper"> <!-- Added wrapper -->
+                            <div id="outlineContent"><p>Loading outline...</p></div> 
                         </div>
-                        
-                        <!-- Outline Tab -->
-                        <div id="outline-tab" class="tab-content active">
-                            <p>Suggested structure for your essay:</p>
-                            <div id="outline-content"></div>
-                        </div>
-                        
-                        <!-- Vocabulary Tab -->
-                        <div id="vocab-tab" class="tab-content">
-                            <p>Useful vocabulary for this topic:</p>
-                            <div id="vocab-content"></div>
-                        </div>
-                        
-                        <!-- Sentences Tab -->
-                        <div id="sentences-tab" class="tab-content">
-                            <p>Useful sentence patterns:</p>
-                            <div id="sentences-content"></div>
+                         <div id="outline-hidden-message">
+                            <p>Hãy cố gắng hết mình nhé!</p>
+                            <p>Good things take time. 😉</p>
                         </div>
                     </div>
-                    
-                    <!-- Tips Card -->
-                    <div class="card">
-                        <h3>Writing Tips</h3>
-                        <ul>
-                            <li>Aim for at least 250 words for Task 2 (150 for Task 1)</li>
-                            <li>Use paragraphs to structure your essay clearly</li>
-                            <li>Include an introduction, 2-3 body paragraphs, and conclusion</li>
-                            <li>Support your points with examples or explanations</li>
-                            <li>Use a range of vocabulary and grammatical structures</li>
-                        </ul>
+                </div> 
+                <!-- End practice-container -->
+
+                <!-- === Vocabulary / Phrases Tab Component (Structure Updated) === -->
+                <div class="tab-container">
+                  <div class="tab-buttons">
+                    <button type="button" class="tab-button active" data-tab="vocab">Vocabulary</button> 
+                    <button type="button" class="tab-button" data-tab="phrases">Useful Phrases</button> 
+                  </div>
+                  <!-- VOCAB TAB CONTENT - Will contain sub-tabs -->
+                  <div class="tab-content active" id="vocab-content-tab">
+                       <!-- Sub-tab buttons will be generated here -->
+                       <div class="sub-tab-buttons" id="vocab-sub-tab-buttons"></div>
+                       <!-- Sub-tab content areas will be generated here -->
+                       <div id="vocab-sub-tab-contents"></div>
+                       <p id="vocab-fallback" style="display:none;">Loading vocabulary...</p> 
+                  </div>
+                  <!-- PHRASES TAB CONTENT - Will contain sub-tabs -->
+                  <div class="tab-content" id="phrases-content-tab">
+                       <!-- Sub-tab buttons will be generated here -->
+                       <div class="sub-tab-buttons" id="phrases-sub-tab-buttons"></div>
+                       <!-- Sub-tab content areas will be generated here -->
+                       <div id="phrases-sub-tab-contents"></div>
+                        <p id="phrases-fallback" style="display:none;">Loading useful phrases...</p> 
                     </div>
                 </div>
-            </div>
+
         </div>
     </main>
-
+    </div> <!-- End body-wrapper -->
     <!-- Footer -->
     <footer class="app-footer">
         <div class="container footer-container">
             <a href="/" class="footer-logo">
-                <i class="fas fa-globe"></i>
+                 <i class="fas fa-globe"></i> <!-- Add icon -->
                 Writing AI Hub
             </a>
             <div class="copyright">
@@ -351,195 +575,569 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Check if we have essay data in localStorage
+            // --- DOM Elements (using IDs from provided snippets where applicable) --- 
+            const writingQuestion = document.getElementById('writingQuestion');
+            const timerElement = document.getElementById('timer'); // Renamed from timerDisplay
+            const wordCountElement = document.getElementById('wordCount'); // Renamed from wordCountDisplay
+            const wordCounterContainer = document.querySelector('.word-counter'); 
+            const essayTextarea = document.getElementById('essay'); // Renamed from essayInput
+            const saveDraftBtn = document.getElementById('save-draft');
+            const submitEssayBtn = document.getElementById('submitEssay'); // Renamed from getFeedbackBtn
+            const toggleOutlineBtn = document.getElementById('toggleOutline'); // Renamed
+            const outlineContentWrapper = document.getElementById('outlineContentWrapper'); // New wrapper
+            const outlineContent = document.getElementById('outlineContent'); // Renamed
+            const outlineHiddenMessage = document.getElementById('outline-hidden-message');
+            const tabButtons = document.querySelectorAll('.tab-container .tab-button');
+            const tabContents = document.querySelectorAll('.tab-container .tab-content');
+            const vocabContentDiv = document.getElementById('vocab-content-tab');
+            const phrasesContentDiv = document.getElementById('phrases-content-tab');
+            // const backToConfigBtn = document.getElementById('backToConfig'); // Map to .back-button
+            const backButton = document.querySelector('.back-button');
+            const vocabSubTabButtonsContainer = document.getElementById('vocab-sub-tab-buttons');
+            const vocabSubTabContentsContainer = document.getElementById('vocab-sub-tab-contents');
+            const vocabFallback = document.getElementById('vocab-fallback');
+            const phrasesSubTabButtonsContainer = document.getElementById('phrases-sub-tab-buttons');
+            const phrasesSubTabContentsContainer = document.getElementById('phrases-sub-tab-contents');
+            const phrasesFallback = document.getElementById('phrases-fallback');
+
+            // --- Data Loading (Keep existing) --- 
             const savedData = localStorage.getItem('essayData');
             if (!savedData) {
-                alert('No question data found. Please generate a question first.');
+                alert('No essay data found. Please generate a question first.');
                 window.location.href = '/setting.html';
                 return;
             }
-            
-            // Parse the saved data
-            const essayData = JSON.parse(savedData);
-            
-            // Populate the page with the data
-            document.getElementById('question-display').textContent = essayData.question;
-            
-            // Set up tabs
-            const outlineContent = document.getElementById('outline-content');
-            const vocabContent = document.getElementById('vocab-content');
-            const sentencesContent = document.getElementById('sentences-content');
-            
-            // Format and display outline
-            if (essayData.outline) {
-                // Support multiple line break formats
-                const outlineText = essayData.outline.replace(/\\n/g, '\n');
-                const outlinePoints = outlineText.split('\n').filter(line => line.trim() !== '');
-                let outlineHTML = '';
-                outlinePoints.forEach(point => {
-                    outlineHTML += `<div class="suggestion-item">${point}</div>`;
-                });
-                outlineContent.innerHTML = outlineHTML || '<div class="suggestion-item">No outline available</div>';
+            let essayData;
+            try {
+                essayData = JSON.parse(savedData);
+            } catch (e) {
+                 alert('Error parsing essay data. Please regenerate.');
+                 console.error("Error parsing localStorage data:", e);
+                 window.location.href = '/setting.html';
+                 return;
+            }
+             console.log("[DEBUG] Raw essayData:", essayData); // Log raw data
+
+            // --- Formatting Functions --- 
+            function formatOutline(rawOutline) {
+                 if (!rawOutline || typeof rawOutline !== 'string') return '<p>No outline provided.</p>';
+                
+                 // Remove markdown and leading colons more carefully
+                 let html = rawOutline
+                    .replace(/^#+\s*(.*)/gm, (match, p1) => `<strong>${p1.trim().replace(/^:\s*/, '')}</strong>`) // Headers + colon remove
+                    .replace(/\*\*\s*(.*?)\s*\*\*/g, (match, p1) => `<strong>${p1.trim().replace(/^:\s*/, '')}</strong>`) // Bold + colon remove
+                    .replace(/^[\*\-]\s+/gm, '<li>') // Convert lists
+                    .replace(/^\d+\.\s+/gm, '<li>');
+                 
+                 const lines = html.split('\n').map(l => l.trim()).filter(l => l);
+                 let resultHtml = '';
+                 let inList = false;
+                 lines.forEach(line => {
+                      // Remove leading colon from ANY line content at this stage
+                      let cleanLine = line.replace(/^:\s*/, '').trim(); 
+                      
+                      if (cleanLine.startsWith('<li>')) {
+                          if (!inList) { resultHtml += '<ul>'; inList = true; }
+                          // Get content after <li> and remove potential colon again
+                          let listItemContent = cleanLine.substring(4).trim().replace(/^:\s*/, ''); 
+                          resultHtml += `<li>${listItemContent}</li>`; 
+                      } else {
+                          if (inList) { resultHtml += '</ul>'; inList = false; }
+                          if (cleanLine.startsWith('<strong>')) {
+                               resultHtml += cleanLine; 
+                          } else if (cleanLine.length > 0) {
+                               resultHtml += `<p>${cleanLine}</p>`;
+                          }
+                      }
+                 });
+                 if (inList) { resultHtml += '</ul>'; }
+                 return resultHtml;
+            }
+
+            function createTag(text, cssClass) {
+                 const tag = document.createElement('span');
+                 tag.className = `tag ${cssClass}`; 
+                 // Remove potential leading/trailing quotes or list markers here too
+                 tag.textContent = text.trim().replace(/^[\*\-"\']+|[\*\"\']+$/g, '').trim();
+                 return tag;
             }
             
-            // Format and display vocabulary
-            if (essayData.vocabulary_suggestions) {
-                // Support multiple line break formats
-                const vocabText = essayData.vocabulary_suggestions.replace(/\\n/g, '\n');
-                const vocabPoints = vocabText.split('\n').filter(line => line.trim() !== '');
-                let vocabHTML = '';
-                vocabPoints.forEach(point => {
-                    vocabHTML += `<div class="suggestion-item">${point}</div>`;
-                });
-                vocabContent.innerHTML = vocabHTML || '<div class="suggestion-item">No vocabulary suggestions available</div>';
-            }
+            // --- REWRITTEN Suggestions Parsing & Rendering --- 
+
+            // Parse the raw suggestions text
+            function parseSuggestionsStructure(rawSuggestions) {
+                console.log(`[DEBUG] Parsing suggestions structure...`);
+                if (!rawSuggestions || typeof rawSuggestions !== 'string') return [];
+                
+                const sectionsData = [];
+                // Split by main headers (### followed by number/space or **) - more robust
+                const rawSections = rawSuggestions.split(/\n(?:###|\*\*)\s+(?=\d+\.|[A-Z])/); 
             
-            // Format and display sentences
-            if (essayData.sentence_suggestions) {
-                // Support multiple line break formats
-                const sentenceText = essayData.sentence_suggestions.replace(/\\n/g, '\n');
-                const sentencePoints = sentenceText.split('\n').filter(line => line.trim() !== '');
-                let sentenceHTML = '';
-                sentencePoints.forEach(point => {
-                    sentenceHTML += `<div class="suggestion-item">${point}</div>`;
-                });
-                sentencesContent.innerHTML = sentenceHTML || '<div class="suggestion-item">No sentence suggestions available</div>';
-            }
+                rawSections.forEach((sectionText, sectionIndex) => {
+                    sectionText = sectionText.trim();
+                    if (!sectionText) return;
             
-            // Tab switching
-            const tabs = document.querySelectorAll('.nav-tab');
-            const tabContents = document.querySelectorAll('.tab-content');
+                    const lines = sectionText.split('\n').map(l => l.trim()).filter(l => l);
+                    if (lines.length === 0) return;
             
-            tabs.forEach(tab => {
-                tab.addEventListener('click', function() {
-                    // Remove active class from all tabs
-                    tabs.forEach(t => t.classList.remove('active'));
-                    tabContents.forEach(content => content.classList.remove('active'));
+                    // Extract title (remove markdown, numbers)
+                    let title = lines[0].replace(/^#+\s*/, '').replace(/\*\*/g, '').replace(/^\d+\.\s*/, '').trim(); // Added # removal
+                    if (!title) title = `Section ${sectionIndex + 1}`;
+            
+                    const sectionObj = { title: title, items: [] };
+                    console.log(`[DEBUG] Parsing Section: ${title}`);
+            
+                    // Pre-process for Complex Sentences sections with lettered subsections
+                    const isComplexSentencesSection = title.toLowerCase().includes("complex sentences") || 
+                                                     title.toLowerCase().includes("advanced grammar");
                     
-                    // Add active class to clicked tab
-                    this.classList.add('active');
-                    const tabId = this.getAttribute('data-tab');
-                    document.getElementById(`${tabId}-tab`).classList.add('active');
+                    // Group lines for each item within the section
+                    let currentItemLines = [];
+                    let startIndex = (lines[0].replace(/^#+\s*/, '').replace(/\*\*/g, '').replace(/^\d+\.\s*/, '').trim() === title) ? 1 : 0;
+
+                    for (let i = startIndex; i < lines.length; i++) {
+                        const line = lines[i];
+                        
+                        // Special case: When dealing with a lettered list like a., b., c.
+                        const letterMatch = line.match(/^([a-z][\.\)])\s+(.*)/i);
+                        
+                        // Check if this line is a new item
+                        const isNewItem = letterMatch || 
+                                        line.match(/^(?:\d+|[a-z])[\.\)]\s+/) || 
+                                        (line.startsWith('**') && !line.match(/^\*\*(?:Ví dụ|CEFR|Cấu trúc|Giải thích|Gợi ý biến thể|Biến thể):\*\*/i));
+                        
+                        // Special check for "Biến thể" - should not be treated as a separate item
+                        const isBienThe = line.match(/^\s*Biến\s*thể\s*:?/i) || 
+                                        line.match(/^\s*Gợi\s*ý\s*biến\s*thể\s*:?/i) ||
+                                        line.match(/^\*\*\s*Biến\s*thể\s*:\*\*/i) ||
+                                        line.match(/^\*\*\s*Gợi\s*ý\s*biến\s*thể\s*:\*\*/i);
+                        
+                        // Start a new item?
+                        if (isNewItem && !isBienThe) {
+                            if (currentItemLines.length > 0) {
+                                sectionObj.items.push(processItemLines(currentItemLines, isComplexSentencesSection));
+                            }
+                            currentItemLines = [line];
+                        } else {
+                            currentItemLines.push(line);
+                        }
+                    }
+                    
+                    if (currentItemLines.length > 0) {
+                        sectionObj.items.push(processItemLines(currentItemLines, isComplexSentencesSection));
+                    }
+                    
+                    if (sectionObj.items.length > 0) {
+                        sectionsData.push(sectionObj);
+                    }
                 });
-            });
-            
-            // Setup timer
-            let timeLimit = essayData.timeLimit || 30; // Default to 30 minutes if not set
-            let totalSeconds = timeLimit * 60;
-            let timerInterval = null;
-            let timerRunning = false;
-            
-            function updateTimerDisplay() {
-                const hours = Math.floor(totalSeconds / 3600);
-                const minutes = Math.floor((totalSeconds % 3600) / 60);
-                const seconds = totalSeconds % 60;
                 
-                const display = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-                document.getElementById('timer').textContent = display;
+                console.log("[DEBUG] Final Parsed Structure: ", JSON.stringify(sectionsData, null, 2));
+                return sectionsData;
+            }
+
+            // Process lines for a single item into a structured object
+            function processItemLines(itemLines, isStructuredSection = false) {
+                let itemData = { term: '', details: [] };
+                if (!itemLines || itemLines.length === 0) return itemData;
+            
+                let firstLine = itemLines[0].trim();
                 
-                if (totalSeconds <= 0) {
-                    clearInterval(timerInterval);
-                    alert('Time\'s up! Please submit your essay for feedback.');
+                // Remove leading #### hash marks first from the first line
+                firstLine = firstLine.replace(/^#+\s*/, ''); 
+
+                // Check if it's a sub-item (a., b., etc.) or a main vocab item (1., 2., etc. or just **)
+                let subItemMatch = firstLine.match(/^([a-z][\.\)])\s+(.*)/i); // Capture letter+dot/paren and the rest
+                let mainTermMatch = firstLine.match(/^(?:\d+\.)?\s*\*\*(.*?)\*\*/); 
+                
+                if (subItemMatch && subItemMatch[2]) {
+                    // It's a sub-item like "a. Relative Clauses"
+                    // Keep the letter/dot and the text, remove inner markdown
+                    itemData.term = `${subItemMatch[1]} ${subItemMatch[2].replace(/\*\*/g, '').trim()}`;
+                    console.log(`[DEBUG] Processed as Sub-Item. Term: ${itemData.term}`);
+                } else if (mainTermMatch && mainTermMatch[1]) {
+                    // It's a main vocab item
+                    itemData.term = mainTermMatch[1].trim();
+                    let restOfFirstLine = itemLines[0].trim().substring(itemLines[0].trim().lastIndexOf('**') + 2).trim(); // Use original firstLine here
+                    if (restOfFirstLine && !restOfFirstLine.startsWith('(')) { 
+                         itemData.details.push({ type: 'translation', text: restOfFirstLine });
+                    }
+                     console.log(`[DEBUG] Processed as Main Vocab Item. Term: ${itemData.term}`);
+                } else {
+                    // Fallback: use the first line, clean it aggressively
+                    itemData.term = firstLine.replace(/\*\*/g, '').trim();
+                     console.log(`[DEBUG] Processed as Fallback Item. Term: ${itemData.term}`);
                 }
+                
+                // Process remaining lines for details
+                let inVariationSection = false;
+
+                for (let i = 1; i < itemLines.length; i++) {
+                    let line = itemLines[i].trim().replace(/^-\s*/, '');
+                    
+                    // Remove ALL leading/trailing markdown/hashes from detail text
+                    let detailText = line.replace(/^#+\s*/, '').replace(/\*\*/g, '').trim();
+
+                    // Check for "Biến thể" or "Gợi ý biến thể" even without markdown
+                    if (line.match(/^\s*Biến\s*thể\s*:?/i) || line.match(/^\s*Gợi\s*ý\s*biến\s*thể\s*:?/i)) {
+                        inVariationSection = true;
+                        const variationText = detailText.replace(/^(Biến\s*thể|Gợi\s*ý\s*biến\s*thể)\s*:?/i, '').trim();
+                        if (variationText) {
+                            itemData.details.push({ type: 'variation', text: variationText });
+                        }
+                        continue;
+                    }
+                    
+                    // Handle structured details with prefixes
+                    if (line.match(/^\*\*Ví\s*dụ\s*:\*\*/i) || line.match(/^Ví\s*dụ\s*:/i)) {
+                        inVariationSection = false;
+                        itemData.details.push({ type: 'example', text: detailText.replace(/^Ví\s*dụ\s*:?/i, '').trim() }); 
+                    } else if (line.match(/^\*\*Cấu\s*trúc\s*:\*\*/i) || line.match(/^Cấu\s*trúc\s*:/i)) {
+                        inVariationSection = false;
+                        itemData.details.push({ type: 'structure', text: detailText.replace(/^Cấu\s*trúc\s*:?/i, '').trim() });
+                    } else if (line.match(/^\*\*Giải\s*thích\s*:\*\*/i) || line.match(/^Giải\s*thích\s*:/i)) {
+                        inVariationSection = false;
+                        itemData.details.push({ type: 'explanation', text: detailText.replace(/^Giải\s*thích\s*:?/i, '').trim() });
+                    } else if (line.match(/^\*\*Gợi\s*ý\s*biến\s*thể\s*:\*\*/i) || line.match(/^\*\*Biến\s*thể\s*:\*\*/i)) {
+                        inVariationSection = true;
+                        itemData.details.push({ type: 'variation', text: detailText.replace(/^(Gợi\s*ý\s*biến\s*thể|Biến\s*thể)\s*:?/i, '').trim() }); 
+                    } else if (line.match(/^\*\*\(?CEFR\)?\s*:\*\*/i) || line.match(/^\(?CEFR\)?\s*:/i)) {
+                        inVariationSection = false;
+                        itemData.details.push({ type: 'cefr', text: detailText.replace(/^\(?CEFR\)?\s*:?/i, '').trim() });
+                    } else if (detailText.length > 0) {
+                        // If we're in a variation section, treat additional lines as variations
+                        if (inVariationSection) {
+                            itemData.details.push({ type: 'variation', text: detailText });
+                        } else {
+                            itemData.details.push({ type: 'paragraph', text: detailText });
+                        }
+                    }
+                }
+                
+                // Ensure term itself doesn't have markdown remains
+                itemData.term = itemData.term.replace(/\*\*/g, '');
+                return itemData;
             }
             
-            function startTimer() {
-                timerRunning = true;
-                timerInterval = setInterval(function() {
-                    if (totalSeconds > 0) {
-                        totalSeconds--;
-                        updateTimerDisplay();
-                    } else {
+            // 3. Create HTML block for a single suggestion item
+            function createSuggestionItemHtml(itemData, itemClass) {
+                 let contentHtml = '';
+                 let cefrText = '';
+                 itemData.details.forEach(detail => { if (detail.type === 'cefr') cefrText = detail.text; });
+
+                 // Term and CEFR - Format term as strong
+                 contentHtml += `<div class="term-wrapper">`;
+                 
+                 // Check if the term starts with a letter followed by a dot (a., b., etc)
+                 const letterPrefix = itemData.term.match(/^([a-z][\.\)])\s+(.*)/i);
+                 
+                 if (letterPrefix && letterPrefix[1] && letterPrefix[2]) {
+                     // It's a structured list item (a., b., etc)
+                     contentHtml += `<strong>${letterPrefix[1]} ${letterPrefix[2]}</strong>`;
+                 } else {
+                     // Regular term
+                     contentHtml += `<strong>${itemData.term || '(Term not found)'}</strong>`;
+                 }
+                 
+                 if (cefrText) {
+                     contentHtml += `<span class="cefr-level">${cefrText}</span>`;
+                 }
+                 contentHtml += `</div>`;
+
+                 // Add other details
+                 itemData.details.forEach(detail => {
+                     let label = '';
+                     switch(detail.type) {
+                         case 'translation': 
+                             contentHtml += `<p style="font-style: italic; color: var(--muted); font-size: 0.85em;">${detail.text}</p>`; 
+                             break; 
+                         case 'example': label = 'Example:'; break;
+                         case 'structure': label = 'Structure:'; break;
+                         case 'explanation': label = 'Explanation:'; break;
+                         case 'variation': label = 'Variation:'; break;
+                         case 'paragraph': 
+                              contentHtml += `<p>${detail.text}</p>`; 
+                              break; 
+                     }
+                     if (label) { 
+                          contentHtml += `<p><span class="detail-label">${label}</span> ${detail.text}</p>`;
+                     }
+                 });
+
+                 const itemDiv = document.createElement('div');
+                 itemDiv.className = `suggestion-item-block ${itemClass}`;
+                 itemDiv.innerHTML = contentHtml;
+                 return itemDiv;
+            }
+            
+            // 4. Populate the main tab content with sub-tabs and item blocks
+            function populateSubTabs(mainTabContentId, buttonsContainer, contentsContainer, fallbackElement, structuredData, type) {
+                 buttonsContainer.innerHTML = ''; 
+                 contentsContainer.innerHTML = ''; 
+
+                 if (!structuredData || structuredData.length === 0) {
+                     fallbackElement.style.display = 'block';
+                     console.warn(`No structured data for ${type}`);
+                     return;
+                 }
+                 fallbackElement.style.display = 'none';
+
+                 structuredData.forEach((section, index) => {
+                     const subTabId = `${type}-sub-${index}`;
+                     // Create Button
+                     const button = document.createElement('button');
+                     button.className = 'sub-tab-button';
+                     button.textContent = section.title;
+                     button.dataset.target = subTabId;
+                     if (index === 0) button.classList.add('active'); 
+                     buttonsContainer.appendChild(button);
+
+                     // Create Content Div
+                     const contentDiv = document.createElement('div');
+                     contentDiv.className = 'sub-tab-content';
+                     contentDiv.id = subTabId;
+                     if (index === 0) contentDiv.classList.add('active');
+
+                     // Determine Item Class based on title (as before)
+                     let itemClass = type === 'vocab' ? 'item-vocab-academic' : 'item-phrase-default';
+                     const lowerTitle = section.title.toLowerCase();
+                      if (type === 'vocab') {
+                           // ... (vocab class logic based on title) ...
+                      } else if (type === 'phrases') {
+                           // ... (phrase class logic based on title) ...
+                      }
+                      
+                     // Check if this is "Academic Expressions" section
+                     const isAcademicExpressions = lowerTitle.includes("academic expression");
+                     
+                     // Check if this is a structured phrase section like "Complex Sentences" or "Advanced Grammar"
+                     const isStructuredPhrase = 
+                         type === 'phrases' && 
+                         (lowerTitle.includes("complex sentences") || 
+                          lowerTitle.includes("advanced grammar") ||
+                          lowerTitle.includes("argument") ||
+                          lowerTitle.includes("opinion"));
+                      
+                     // Populate content with formatted items
+                     if (section.items && section.items.length > 0) {
+                         if (isAcademicExpressions) {
+                             // Create a container for Academic Expressions
+                             const academicContainer = document.createElement('div');
+                             academicContainer.className = 'academic-expressions-container';
+                             
+                             // Add title if needed
+                             const title = document.createElement('div');
+                             title.className = 'academic-expressions-title';
+                             title.textContent = 'Academic Expressions';
+                             academicContainer.appendChild(title);
+                             
+                             // Add all items to the container
+                             section.items.forEach(itemData => {
+                                 academicContainer.appendChild(createSuggestionItemHtml(itemData, itemClass));
+                             });
+                             
+                             // Add the container to the content div
+                             contentDiv.appendChild(academicContainer);
+                         } else if (isStructuredPhrase) {
+                             // Create a container for structured phrases (like Complex Sentences)
+                             const phrasesContainer = document.createElement('div');
+                             phrasesContainer.className = 'structured-phrases-container';
+                             
+                             // Add all items to the container
+                             section.items.forEach(itemData => {
+                                 phrasesContainer.appendChild(createSuggestionItemHtml(itemData, itemClass));
+                             });
+                             
+                             // Add the container to the content div
+                             contentDiv.appendChild(phrasesContainer);
+                         } else {
+                             // Regular items
+                             section.items.forEach(itemData => {
+                                 contentDiv.appendChild(createSuggestionItemHtml(itemData, itemClass));
+                             });
+                         }
+                     } else {
+                         contentDiv.innerHTML = '<p>No items found for this section.</p>';
+                     }
+                     contentsContainer.appendChild(contentDiv);
+                 });
+
+                 // Add event listeners AFTER all buttons are added
+                 const newSubButtons = buttonsContainer.querySelectorAll('.sub-tab-button');
+                 const newSubContents = contentsContainer.querySelectorAll('.sub-tab-content');
+                 newSubButtons.forEach(button => {
+                     button.addEventListener('click', () => {
+                         newSubButtons.forEach(btn => btn.classList.remove('active'));
+                         newSubContents.forEach(content => content.classList.remove('active'));
+                         button.classList.add('active');
+                         const targetContent = document.getElementById(button.dataset.target);
+                         if (targetContent) targetContent.classList.add('active');
+                     });
+                 });
+            }
+
+            // --- Initial Population --- 
+            if (writingQuestion) writingQuestion.textContent = essayData.question || 'Question not found.';
+            if (outlineContent) outlineContent.innerHTML = formatOutline(essayData.outline);
+            
+            const vocabData = parseSuggestionsStructure(essayData.vocabulary_suggestions);
+            const phrasesData = parseSuggestionsStructure(essayData.sentence_suggestions);
+            
+            populateSubTabs('vocab', vocabSubTabButtonsContainer, vocabSubTabContentsContainer, vocabFallback, vocabData, 'vocab');
+            populateSubTabs('phrases', phrasesSubTabButtonsContainer, phrasesSubTabContentsContainer, phrasesFallback, phrasesData, 'phrases');
+
+            // --- Timer Logic (Adapted from snippet) --- 
+            let timeLimit = parseInt(essayData.timeLimit, 10) || 30; 
+            let timeLeft = timeLimit * 60;
+            let timerInterval = null;
+
+            function updateTimer() {
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                if(timerElement) timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }
+
+            function startTimer(durationMinutes) {
+                clearInterval(timerInterval);
+                timeLeft = durationMinutes * 60;
+                updateTimer();
+                timerInterval = setInterval(() => {
+                    timeLeft--;
+                    updateTimer();
+                    if (timeLeft <= 0) {
                         clearInterval(timerInterval);
+                        alert('Time is up!');
+                        if(submitEssayBtn) submitEssayBtn.disabled = true;
+                        if(essayTextarea) essayTextarea.disabled = true;
                     }
                 }, 1000);
-                document.getElementById('timer-icon').className = 'fas fa-pause';
             }
+
+            // Initialize Timer
+            startTimer(timeLimit);
             
-            function pauseTimer() {
-                timerRunning = false;
-                clearInterval(timerInterval);
-                document.getElementById('timer-icon').className = 'fas fa-play';
+            // --- Word Count Logic (Adapted from snippet) --- 
+            const wordLimit = 500; 
+            function updateWordCount() {
+                 // Use existing robust count
+                const words = essayTextarea.value.match(/\b\w+\b/g)?.length || 0; 
+                if (wordCountElement) wordCountElement.textContent = words;
+                if (wordCounterContainer) {
+                     wordCounterContainer.classList.toggle('limit-warning', words > wordLimit); 
+                 }
             }
-            
-            // Initialize timer display
-            updateTimerDisplay();
-            
-            // Start the timer automatically
-            startTimer();
-            
-            // Toggle timer button
-            document.getElementById('toggle-timer').addEventListener('click', function() {
-                if (timerRunning) {
-                    pauseTimer();
+            essayTextarea.addEventListener('input', updateWordCount);
+            updateWordCount(); // Initial count
+
+            // --- Outline Toggle Logic (Adapted from snippet) --- 
+            let isOutlineVisible = true;
+            if (toggleOutlineBtn) {
+                toggleOutlineBtn.addEventListener('click', () => {
+                    isOutlineVisible = !isOutlineVisible;
+                    if (outlineContentWrapper) outlineContentWrapper.style.display = isOutlineVisible ? 'block' : 'none';
+                    if (outlineHiddenMessage) outlineHiddenMessage.style.display = isOutlineVisible ? 'none' : 'block';
+                    // Update icon using FontAwesome classes
+                    const icon = toggleOutlineBtn.querySelector('i');
+                    if (icon) icon.className = isOutlineVisible ? 'fas fa-eye' : 'fas fa-eye-slash'; 
+                });
+            }
+
+            // --- RE-VERIFIED Tab Switching Logic --- 
+            tabButtons.forEach(button => {
+              button.addEventListener('click', () => {
+                const targetTabId = button.dataset.tab + '-content-tab'; 
+                console.log(`[DEBUG] Tab button clicked. Target: ${targetTabId}`); // Log click
+                // Remove active class from all buttons and content panes
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+                // Add active class to the clicked button and corresponding content pane
+                button.classList.add('active');
+                const targetContent = document.getElementById(targetTabId);
+                if (targetContent) {
+                    targetContent.classList.add('active');
+                    console.log(`[DEBUG] Activated content: ${targetTabId}`);
                 } else {
-                    startTimer();
+                    console.error(`[DEBUG] Target tab content not found: ${targetTabId}`);
                 }
+              });
             });
-            
-            // Word counter
-            const essayInput = document.getElementById('essay-input');
-            const wordCount = document.getElementById('word-count');
-            
-            function countWords(text) {
-                return text.trim().split(/\s+/).filter(word => word !== '').length;
-            }
-            
-            essayInput.addEventListener('input', function() {
-                const count = countWords(this.value);
-                wordCount.textContent = count;
-            });
-            
-            // Save draft button
-            document.getElementById('save-draft').addEventListener('click', function() {
-                const essayText = essayInput.value;
-                if (essayText.trim() === '') {
-                    alert('There is no essay to save.');
+
+            // --- Save Draft Logic --- 
+            if (saveDraftBtn) { /* ... */ }
+             const savedDraft = localStorage.getItem('essayDraft');
+             if (savedDraft && essayTextarea) {
+                 essayTextarea.value = savedDraft;
+                 updateWordCount(); 
+             }
+
+            // --- Submit Essay Logic --- 
+            if (submitEssayBtn) {
+                submitEssayBtn.addEventListener('click', function() {
+                    const essayText = essayTextarea.value;
+                    if (essayText.trim().length < 50) { 
+                        alert('Please write a bit more before submitting.');
                     return;
                 }
                 
-                // Save to local storage
-                localStorage.setItem('essayDraft', essayText);
-                alert('Essay draft saved successfully.');
-            });
-            
-            // Load draft if it exists
-            const savedDraft = localStorage.getItem('essayDraft');
-            if (savedDraft) {
-                essayInput.value = savedDraft;
-                wordCount.textContent = countWords(savedDraft);
-            }
-            
-            // Get feedback button
-            document.getElementById('get-feedback').addEventListener('click', function() {
-                const essayText = essayInput.value;
-                if (essayText.trim() === '') {
-                    alert('Please write an essay before submitting for feedback.');
+                    // Ensure essayData is loaded and valid
+                    if (!essayData || !essayData.question || !essayData.task_type) {
+                        alert('Error: Missing essential session data. Please go back to Settings and generate the question again.');
+                        console.error('Error: essayData is missing key fields before submit.', essayData);
                     return;
                 }
                 
-                if (countWords(essayText) < 150) {
-                    const confirmed = confirm('Your essay is quite short. It\'s recommended to write at least 250 words for Task 2 (150 for Task 1). Do you still want to submit?');
-                    if (!confirmed) return;
-                }
-                
-                // Prepare data for submission
-                const submissionData = {
-                    essay: essayText,
-                    question: essayData.question,
-                    types: essayData.task_type || 'TASK2'
-                };
-                
-                // Also store submission data for grading page
-                localStorage.setItem('gradingData', JSON.stringify(submissionData));
-                
-                // Save current essay to localStorage in case of page navigation
-                localStorage.setItem('essayDraft', essayText);
-                
-                // Navigate to the grading page with query parameters
+                    // Create the final data object for the grading page
+                    // Start with the existing essayData (which has question, type, limit, outline, etc.)
+                    // and add/overwrite the essay text.
+                    const finalDataForGrading = {
+                        ...essayData, // Includes question, task_type, timeLimit, outline, etc.
+                        essay: essayText, // Add the final essay text
+                        timeLeft: timeLeft // <<< ADD CURRENT TIME LEFT >>>
+                    };
+                    
+                    console.log("[DEBUG] Preparing to save data for grading page:", finalDataForGrading);
+                    try {
+                        // Save this consolidated data under the new key
+                        localStorage.setItem('gradingTaskData', JSON.stringify(finalDataForGrading));
+                        
+                        // <<< Add check: Read immediately after setting to verify >>>
+                        const checkSavedData = localStorage.getItem('gradingTaskData');
+                        if (checkSavedData) {
+                             console.log("[DEBUG] Successfully verified save to localStorage under 'gradingTaskData'. Length:", checkSavedData.length);
+                        } else {
+                             throw new Error("Failed to verify data in localStorage immediately after setting!");
+                        }
+                        
+                        // Remove draft 
+                        localStorage.removeItem('essayDraft'); 
+                        
+                        // Navigate AFTER successful save and verification WITH A SMALL DELAY
+                        console.log("[DEBUG] Data verified, navigating to grading.html in 100ms...");
+                        setTimeout(() => {
                 window.location.href = '/grading.html';
-            });
-        });
+                        }, 100); // 100ms delay
+
+                    } catch (e) {
+                         console.error("Error saving or verifying data in localStorage:", e);
+                         alert("Failed to save session data before proceeding. Please try again.");
+                         // Do not navigate if saving failed
+                    }
+                });
+            }
+
+             // --- Back Button Logic --- 
+             // Note: Snippet's back button logic clears progress. We just navigate.
+             if (backButton) {
+                 backButton.addEventListener('click', (e) => {
+                      e.preventDefault(); // Prevent default if it's an <a> tag
+                      // Optional: Add confirm dialog if needed
+                      // if (confirm('Go back to settings? Your current essay draft might be saved.')) {
+                          window.location.href = '/setting.html';
+                      // }
+                 });
+             }
+            
+        }); // End DOMContentLoaded
     </script>
 </body>
 </html>

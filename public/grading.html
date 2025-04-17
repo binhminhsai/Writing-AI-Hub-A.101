@@ -7,322 +7,581 @@
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    
     <style>
+        /* Theme Overrides & Base Variables (Keep existing) */
+        :root {
+            --primary: var(--app-primary-color, #14b8a6);
+            --border: var(--app-border-color, #d1d5db);
+            --muted: #6b7280; 
+            --card-bg: white;
+            --text-color: var(--app-text-color, #374151);
+            --body-bg: var(--app-background, #f0fdfc);
+            --danger-text: #dc2626;
+            --button-secondary-bg: #f3f4f6;
+            --button-secondary-hover-bg: #e5e7eb;
+            --background: white; /* Add fallback for template CSS */
+        }
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            background-color: var(--light-background);
+            background-color: white !important; /* Ensure white body background */
+            color: var(--text-color) !important; /* Ensure default text color */
         }
-        
-        .content-container {
-            max-width: 1200px;
-            margin: 40px auto;
-            background-color: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        /* Override specific header/footer text colors for this page */
+        .app-header .nav-link,
+        .app-header .logo,
+        .app-header .btn-account,
+        .app-footer .footer-logo,
+        .app-footer .copyright {
+             color: var(--text-color, #374151) !important; /* Force default text color */
         }
-        
-        .form-section, .result-section {
-            margin-bottom: 30px;
+        .app-header .nav-link.active { /* Keep active link colored */
+             color: var(--primary, #14b8a6) !important;
         }
-        
-        .form-row {
-            margin-bottom: 15px;
+        /* ... existing theme overrides ... */
+    </style>
+
+    <!-- Page Specific Styles (Add template styles) -->
+    <style>
+         .main { padding: 2rem 0; } /* Keep main padding */
+         
+        /* Styles from template */
+        .writing-assessment {
+            max-width: 900px; /* Slightly wider */
+            margin: 2rem auto;
+            background: var(--background);
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            padding: 2rem;
+            font-size: 1.1em; /* Increase base font size slightly */
         }
-        
+
         h1 {
+            font-size: 1.4em; /* Adjust relative to new base */
+            font-weight: 600; /* Make title bolder */
+            margin-bottom: 0.5rem;
             text-align: center;
-            color: #2c3e50;
-            margin-bottom: 30px;
         }
-        
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #2c3e50;
-        }
-        
-        textarea, select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-        
-        textarea {
-            min-height: 200px;
-        }
-        
-        select {
-            height: 40px;
-        }
-        
-        button {
-            padding: 10px 20px;
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 500;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-        }
-        
-        button:hover {
-            background-color: #009b8e;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        
-        .loading {
-            display: none;
+
+        .subtitle {
+            color: var(--muted);
+            font-size: 0.875rem;
+            margin-bottom: 2rem;
             text-align: center;
-            margin: 20px 0;
         }
-        
-        .spinner {
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid var(--primary-color);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 2s linear infinite;
-            margin: 0 auto;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        .results {
-            display: none;
-        }
-        
-        .score-grid {
+
+        .assessment-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
+            grid-template-columns: 3fr 2fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
         }
-        
-        .score-card {
-            background-color: #f9f9f9;
-            border-radius: 8px;
-            padding: 15px;
-            text-align: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+
+        .score-card, .stats-card {
+            background: #f8fafc;
+            border: 1px solid var(--border); /* Add subtle border */
+            border-radius: 0.5rem;
+            padding: 1.5rem;
         }
-        
-        .score-value {
-            font-size: 24px;
-            font-weight: bold;
-            margin: 10px 0;
+
+        h2 {
+            font-size: 1.1em; /* Adjust relative to new base */
+            font-weight: 600;
+            margin-top: 0;
+            margin-bottom: 1rem;
+            color: var(--text-color);
         }
-        
-        .average-band {
-            font-size: 32px;
-            font-weight: bold;
-            color: var(--primary-color);
+
+        .score-item {
+            display: grid;
+            grid-template-columns: auto 1fr auto; /* Adjust columns */
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
         }
-        
-        .feedback-section {
-            margin-top: 30px;
+        .score-item span:first-child { /* Criterion name */
+             font-weight: 500;
+             color: var(--muted);
         }
-        
-        .feedback-criteria {
-            margin-bottom: 25px;
+        .score-item span.score-value { /* Score value */
+            font-weight: 600;
+            text-align: right;
+            color: var(--text-color);
         }
-        
-        .criteria-title {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 10px;
-            padding-bottom: 5px;
-            border-bottom: 1px solid #eee;
+
+        .score-bar {
+            height: 0.5rem;
+            background: #e2e8f0;
+            border-radius: 9999px;
+            overflow: hidden;
+            width: 100%; /* Ensure bar takes width */
         }
-        
-        .highlighted-essay {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-            margin-top: 20px;
+
+        .score-fill {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 9999px;
+            transition: width 0.5s ease-out; /* Add transition */
         }
-        
-        .legend {
+
+        .overall-score {
             display: flex;
-            margin-top: 10px;
-            gap: 20px;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+        }
+        .overall-score span:first-child {
+             font-weight: 600;
+             font-size: 1rem;
+        }
+
+        .score { /* Overall score value */
+            font-size: 1.6em; /* Adjust relative to new base */
+            font-weight: 700; /* Bolder */
+            color: var(--primary);
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem; /* Increase gap slightly */
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--muted);
+            text-transform: uppercase; /* Uppercase label */
+        }
+
+        .stat-value {
+            font-size: 1.15em; /* Adjust relative to new base */
+            font-weight: 600; /* Bolder value */
+            color: var(--text-color);
+        }
+
+        .feedback-section {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .feedback-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 1rem;
         }
         
-        .legend-item {
+        .feedback-column h3 {
+             font-size: 1rem; /* Match other h2 */
+             font-weight: 600;
+             margin-bottom: 1rem;
+             display: flex; /* Align icon */
+             align-items: center;
+             gap: 0.5rem;
+        }
+
+        .feedback-list {
+            list-style: none;
+            padding-left: 0; /* Remove default padding */
+            margin: 0; 
+        }
+
+        .feedback-list li {
+            padding-left: 1.5rem;
+            position: relative;
+            margin-bottom: 0.75rem; /* Increase spacing */
+            font-size: 0.875rem;
+            line-height: 1.5; /* Improve readability */
+        }
+
+        .feedback-list li::before {
+            content: "";
+            position: absolute;
+            left: 0.25rem; /* Adjust position */
+            top: 0.45em; /* Align vertically better */
+            width: 6px; /* Smaller bullet */
+            height: 6px;
+            border-radius: 9999px;
+            /* Use different colors based on column */
+        }
+        #feedback-strengths .feedback-list li::before {
+             background: #10b981; /* Green for strengths */
+        }
+        #feedback-improvements .feedback-list li::before {
+             background: #f59e0b; /* Orange for improvements */
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding-top: 1.5rem; /* Add space above */
+            border-top: 1px solid var(--border); /* Separator */
+        }
+
+        .btn-outline, .btn-primary {
+            padding: 0.6rem 1.2rem; /* Slightly larger buttons */
+            border-radius: 0.375rem;
+            font-size: 0.9rem;
+            font-weight: 500; /* Make text weight consistent */
+            cursor: pointer;
+            display: inline-flex; /* Align icon */
+            align-items: center;
+            gap: 0.5rem;
+            transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+        }
+
+        .btn-outline {
+            background: none;
+            border: 1px solid var(--border);
+            color: var(--muted);
+        }
+        .btn-outline:hover {
+             border-color: var(--primary);
+             color: var(--primary);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            border: 1px solid var(--primary);
+            color: white;
+        }
+         .btn-primary:hover {
+             background-color: #0d9488;
+             border-color: #0d9488;
+         }
+
+        /* Loading and Error States */
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: var(--muted);
+            font-size: 1rem;
+        }
+         .error-message {
+            color: var(--danger-text);
+            background-color: #fee2e2;
+            padding: 1rem;
+            border: 1px solid #fca5a5;
+            border-radius: 0.375rem;
+            margin-bottom: 1.5rem;
+            display: none; /* Hidden by default */
+        }
+
+        @media (max-width: 768px) {
+            .assessment-grid, .feedback-grid {
+                grid-template-columns: 1fr;
+            }
+            .writing-assessment {
+                 padding: 1.5rem;
+            }
+            h1 { font-size: 1.25rem; }
+            h2 { font-size: 1rem; }
+            .score-item { grid-template-columns: auto 1fr auto; gap: 0.5rem; }
+        }
+
+        /* --- Scrollbar Styling --- */
+        /* ... */
+
+        /* --- Criteria Tab Styles (Similar to sub-tabs) --- */
+        .criteria-tab-container {
+             margin-top: 1rem; /* Space below Detailed Feedback h2 */
+        }
+        .criteria-tab-buttons {
+            display: flex;
+            flex-wrap: wrap; 
+            gap: 10px; /* Slightly larger gap */
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .criteria-tab-button {
+            padding: 8px 16px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border: 1px solid var(--border);
+            border-radius: 6px; 
+            background-color: var(--card-bg);
+            color: var(--muted);
+            cursor: pointer;
+            transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+        }
+        .criteria-tab-button.active {
+            background-color: var(--primary);
+            color: white !important; 
+            border-color: var(--primary);
+        }
+        .criteria-tab-content {
+            display: none; 
+            padding-top: 1rem;
+        }
+        .criteria-tab-content.active {
+            display: block;
+        }
+        .criteria-tab-content h4 { /* Specific titles within criteria tabs */
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 0.5rem;
         }
-        
-        .legend-color {
-            width: 15px;
-            height: 15px;
+        .criteria-tab-content ul {
+            list-style: none;
+            padding-left: 0.5rem; /* Slight indent */
+            margin-bottom: 1rem;
+        }
+         .criteria-tab-content li {
+             margin-bottom: 0.5rem;
+             padding-left: 1rem;
+             position: relative;
+             font-size: 0.9em; /* Relative to parent */
+             line-height: 1.5;
+        }
+         .criteria-tab-content li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+        }
+         .criteria-tab-content p {
+             font-size: 0.9em; /* Relative */
+             line-height: 1.5;
+             margin-bottom: 0.75rem;
+         }
+
+        /* --- NEW: Enhanced Loading for Grading --- */
+        .loading-enhanced {
+            display: none; /* Start hidden */
+            flex-direction: column; 
+            align-items: center;
+            justify-content: center; /* Add vertical centering */
+            min-height: 200px; /* Give it some height */
+            text-align: center; /* Center text fallback */
+        }
+        .loading-enhanced #grading-loading-text {
+            font-size: 1rem; 
+            font-weight: 500;
+            color: var(--primary); 
+            min-height: 2em; 
+            /* Add flex to align icon */
+            display: inline-flex; 
+            align-items: center;
+            gap: 0.5em;
+        }
+        .loading-enhanced #grading-loading-text i { /* Style for inline spinner */
+             font-size: 1.1em; /* Adjust size */
+             /* animation: spin 1.5s linear infinite; */ /* Use FontAwesome's spin */
+        }
+        .progress-bar-container {
+            width: 80%; 
+            max-width: 300px; 
+            height: 8px;
+            background-color: #e9ecef; 
             border-radius: 4px;
+            overflow: hidden; 
+            margin-top: 1rem; 
         }
-        
-        .green-bg { background-color: #d4edda; }
-        .red-bg { background-color: #f8d7da; }
-        .yellow-bg { background-color: #fff3cd; }
-        
-        .explanations {
-            margin-top: 30px;
+        .progress-bar-inner { 
+             height: 100%;
+             width: 0%; 
+             border-radius: 4px;
+             background: linear-gradient(to right, red, orange, yellow, lime, cyan, blue, violet);
+             transition: width 0.15s linear; 
         }
-        
-        .explanation-category {
-            margin-bottom: 20px;
-        }
-        
-        .explanation-item {
-            background-color: #f9f9f9;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-        }
-        
-        .error-message {
-            color: #721c24;
-            background-color: #f8d7da;
-            padding: 10px;
-            border-radius: 5px;
-            margin-top: 10px;
-            display: none;
-        }
+        /* --- End Enhanced Loading --- */
+
     </style>
+
+    <!-- Page Specific Styles -->
+    <!-- REMOVED original styles -->
+
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <div class="container header-container">
-            <a href="/" class="logo">
-                <i class="fas fa-globe"></i>
-                Writing AI Hub
-            </a>
-            <div class="nav-menu">
-                <div class="nav-links">
-                    <a href="/" class="nav-link">Home</a>
-                    <a href="/workflow_1_question" class="nav-link">Practice</a>
+    <div class="body-wrapper"> <!-- Wrapper for sticky footer -->
+        <!-- Header - Copied from index.html -->
+        <header class="app-header">
+            <div class="container header-container">
+                <a href="/" class="logo">
+                    <i class="fas fa-globe"></i> 
+                    Writing AI-Hub
+                </a>
+                <div class="nav-menu">
+                    <div class="nav-links">
+                        <a href="/" class="nav-link">Home</a>
+                        <a href="/setting.html" class="nav-link">Practice</a> 
+                    </div>
+                    <a href="/account.html" class="btn-account">My Account</a>
                 </div>
-                <a href="/account.html" class="btn btn-account">My Account</a>
             </div>
-        </div>
-    </header>
+        </header>
 
-    <!-- Main Content -->
-    <div class="container content-container">
-        <h1>IELTS Writing Grading</h1>
-        
-        <div class="form-section">
-            <form id="grading-form">
-                <div class="form-row">
-                    <label for="question-type">Task Type:</label>
-                    <select id="question-type" name="types" required>
-                        <option value="IELTS WRITING TASK 2" selected>IELTS WRITING TASK 2</option>
-                        <option value="IELTS WRITING TASK 1">IELTS WRITING TASK 1</option>
-                    </select>
-                </div>
-                
-                <div class="form-row">
-                    <label for="question">Question:</label>
-                    <textarea id="question" name="question" placeholder="Enter the IELTS Writing question here..." required></textarea>
-                </div>
-                
-                <div class="form-row">
-                    <label for="essay">Essay:</label>
-                    <textarea id="essay" name="essay" placeholder="Enter your essay here..." required></textarea>
-                </div>
-                
-                <button type="submit" id="submit-btn">Grade Essay</button>
-            </form>
-            
-            <div class="error-message" id="error-message"></div>
-        </div>
-        
-        <div class="loading" id="loading">
-            <p>Analyzing your essay...</p>
-            <div class="spinner"></div>
-        </div>
-        
-        <div class="results" id="results">
-            <h2>Grading Results</h2>
-            
-            <div class="score-grid">
-                <div class="score-card">
-                    <h3>Task Response</h3>
-                    <div class="score-value" id="task-score">0.0</div>
-                </div>
-                <div class="score-card">
-                    <h3>Coherence & Cohesion</h3>
-                    <div class="score-value" id="coherence-score">0.0</div>
-                </div>
-                <div class="score-card">
-                    <h3>Lexical Resource</h3>
-                    <div class="score-value" id="lexical-score">0.0</div>
-                </div>
-                <div class="score-card">
-                    <h3>Grammar</h3>
-                    <div class="score-value" id="grammar-score">0.0</div>
-                </div>
-                <div class="score-card">
-                    <h3>Overall Band</h3>
-                    <div class="average-band" id="average-band">0.0</div>
-                </div>
-            </div>
-            
-            <div class="feedback-section" id="feedback-section">
-                <h2>Detailed Feedback</h2>
-                <!-- Feedback content will be inserted here by JavaScript -->
-            </div>
-            
-            <div class="highlighted-essay-section">
-                <h2>Essay Analysis</h2>
-                <div class="legend">
-                    <div class="legend-item">
-                        <div class="legend-color green-bg"></div>
-                        <span>Good</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-color red-bg"></div>
-                        <span>Wrong</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-color yellow-bg"></div>
-                        <span>Improvable</span>
-                    </div>
-                </div>
-                <div class="highlighted-essay" id="highlighted-essay">
-                    <!-- Highlighted essay content will be inserted here by JavaScript -->
-                </div>
-            </div>
-            
-            <div class="explanations" id="explanations">
-                <h2>Sentence Explanations</h2>
-                <!-- Explanations will be inserted here by JavaScript -->
-            </div>
-        </div>
-    </div>
+        <!-- Main Content Container -->
+        <main class="container">
+            <div class="writing-assessment">
+                <h1>Writing Assessment</h1>
+                <p class="subtitle">Your essay has been evaluated based on the IELTS Task 2 criteria</p>
 
-    <!-- Footer -->
-    <footer>
+                <!-- Loading Indicator - Revised Structure -->
+                <div class="loading-enhanced" id="loading"> 
+                    <span id="grading-loading-text">
+                        Loading analysis... 
+                        <i class="fas fa-spinner fa-spin"></i> 
+                    </span> 
+                </div>
+                
+                <div class="error-message" id="error-message"></div>
+
+                <div class="results" id="results" style="display: none;">
+                    <div class="assessment-grid">
+                        <div class="score-card">
+                            <h2>Score Breakdown</h2>
+                            <div class="score-item" id="score-item-ta">
+                                <span>Task Achievement</span>
+                                <div class="score-bar"><div class="score-fill"></div></div>
+                                <span class="score-value">-</span>
+                            </div>
+                            <div class="score-item" id="score-item-cc">
+                                <span>Coherence & Cohesion</span>
+                                <div class="score-bar"><div class="score-fill"></div></div>
+                                <span class="score-value">-</span>
+                            </div>
+                            <div class="score-item" id="score-item-lr">
+                                <span>Lexical Resource</span>
+                                <div class="score-bar"><div class="score-fill"></div></div>
+                                <span class="score-value">-</span>
+                            </div>
+                            <div class="score-item" id="score-item-gra">
+                                <span>Grammar & Accuracy</span>
+                                <div class="score-bar"><div class="score-fill"></div></div>
+                                <span class="score-value">-</span>
+                            </div>
+                            <div class="overall-score">
+                                <span>Overall Band Score</span>
+                                <span class="score" id="overall-score">-</span>
+                            </div>
+                        </div>
+
+                        <div class="stats-card">
+                            <h2>Writing Statistics</h2>
+                            <div class="stat-grid">
+                                <div class="stat-item">
+                                    <span class="stat-label">Word Count</span>
+                                    <span class="stat-value" id="stat-word-count">-</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Completion Time</span>
+                                    <span class="stat-value" id="stat-completion-time">-</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Vocabulary Range</span>
+                                    <span class="stat-value" id="stat-vocab-range">-</span> 
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Grammar Accuracy</span>
+                                    <span class="stat-value" id="stat-grammar-accuracy">-</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="feedback-section">
+                        <h2>Detailed Feedback</h2>
+                        <!-- Placeholder for detailed criteria tabs -->
+                        <div class="criteria-tab-container" id="criteria-tabs">
+                            <div class="criteria-tab-buttons" id="criteria-tab-buttons"></div>
+                            <div class="criteria-tab-contents" id="criteria-tab-contents"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Section for Highlighted Essay -->
+                    <div class="highlighted-essay-section" style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--border);">
+                        <h2>Essay Analysis & Highlights</h2>
+                        <div class="legend" style="display: flex; margin-bottom: 1rem; gap: 1rem; font-size: 0.8em;">
+                            <span style="background-color: #d1fae5; padding: 2px 6px; border-radius: 3px;">Good</span>
+                            <span style="background-color: #fee2e2; padding: 2px 6px; border-radius: 3px;">Error</span>
+                            <span style="background-color: #fef3c7; padding: 2px 6px; border-radius: 3px;">Suggestion</span>
+                        </div>
+                        <div class="highlighted-essay-content" id="highlighted-essay-html" 
+                             style="background-color: #f8fafc; border: 1px solid var(--border); border-radius: 6px; padding: 1rem; line-height: 1.7; font-size: 0.95em;">
+                        </div>
+                    </div>
+
+                    <style>
+                        /* Highlight styles */
+                        .highlight-good {
+                            background-color: #d1fae5;
+                            padding: 2px 0;
+                            border-radius: 2px;
+                        }
+                        .highlight-error {
+                            background-color: #fee2e2;
+                            padding: 2px 0;
+                            border-radius: 2px;
+                        }
+                        .highlight-suggestion {
+                            background-color: #fef3c7;
+                            padding: 2px 0;
+                            border-radius: 2px;
+                        }
+                        
+                        /* Ensure highlights are visible */
+                        .highlighted-essay-content p {
+                            margin-bottom: 1rem;
+                            line-height: 1.8;
+                        }
+                        
+                        /* Add hover effect for highlights */
+                        .highlight-good:hover,
+                        .highlight-error:hover,
+                        .highlight-suggestion:hover {
+                            opacity: 0.9;
+                            cursor: help;
+                        }
+                        
+                        /* Add transition for smooth highlight effect */
+                        .highlighted-essay-content span[class^="highlight-"] {
+                            transition: opacity 0.2s ease;
+                        }
+                    </style>
+
+                    <!-- Section for Explanations -->
+                    <div class="explanations-section" id="explanations" style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--border);">
+                        <!-- JS will populate this, including the h2 title -->
+                        <p>Loading explanations...</p>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button type="button" id="download-feedback" class="btn-outline">
+                             <i class="fas fa-download"></i> Download Feedback
+                        </button>
+                        <button type="button" id="try-again" class="btn-primary">Try Again</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div> <!-- End body-wrapper -->
+
+    <!-- Footer - Copied from index.html -->
+    <footer class="app-footer"> 
         <div class="container footer-container">
             <a href="/" class="footer-logo">
-                <i class="fas fa-globe"></i>
-                Writing AI Hub
+                <i class="fas fa-globe"></i> 
+                Writing AI-Hub
             </a>
             <div class="copyright">
-                © 2025 Writing AI Hub. All rights reserved.
+                © 2025 Writing AI-Hub. All rights reserved.
             </div>
         </div>
     </footer>
